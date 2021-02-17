@@ -1,15 +1,15 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png" />
-    <pre>{{$pharmago.theme}}</pre>
-    <input v-model="$pharmago.theme.themes.isDark" type="checkbox">
+    <pre>{{ $pharmago.theme }}</pre>
+    <input v-model="$pharmago.theme.themes.isDark" type="checkbox" />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 @Component
 export default class PgHome extends Vue {
-  public title = 'Olá!';
+  public title = "Olá!";
 }
 </script>

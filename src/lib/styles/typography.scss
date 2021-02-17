@@ -1,74 +1,65 @@
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&family=Ubuntu:ital,wght@0,400;1,700&display=swap");
 
+$global-body-font: "Quicksand, sans-serif";
+$global-headings-font: 'Ubuntu, "Times New Roman", serif';
 $default-font-size: 14px;
 
-html {
-  font-family: "Quicksand", sans-serif;
-  font-size: $default-font-size;
+// heading font sizes
+$global-alpha-size: 42px;
+$global-beta-size: 28px;
+$global-gamma-size: 22px;
+$global-delta-size: 18px;
+$global-epsilon-size: 16px;
+$global-zeta-size: 14px;
+$global-eta-size: 12px;
 
-  @media screen and (min-width: 320px) {
-    font-size: calc(14px + 6 * ((100vw - 320px) / 680));
+@function line-height($font-size, $line-height: "auto", $modifier: 0) {
+  @if ($line-height == "auto") {
+    // Define how many grid lines each text line should span
+    $lines: ceil($font-size / 6px) + $modifier + 1;
+    $line-height: $lines * 6px;
+
+    @return ($line-height / $font-size);
+  } @else {
+    @if (
+      type-of($line-height) ==
+        number or
+        $line-height ==
+        "inherit" or
+        $line-height ==
+        "normal"
+    ) {
+      @return $line-height;
+    } @else if ($line-height != "none" and $line-height != false) {
+      @error "D’oh! `#{$line-height}` is not a valid value for `$line-height`.";
+    }
+  }
+}
+
+@mixin font-size(
+  $font-size,
+  $line-height: auto,
+  $modifier: 0,
+  $important: false
+) {
+  @if (type-of($font-size) == number) {
+    @if (unit($font-size) != "px") {
+      @error "`#{$font-size}` needs to be a pixel value.";
+    }
+  } @else {
+    @error "`#{$font-size}` needs to be a number.";
   }
 
-  @media screen and (min-width: 1000px) {
-    font-size: 18px;
+  @if ($important == true) {
+    $important: "!important";
+  } @else if ($important == false) {
+    $important: null;
+  } @else {
+    @error "`#{$important}` needs to be `true` or `false`.";
   }
-}
 
-.pg-app {
-  color: var(--theme-foreground);
-}
-
-h1,
-.h1,
-h2,
-.h2,
-h3,
-.h3,
-h4,
-.h4,
-h5,
-.h5,
-h6,
-.h6 {
-  font-family: "Ubuntu", sans-serif;
-  margin-bottom: 1.14285714rem;
-}
-
-h1,
-.h1 {
-  font-size: 3rem;
-}
-
-h2,
-.h2 {
-  font-size: 2rem;
-}
-
-h3,
-.h3 {
-  font-size: 1.57142857rem;
-}
-
-h4,
-.h4 {
-  font-size: 1.28571429rem;
-}
-
-.text--large {
-  font-size: 1.28571429rem !important;
-}
-
-.text--medium {
-  font-size: 1.14285714rem !important;
-}
-
-.text--small {
-  font-size: 0.857142857rem !important;
-}
-
-.text--tiny {
-  font-size: 0.714285714rem !important;
+  font-size: ($font-size / $default-font-size) * 1rem $important;
+  line-height: line-height($font-size, $line-height, $modifier);
 }
 
 .text--bold {
@@ -76,15 +67,15 @@ h4,
 }
 
 // Text Align
-.text-left {
+.text--left {
   text-align: left !important;
 }
-.text-center {
+.text--center {
   text-align: center !important;
 }
-.text-justify {
+.text--justify {
   text-align: justify !important;
 }
-.text-right {
+.text--right {
   text-align: right !important;
 }

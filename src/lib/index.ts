@@ -7,6 +7,4 @@ declare module "vue/types/vue" {
   }
 }
 
-export {
-  PharmaGoUI as default
-} from './plugin';
+export { PharmaGoUI as default } from "./plugin";

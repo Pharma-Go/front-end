@@ -6,8 +6,7 @@ import * as directives from "./directives/index";
 
 export interface PluginOptions {
   themes: ThemeList;
-  icons: {prefix: string};
-
+  icons: { prefix: string };
 }
 
 export const PharmaGoUI: PluginObject<PluginOptions> = {
@@ -18,13 +17,13 @@ export const PharmaGoUI: PluginObject<PluginOptions> = {
 
     const config = createObject(vue as any, {
       theme: new ThemeManager(options?.themes),
-      icons: options?.icons ?? {prefix: 'pg'}
+      icons: options?.icons ?? { prefix: "pg" }
     });
 
     vue.prototype.$pharmago = config;
 
     for (const [name, component] of Object.entries(components)) {
-      vue.component(name, component)
+      vue.component(name, component);
     }
   }
-}
+};

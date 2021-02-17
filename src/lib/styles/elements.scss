@@ -1,0 +1,128 @@
+.pg-app {
+  color: var(--theme-foreground);
+}
+
+html {
+  font-family: unquote($global-body-font);
+
+  -moz-osx-font-smoothing: grayscale; /* [1] */
+  -webkit-font-smoothing: antialiased; /* [1] */
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+p {
+  margin-bottom: 12px;
+}
+
+b,
+strong {
+  font-weight: bold;
+}
+
+/**
+ * Simple default styles for headings 1 through 6. Anything more opinionated
+ * than simple font-size changes should likely be applied via classes (see:
+ * http://csswizardry.com/2016/02/managing-typography-on-large-apps/).
+ */
+
+// $global-alpha to $global-zeta font-size variables
+// are defined in 'settings/settings.global'.
+
+h1,
+.alpha {
+  @include font-size($global-gamma-size);
+}
+
+h2,
+.beta {
+  @include font-size($global-delta-size);
+}
+
+h3,
+.gamma {
+  @include font-size($global-epsilon-size);
+}
+
+h4,
+.delta {
+  @include font-size($global-zeta-size);
+}
+
+h5,
+.epsilon {
+  @include font-size($global-zeta-size);
+}
+
+.text--large,
+.text--medium,
+.text--normal,
+.text--small {
+  &-bold {
+    font-weight: bold;
+  }
+}
+
+.text--large {
+  @include font-size($global-delta-size);
+}
+
+.text--medium {
+  @include font-size($global-epsilon-size);
+}
+
+p,
+.text--normal {
+  @include font-size($global-zeta-size);
+}
+
+.text--small {
+  @include font-size($global-eta-size);
+}
+
+@include mq($from: tablet-landscape) {
+  h1,
+  .alpha {
+    @include font-size($global-alpha-size);
+  }
+  h2,
+  .beta {
+    @include font-size($global-beta-size);
+  }
+  h3,
+  .gamma {
+    @include font-size($global-gamma-size);
+  }
+  h4,
+  .delta {
+    @include font-size($global-delta-size);
+  }
+  h5,
+  .epsilon {
+    @include font-size($global-epsilon-size);
+  }
+  .text--large {
+    @include font-size($global-delta-size);
+  }
+  .text--medium {
+    @include font-size($global-epsilon-size);
+  }
+  p,
+  .text--normal {
+    @include font-size($global-zeta-size);
+  }
+  .text--small {
+    @include font-size($global-eta-size);
+  }
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: unquote($global-headings-font);
+  font-weight: bold;
+}

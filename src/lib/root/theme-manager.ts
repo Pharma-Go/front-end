@@ -23,7 +23,7 @@ export class ThemeManager {
       primary700: "#3729AA",
       primary800: "#2F22A2",
       primary900: "#201693",
-      contrast: "#FFFFFF",
+      contrast: "#FFFFFF"
     };
 
     const darkTheme = {
@@ -33,7 +33,7 @@ export class ThemeManager {
       foregroundTertiary: "#D9D9D9",
       background: "#0d0d0d",
       elevation: "rgba(105, 105, 105, .25)",
-      unfocusedField: "#FFFFFF",
+      unfocusedField: "#FFFFFF"
     };
 
     const lightTheme = {
@@ -44,7 +44,7 @@ export class ThemeManager {
       background: "#ffffff",
       elevation: "rgba(105, 105, 105, .25)",
       unfocusedField: "#7C7C7C",
-      error: "#BD2420",
+      error: "#BD2420"
     };
 
     this.themes = Object.assign(

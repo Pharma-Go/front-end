@@ -1,7 +1,79 @@
-.shadow {
-    box-shadow: 0 4px 10px 0 var(--theme-elevation);
+@function is_int($n) {
+  @return round($n) == $n;
+}
+
+@mixin z-depth($level: 1, $omni: false, $important: false) {
+  // important!
+  @if ($important == true) {
+    $important: "!important";
+  } @else if ($important == false) {
+    $important: null;
+  } @else {
+    @error "`#{$important}` needs to be `true` or `false`.";
   }
-  
-  .shadow--omni {
-    box-shadow: 0 0 10px 0 var(--theme-elevation);
+
+  // Simple validation
+  @if not unitless($level) {
+    @error "D’oh! `#{$level}` should be unitless.";
+  } @else if is_int($level) and $level == 1 {
+    @if ($omni == true) {
+      box-shadow: 0 0 2px mat-color($mat-grey, 800, 0.05),
+        0 0 4px mat-color($mat-grey, 700, 0.05) #{$important};
+    } @else {
+      box-shadow: 0 2px 2px mat-color($mat-grey, 800, 0.05),
+        0 4px 4px mat-color($mat-grey, 700, 0.05) #{$important};
+    }
+  } @else if is_int($level) and $level == 2 {
+    @if ($omni == true) {
+      box-shadow: 0 0 2px mat-color($mat-grey, 800, 0.05),
+        0 0 4px mat-color($mat-grey, 700, 0.05),
+        0 0 8px mat-color($mat-grey, 800, 0.05) #{$important};
+    } @else {
+      box-shadow: 0 2px 2px mat-color($mat-grey, 800, 0.05),
+        0 4px 4px mat-color($mat-grey, 700, 0.05),
+        0 8px 8px mat-color($mat-grey, 800, 0.05) #{$important};
+    }
+  } @else if is_int($level) and $level == 3 {
+    @if ($omni == true) {
+      box-shadow: 0 0 2px mat-color($mat-grey, 800, 0.05),
+        0 0 4px mat-color($mat-grey, 700, 0.05),
+        0 0 8px mat-color($mat-grey, 800, 0.05),
+        0 0 16px mat-color($mat-grey, 900, 0.05) #{$important};
+    } @else {
+      box-shadow: 0px 16px 31px mat-color($mat-grey, 700, 0.1),
+        0px 3px 10px mat-color($mat-grey, 700, 0.1) #{$important};
+    }
+  } @else if is_int($level) and $level == 4 {
+    @if ($omni == true) {
+      box-shadow: 0 0 2px mat-color($mat-grey, 800, 0.05),
+        0 0 4px mat-color($mat-grey, 700, 0.05),
+        0 0 8px mat-color($mat-grey, 800, 0.05),
+        0 0 16px mat-color($mat-grey, 900, 0.05),
+        0 0 32px mat-color($mat-grey, 700, 0.05) #{$important};
+    } @else {
+      box-shadow: 0 2px 2px mat-color($mat-grey, 800, 0.05),
+        0 4px 4px mat-color($mat-grey, 700, 0.05),
+        0 8px 8px mat-color($mat-grey, 800, 0.05),
+        0 16px 16px mat-color($mat-grey, 900, 0.05),
+        0 32px 32px mat-color($mat-grey, 700, 0.05) #{$important};
+    }
+  } @else if is_int($level) and $level == 5 {
+    @if ($omni == true) {
+      box-shadow: 0 0 2px mat-color($mat-grey, 800, 0.05),
+        0 0 4px mat-color($mat-grey, 700, 0.05),
+        0 0 8px mat-color($mat-grey, 800, 0.05),
+        0 0 16px mat-color($mat-grey, 900, 0.05),
+        0 0 32px mat-color($mat-grey, 700, 0.05),
+        0 0 64px mat-color($mat-grey, 900, 0.05) #{$important};
+    } @else {
+      box-shadow: 0 2px 2px mat-color($mat-grey, 800, 0.05),
+        0 4px 4px mat-color($mat-grey, 700, 0.05),
+        0 8px 8px mat-color($mat-grey, 800, 0.05),
+        0 16px 16px mat-color($mat-grey, 900, 0.05),
+        0 32px 32px mat-color($mat-grey, 700, 0.05),
+        0 64px 64px mat-color($mat-grey, 900, 0.05) #{$important};
+    }
+  } @else {
+    @error "D’oh! $level should and integer between 1 and 5. Was `#{$level}`";
   }
+}

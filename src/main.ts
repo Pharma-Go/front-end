@@ -4,7 +4,7 @@ import PharmaGoUI from "./lib";
 import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
-import "./lib/styles/main.scss"
+import "./lib/styles/main.scss";
 
 Vue.config.productionTip = false;
 
@@ -13,5 +13,5 @@ Vue.use(PharmaGoUI);
 new Vue({
   router,
   store,
-  render: (h) => h(App),
+  render: h => h(App)
 }).$mount("#app");

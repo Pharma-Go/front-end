@@ -1,7 +1,5 @@
-
-
 <template>
-  <pg-app id="app">
+  <pg-app class="bg--background" id="app">
     <router-view />
   </pg-app>
 </template>

@@ -1,5 +1,5 @@
 import {Component, Watch} from 'vue-property-decorator';
-import Vue from 'vue/types/umd';
+import Vue from 'vue';
 import { ThemeManager } from './theme-manager';
 
 

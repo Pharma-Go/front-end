@@ -11,7 +11,7 @@
     <label class="pg-input__wrapper">
       <div class="pg-input__prepend">
         <slot name="prepend">
-          <!-- <sk-icon class="ml-2">{{ prependIcon }}</sk-icon> -->
+          <pg-icon class="ml-2">{{ prependIcon }}</pg-icon>
         </slot>
       </div>
       <span
@@ -39,7 +39,15 @@
       />
     </label>
 
-    <div v-if="!hideMessages" class="pg-input__messages my-1">
+    <div
+      v-if="
+        !hideMessages &&
+        !(hideEmptyErrors
+          ? hideEmptyErrors && (!errors || errors.length === 0)
+          : true)
+      "
+      class="pg-input__messages my-1"
+    >
       <span
         class="pg-input__messages--error"
         v-if="errors && errors.length > 0"
@@ -55,6 +63,7 @@
 <style lang="scss">
 .pg-input {
   font-size: 0.85em;
+  text-align: start;
 
   &__prepend {
     .pg-icon {
@@ -144,6 +153,7 @@ export default class PgInput extends Vue {
   @Prop(String) public hint!: string;
   @Prop(String) public prependIcon!: string;
   @Prop(Boolean) public hideMessages!: boolean;
+  @Prop({ type: Boolean, default: true }) public hideEmptyErrors!: boolean;
 
   public isFocused = false;
   public lazyValue = "";

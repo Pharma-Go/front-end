@@ -1,0 +1,15 @@
+.pg-icon {
+  vertical-align: middle;
+
+  &--left {
+    margin-right: 0.5em;
+  }
+
+  &--right {
+    margin-left: 0.5em;
+  }
+
+  &:not(&--no-color) {
+    color: var(--current-color);
+  }
+}

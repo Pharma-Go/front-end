@@ -33,7 +33,9 @@ export class ThemeManager {
       foregroundTertiary: "#D9D9D9",
       background: "#0d0d0d",
       elevation: "rgba(105, 105, 105, .25)",
-      unfocusedField: "#FFFFFF"
+      unfocusedField: "#FFFFFF",
+      error: "BD2420",
+      success: "#4BB543"
     };
 
     const lightTheme = {
@@ -44,7 +46,8 @@ export class ThemeManager {
       background: "#ffffff",
       elevation: "rgba(105, 105, 105, .25)",
       unfocusedField: "#7C7C7C",
-      error: "#BD2420"
+      error: "#BD2420",
+      success: "#4BB543"
     };
 
     this.themes = Object.assign(

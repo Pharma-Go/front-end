@@ -17,7 +17,7 @@ export const PharmaGoUI: PluginObject<PluginOptions> = {
 
     const config = createObject(vue as any, {
       theme: new ThemeManager(options?.themes),
-      icons: options?.icons ?? { prefix: "pg" }
+      icons: options?.icons ?? { prefix: "pgi" }
     });
 
     vue.prototype.$pharmago = config;

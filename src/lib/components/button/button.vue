@@ -1,5 +1,10 @@
 <template>
-  <component :is="tag" :class="[themeClass, 'pg-btn', 'px-5', 'py-2']">
+  <component
+    v-on="$listeners"
+    :type="type"
+    :is="tag"
+    :class="[themeClass, 'pg-btn', 'px-5', 'py-2']"
+  >
     <span class="text--normal text--bold"><slot> </slot></span>
   </component>
 </template>
@@ -21,5 +26,6 @@ import { Themeable } from "../../mixins/";
 @Component
 export default class PgButton extends Mixins(Themeable) {
   @Prop({ type: String, default: "button" }) public tag!: string;
+  @Prop(String) public type!: string;
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="c-login">
-    <form @submit="onSubmit" class="c-login__content text--center">
+    <form @submit.prevent="onSubmit" class="c-login__content text--center">
       <h1 class="c-login__title text--center">Acesse sua conta</h1>
 
       <div class="d-flex flex-col align-end">
@@ -109,6 +109,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { Route } from "vue-router";
 @Component
 export default class PgLogin extends Vue {
   public form = {
@@ -121,19 +122,23 @@ export default class PgLogin extends Vue {
     color: "error"
   };
 
-  public async onSubmit(): Promise<void> {
+  public async onSubmit(): Promise<Route> {
     await this.$api.oauth
       .login(this.form.email, this.form.password)
       .catch(err => {
-        this.snackbar.color = "error";
-        this.snackbar.icon = "pgi-add";
-        this.snackbar.text = err.response?.data?.error || "Erro desconhecido";
-        this.snackbar.visible = true;
+        this.snackbar = {
+          color: "error",
+          icon: "pgi-add",
+          text: err.response?.data?.error || "Erro desconhecido",
+          visible: true
+        };
 
         return Promise.reject(err);
       });
 
-    this.$router.push({ name: "Home" });
+    return this.$router.replace(
+      (this.$route.query.redirect as string) || "/home"
+    );
   }
 }
 </script>

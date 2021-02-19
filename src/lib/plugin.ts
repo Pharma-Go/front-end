@@ -3,6 +3,7 @@ import { createObject } from "./root/PharmaGO.ui";
 import { ThemeList, ThemeManager } from "./root/theme-manager";
 import * as components from "./components/index";
 import * as directives from "./directives/index";
+import dayjs from "dayjs";
 
 export interface PluginOptions {
   themes: ThemeList;
@@ -21,6 +22,7 @@ export const PharmaGoUI: PluginObject<PluginOptions> = {
     });
 
     vue.prototype.$pharmago = config;
+    vue.prototype.$dayjs = dayjs;
 
     for (const [name, component] of Object.entries(components)) {
       vue.component(name, component);

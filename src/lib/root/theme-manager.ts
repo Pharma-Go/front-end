@@ -28,14 +28,17 @@ export class ThemeManager {
 
     const darkTheme = {
       ...primaryColors,
+      primary: "#FFFFFF",
       foreground: "#FFFFFF",
       foregroundSecondary: "#EFEFEF",
       foregroundTertiary: "#D9D9D9",
-      background: "#0d0d0d",
+      background: "#101010",
+      secondaryBackground: "#292929",
       elevation: "rgba(105, 105, 105, .25)",
       unfocusedField: "#FFFFFF",
-      error: "BD2420",
-      success: "#4BB543"
+      error: "#BD2420",
+      success: "#4BB543",
+      link: "#FFFFFF"
     };
 
     const lightTheme = {
@@ -43,11 +46,13 @@ export class ThemeManager {
       foreground: "#373737",
       foregroundSecondary: "#4E4E4E",
       foregroundTertiary: "#9E9E9E",
-      background: "#ffffff",
+      background: "#FBFBFD",
+      secondaryBackground: primaryColors.primary50,
       elevation: "rgba(105, 105, 105, .25)",
       unfocusedField: "#7C7C7C",
       error: "#BD2420",
-      success: "#4BB543"
+      success: "#4BB543",
+      link: primaryColors.primary
     };
 
     this.themes = Object.assign(

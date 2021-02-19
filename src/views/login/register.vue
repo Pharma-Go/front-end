@@ -161,6 +161,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { Route } from "vue-router";
 @Component
 export default class PgRegister extends Vue {
   public form = {
@@ -176,9 +177,9 @@ export default class PgRegister extends Vue {
     color: "error"
   };
 
-  public async onSubmit(): Promise<void> {
+  public async onSubmit(): Promise<Route> {
     await this.$api.users
-      .save({
+      .register({
         name: this.form.name,
         email: this.form.email,
         cpf: this.form.cpf,
@@ -187,19 +188,22 @@ export default class PgRegister extends Vue {
         role: "default"
       })
       .catch(err => {
-        console.dir(err);
-        this.snackbar.color = "error";
-        this.snackbar.icon = "pgi-add";
-        this.snackbar.text =
-          err.response?.data?.message ||
-          err.response?.data?.error ||
-          "Erro desconhecido";
-        this.snackbar.visible = true;
+        this.snackbar = {
+          color: "error",
+          icon: "pgi-add",
+          text:
+            err.response?.data?.message ||
+            err.response?.data?.error ||
+            "Erro desconhecido",
+          visible: true
+        };
 
         return Promise.reject(err);
       });
 
-    this.$router.push({ name: "Home" });
+    return this.$router.replace(
+      (this.$route.query.redirect as string) || "/home"
+    );
   }
 }
 </script>

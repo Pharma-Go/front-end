@@ -1,5 +1,5 @@
 <template>
-  <pg-container class="c-auth" light>
+  <pg-container class="c-auth bg--background" light>
     <img
       class="c-auth__img"
       :src="require('../../assets/medicina.svg')"

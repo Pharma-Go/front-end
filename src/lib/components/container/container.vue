@@ -18,6 +18,7 @@
   max-width: 1500px;
   margin: 0 auto;
   color: var(--theme-foreground);
+  padding: var(--spacing-5) var(--spacing-4);
 
   &--fluid {
     max-width: 100%;

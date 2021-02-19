@@ -1,5 +1,5 @@
 <template>
   <pg-app id="app">
-    <pg-container> <router-view /></pg-container>
+    <router-view />
   </pg-app>
 </template>

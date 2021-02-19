@@ -42,5 +42,7 @@
 import { Component, Vue } from "vue-property-decorator";
 
 @Component
-export default class PgAuth extends Vue {}
+export default class PgAuth extends Vue {
+
+}
 </script>

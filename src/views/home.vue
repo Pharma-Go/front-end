@@ -1,9 +1,9 @@
 <template>
-  <div class="c-home bg--background">
+  <div class="c-home bg--background" v-if="user">
     <pg-container>
       <div class="c-home__header">
         <h1 class="c-home__header-title text--foreground">
-          Vinícius Sousa dos Santos
+          {{ user.name }}
         </h1>
         <img
           class="c-home__header-avatar"
@@ -131,13 +131,16 @@
 </style>
 
 <script lang="ts">
+import { User } from "@/store/user/user.store";
 import { Component, Vue } from "vue-property-decorator";
 @Component
 export default class PgHome extends Vue {
   public invoices: any[] = [];
+  public user: User = {} as User;
 
   async created() {
     this.invoices = await this.$api.invoices.recents();
+    this.user = this.$store.getters["userStore/getUser"];
   }
 }
 </script>

@@ -5,7 +5,7 @@
         <h1 class="c-register__title text--center">Registrar-se</h1>
       </div>
 
-      <form class="d-flex flex-col align-end" @submit="onSubmit">
+      <form class="d-flex flex-col align-end" @submit.prevent="onSubmit">
         <div class="mt-4 fill-w">
           <validation-observer>
             <validation-provider

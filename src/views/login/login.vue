@@ -136,6 +136,10 @@ export default class PgLogin extends Vue {
         return Promise.reject(err);
       });
 
+    const user = await this.$api.users.getOne("me");
+
+    this.$store.dispatch("userStore/setUser", user);
+
     return this.$router.replace(
       (this.$route.query.redirect as string) || "/home"
     );

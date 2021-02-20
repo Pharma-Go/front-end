@@ -9,112 +9,14 @@ export interface User {
   cpf: string;
   password: string;
   role: any;
-  address: {
-    street: string;
-    district: string;
-    streetNumber: number;
-    complement: string;
-    city: string;
-    state: string;
-    zipcode: string;
-    reference: string;
-    establishment: {
-      name: string;
-      phone: string;
-      imageUrl: string;
-      products: [
-        {
-          name: string;
-          description: string;
-          price: number;
-          originalPrice: number;
-          available: boolean;
-          imageUrl: string;
-          category: {
-            name: string;
-            products: [];
-          };
-          invoices: [];
-          reviews: [];
-        }
-      ];
-      reviews: [];
-    };
-  };
   phone: string;
-  invoices: [
-    {
-      total: number;
-      discount: number;
-      paymentStatus: any;
-      paymentMethod: any;
-      paymentDate: Date;
-      products: [
-        {
-          name: string;
-          description: string;
-          price: number;
-          originalPrice: number;
-          available: boolean;
-          imageUrl: string;
-          category: {
-            name: string;
-            products: [];
-          };
-          invoices: [];
-          reviews: [];
-        }
-      ];
-    }
-  ];
   cards: [
     {
       card_id: string;
       method: any;
     }
   ];
-  reviews: [
-    {
-      establishment: {
-        name: string;
-        phone: string;
-        imageUrl: string;
-        products: [
-          {
-            name: string;
-            description: string;
-            price: number;
-            originalPrice: number;
-            available: boolean;
-            imageUrl: string;
-            category: {
-              name: string;
-              products: [];
-            };
-            invoices: [];
-            reviews: [];
-          }
-        ];
-        reviews: [];
-      };
-      product: {
-        name: string;
-        description: string;
-        price: number;
-        originalPrice: number;
-        available: boolean;
-        imageUrl: string;
-        category: {
-          name: string;
-          products: [];
-        };
-        invoices: [];
-        reviews: [];
-      };
-      comment: string;
-      stars: number;
-    }
-  ];
+  reviews: [];
 }
 
 export default {

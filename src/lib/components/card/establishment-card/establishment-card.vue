@@ -1,28 +1,50 @@
 <template>
-  <div :class="[themeClass, 'c-establishment-card']">
-    <img
-      class="c-establishment-card__image"
-      alt="Imagem do estabelecimento"
-      src="../../../../assets/logo.png"
-    />
+  <div :class="[themeClass, 'c-establishment-card']" v-if="establishment">
+    <div class="c-establishment-card__container">
+      <img
+        v-if="establishment.imageUrl"
+        class="c-establishment-card__image"
+        alt="Imagem do estabelecimento"
+        :src="establishment.imageUrl"
+      />
 
-    <div class="c-establishment-card__content">
-      <div class="c-establishment-card__content-header">
-        <h2 class="c-establishment-card__content-title">Drogasil</h2>
-        <p
-          class="c-establishment-card__content-address text--small text--foregroundTertiary"
-        >
-          Avenida Rudge, 315
+      <div class="c-establishment-card__content">
+        <div class="c-establishment-card__content-header">
+          <h2 class="c-establishment-card__content-title">
+            {{ establishment.name }}
+          </h2>
+          <p
+            class="c-establishment-card__content-address text--small text--foregroundTertiary"
+            v-if="
+              establishment.address &&
+              establishment.address.street &&
+              establishment.address.streetNumber &&
+              establishment.address.district
+            "
+          >
+            {{
+              `${establishment.address.street} ${establishment.address.streetNumber}, ${establishment.address.district}`
+            }}
+          </p>
+        </div>
+
+        <p class="c-establishment-card__content-hour text--primary text--small">
+          <i
+            class="c-establishment-card__content-hour-icon pgi pgi-clock mr-1"
+          ></i>
+          {{
+            formatHour(establishment.opensAt) +
+            " - " +
+            formatHour(establishment.closesAt)
+          }}
         </p>
       </div>
-
-      <p class="c-establishment-card__content-hour text--primary text--small">
-        <i class="c-establishment-card__content-hour-icon pgi pgi-add mr-1"></i>
-        06:00 - 23:00
-      </p>
     </div>
 
-    <router-link to="" class="c-establishment-card__go bg--secondaryBackground">
+    <router-link
+      :to="`estabelecimento/${establishment.id}`"
+      class="c-establishment-card__go bg--secondaryBackground"
+    >
       <i
         class="c-establishment-card__go-icon pgi pgi-chevron-left text--primary"
       ></i>
@@ -45,6 +67,12 @@
   &__image {
     width: var(--spacing-10);
     height: var(--spacing-10);
+    margin-right: var(--spacing-4);
+  }
+
+  &__container {
+    display: flex;
+    align-items: center;
   }
 
   &__content {
@@ -87,8 +115,18 @@
 
 <script lang="ts">
 import { Themeable } from "@/lib/mixins";
-import { Component, Mixins } from "vue-property-decorator";
+import { Component, Mixins, Prop } from "vue-property-decorator";
+import { Establishment } from "../../../models";
 
 @Component
-export default class PgEstablishmentCard extends Mixins(Themeable) {}
+export default class PgEstablishmentCard extends Mixins(Themeable) {
+  @Prop() public establishment!: Establishment;
+
+  public formatHour(time: string) {
+    const hour = time.substring(0, 2);
+    const minute = time.substring(2, 4);
+
+    return `${hour}:${minute}`;
+  }
+}
 </script>

@@ -6,9 +6,10 @@
           {{ user.name }}
         </h1>
         <img
+          v-if="user.imageUrl"
           class="c-home__header-avatar"
           alt="Avatar"
-          src="../assets/logo.png"
+          :src="user.imageUrl"
         />
       </div>
 
@@ -51,13 +52,28 @@
           >
         </div>
 
-        <div class="c-home__establishments-content mt-4">
-          <div class="c-home__establishments-content-card">
-            <pg-establishment-card></pg-establishment-card>
+        <div
+          class="c-home__establishments-content mt-4"
+          v-if="establishments && establishments.length > 0"
+        >
+          <div
+            v-for="establishment in establishments"
+            :key="establishment.id"
+            class="c-home__establishments-content-card"
+          >
+            <pg-establishment-card
+              :establishment="establishment"
+            ></pg-establishment-card>
           </div>
-          <div class="c-home__establishments-content-card">
-            <pg-establishment-card></pg-establishment-card>
-          </div>
+        </div>
+
+        <div v-else class="mt-3 text--center">
+          <p>
+            Ops! Não foi feito nenhum pedido ainda!
+            <router-link to="" class="text--primary text--bold"
+              >Buscar farmácias</router-link
+            >
+          </p>
         </div>
       </div>
 
@@ -80,6 +96,8 @@
 
   &__header {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
 
     &-avatar {
       width: var(--spacing-9);
@@ -133,14 +151,18 @@
 <script lang="ts">
 import { User } from "@/store/user/user.store";
 import { Component, Vue } from "vue-property-decorator";
-@Component
+import { mapGetters } from "vuex";
+import { Invoice } from "../lib/models";
+
+@Component({ computed: { ...mapGetters("userStore", { user: "getUser" }) } })
 export default class PgHome extends Vue {
-  public invoices: any[] = [];
-  public user: User = {} as User;
+  public invoices: Invoice[] = [];
+  public establishments: Invoice[] = [];
+  public user!: User;
 
   async created() {
     this.invoices = await this.$api.invoices.recents();
-    this.user = this.$store.getters["userStore/getUser"];
+    this.establishments = await this.$api.establishments.mostRated();
   }
 }
 </script>

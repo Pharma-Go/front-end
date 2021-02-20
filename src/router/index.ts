@@ -65,7 +65,7 @@ const routes: Array<RouteConfig> = [
     beforeEnter: ensureLogged
   },
   {
-    path: "/estabelecimento",
+    path: "/estabelecimento/:id",
     name: "Estabelecimento",
     component: PgEstablishment,
     beforeEnter: ensureLogged

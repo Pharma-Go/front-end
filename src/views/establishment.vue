@@ -14,6 +14,10 @@
 import { Component, Vue } from "vue-property-decorator";
 @Component
 export default class PgEstablishment extends Vue {
+  public created() {
+    console.log(this.$route.params);
+  }
+
   public logout() {
     this.$api.oauth.options.storage.clear();
   }

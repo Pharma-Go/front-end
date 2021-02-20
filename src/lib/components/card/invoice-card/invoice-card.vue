@@ -1,10 +1,6 @@
 <template>
   <div :class="[themeClass, 'c-invoice-card']" v-if="invoice">
-    <img
-      class="c-invoice-card__image"
-      alt="Imagem do produto"
-      src="../../../../assets/logo.png"
-    />
+    <i class="c-invoice-card__icon pgi pgi-invoice" alt="Ícone do produto"></i>
 
     <div class="c-invoice-card__content">
       <div class="c-invoice-card__content-header">
@@ -35,10 +31,10 @@
   border-radius: var(--spacing-2);
   padding: var(--spacing-2);
 
-  &__image {
-    width: var(--spacing-15);
-    height: var(--spacing-15);
+  &__icon {
+    font-size: var(--spacing-10);
     margin-right: var(--spacing-4);
+    padding-top: 9px;
   }
 
   &__content {
@@ -62,10 +58,11 @@
 <script lang="ts">
 import { Themeable } from "@/lib/mixins";
 import { Component, Mixins, Prop } from "vue-property-decorator";
+import { Invoice } from "../../../models";
 
 @Component
 export default class PginvoiceCard extends Mixins(Themeable) {
-  @Prop() public invoice!: any;
+  @Prop() public invoice!: Invoice;
 
   public formatPrice(value: number) {
     const val = (value / 100).toFixed(2).replace(".", ",");

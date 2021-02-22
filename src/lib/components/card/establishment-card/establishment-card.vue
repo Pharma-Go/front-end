@@ -1,9 +1,5 @@
 <template>
-  <div
-    :class="[themeClass, 'c-establishment-card']"
-    v-if="establishment"
-    @click.prevent="onClickCard"
-  >
+  <div :class="[themeClass, 'c-establishment-card']" v-if="establishment">
     <div class="c-establishment-card__container">
       <img
         v-if="establishment.imageUrl"
@@ -18,7 +14,7 @@
             {{ establishment.name }}
           </h2>
           <p
-            class="c-establishment-card__content-address text--small text--foregroundSecondary"
+            class="c-establishment-card__content-address text--small text--foregroundTertiary"
             v-if="
               establishment.address &&
               establishment.address.street &&
@@ -45,11 +41,14 @@
       </div>
     </div>
 
-    <div class="c-establishment-card__go bg--secondaryBackground">
+    <router-link
+      :to="`estabelecimento/${establishment.id}`"
+      class="c-establishment-card__go bg--secondaryBackground"
+    >
       <i
         class="c-establishment-card__go-icon pgi pgi-chevron-left text--primary"
       ></i>
-    </div>
+    </router-link>
   </div>
 </template>
 
@@ -64,7 +63,6 @@
   align-items: center;
   border-radius: var(--spacing-2);
   padding: var(--spacing-2) var(--spacing-3);
-  cursor: pointer;
 
   &__image {
     width: var(--spacing-10);
@@ -129,10 +127,6 @@ export default class PgEstablishmentCard extends Mixins(Themeable) {
     const minute = time.substring(2, 4);
 
     return `${hour}:${minute}`;
-  }
-
-  public onClickCard(): void {
-    this.$emit("clickCard");
   }
 }
 </script>

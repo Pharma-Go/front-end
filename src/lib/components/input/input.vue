@@ -26,7 +26,7 @@
         >{{ label }}</span
       >
       <input
-        class="pg-input__control pl-2 text--primary"
+        class="pg-input__control pl-2"
         v-model="lazyValue"
         :type="type"
         :placeholder="placeholder"

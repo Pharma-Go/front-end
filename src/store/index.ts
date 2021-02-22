@@ -1,9 +1,11 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import  userStore from "./user/user.store";
+import user from "./user";
+import invoice from "./invoice";
+import establishment from "./establishment";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  modules: { userStore: userStore }
+  modules: { user, invoice, establishment }
 });

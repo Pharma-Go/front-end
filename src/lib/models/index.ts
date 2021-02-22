@@ -1,3 +1,5 @@
+export * from "./base.model";
+
 export * from "./address";
 export * from "./card";
 export * from "./category";

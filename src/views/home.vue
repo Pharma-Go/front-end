@@ -1,6 +1,6 @@
 <template>
   <div class="c-home bg--background" v-if="user">
-    <pg-container>
+    <!-- <pg-container>
       <div class="c-home__header">
         <h1 class="c-home__header-title text--foreground">
           {{ user.name }}
@@ -11,6 +11,7 @@
           alt="Avatar"
           :src="user.imageUrl"
         />
+        <i v-else class="pgi pgi-user c-home__header-avatar--icon"></i>
       </div>
 
       <div class="c-home__invoices mt-6">
@@ -63,6 +64,7 @@
           >
             <pg-establishment-card
               :establishment="establishment"
+              @clickCard="onClickEstablishment(establishment)"
             ></pg-establishment-card>
           </div>
         </div>
@@ -78,12 +80,13 @@
       </div>
 
       <input type="checkbox" v-model="$pharmago.theme.themes.isDark" />
-    </pg-container>
+    </pg-container> -->
   </div>
 </template>
 
 <style lang="scss">
 @import "../lib/styles/mq.scss";
+@import "../lib/styles/typography.scss";
 
 .c-home {
   transition: color, background, background-color 0.3s ease-in-out;
@@ -102,6 +105,20 @@
     &-avatar {
       width: var(--spacing-9);
       height: var(--spacing-9);
+
+      &--icon {
+        @include font-size($global-beta-size);
+
+        border: 1px solid var(--theme-primary);
+        color: var(--theme-primary);
+        border-radius: 100%;
+        width: var(--spacing-9);
+        height: var(--spacing-9);
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+        padding-bottom: 3px;
+      }
     }
   }
 
@@ -149,20 +166,39 @@
 </style>
 
 <script lang="ts">
-import { User } from "@/store/user/user.store";
 import { Component, Vue } from "vue-property-decorator";
+import { Route } from "vue-router";
 import { mapGetters } from "vuex";
-import { Invoice } from "../lib/models";
+import { Establishment, Invoice, User } from "../lib/models";
 
-@Component({ computed: { ...mapGetters("userStore", { user: "getUser" }) } })
+@Component({
+  // computed: {
+  //   ...mapGetters("user", { user: "getUser" }),
+  //   ...mapGetters("invoice", { invoices: "getRecentInvoices" }),
+  //   ...mapGetters("establishment", { establishments: "getMostRated" })
+  // }
+})
 export default class PgHome extends Vue {
-  public invoices: Invoice[] = [];
-  public establishments: Invoice[] = [];
-  public user!: User;
+  // public establishments!: Establishment[];
+  // public invoices!: Invoice[];
+  // public user!: User;
 
-  async created() {
-    this.invoices = await this.$api.invoices.recents();
-    this.establishments = await this.$api.establishments.mostRated();
-  }
+  // async created() {
+  //   if (!this.invoices || this.invoices?.length === 0) {
+  //     const invoices = await this.$api.invoices.recents();
+  //     this.$store.dispatch("invoice/set", { invoices });
+  //   }
+
+  //   if (!this.establishments || this.establishments?.length === 0) {
+  //     const establishments = await this.$api.establishments.mostRated();
+  //     this.$store.dispatch("establishment/set", { establishments });
+  //   }
+  // }
+
+  // public onClickEstablishment(establishment: Establishment): Promise<Route> {
+  //   this.$store.dispatch("establishment/set", { establishment });
+
+  //   return this.$router.replace(`/estabelecimento/${establishment.id}`);
+  // }
 }
 </script>

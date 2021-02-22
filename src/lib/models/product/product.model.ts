@@ -1,8 +1,9 @@
+import { Base } from "../base.model";
 import { Category } from "../category";
 import { Invoice } from "../invoice";
 import { Review } from "../review";
 
-export interface Product {
+export interface Product extends Base {
   name: string;
   description: string;
   price: number;

@@ -38,7 +38,8 @@ export class ThemeManager {
       unfocusedField: "#FFFFFF",
       error: "#BD2420",
       success: "#4BB543",
-      link: "#FFFFFF"
+      link: "#FFFFFF",
+      backgroundBottomBar: "#292929"
     };
 
     const lightTheme = {
@@ -52,7 +53,8 @@ export class ThemeManager {
       unfocusedField: "#7C7C7C",
       error: "#BD2420",
       success: "#4BB543",
-      link: primaryColors.primary
+      link: primaryColors.primary,
+      backgroundBottomBar: primaryColors.primary
     };
 
     this.themes = Object.assign(

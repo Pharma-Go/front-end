@@ -1,9 +1,10 @@
 import { Address } from "../address";
+import { Base } from "../base.model";
 import { Card } from "../card/card.model";
 import { Invoice } from "../invoice";
 import { Review } from "../review";
 
-export interface User {
+export interface User extends Base {
   name: string;
   email: string;
   cpf: string;

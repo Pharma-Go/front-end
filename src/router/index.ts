@@ -2,11 +2,11 @@ import { oauth, users } from "@/services";
 import Vue from "vue";
 import VueRouter, { NavigationGuardNext, Route, RouteConfig } from "vue-router";
 import PgHome from "../views/home.vue";
+import PgSearch from "../views/search/search.vue";
 import PgEstablishment from "../views/establishment.vue";
 import PgAuth from "../views/login/auth.vue";
 import PgLogin from "../views/login/login.vue";
 import PgRegister from "../views/login/register.vue";
-import store from "../store";
 
 Vue.use(VueRouter);
 
@@ -28,12 +28,6 @@ async function ensureLogged(
   next: NavigationGuardNext<Vue>
 ) {
   if (await oauth.isAuthenticated()) {
-    const hasUser = store.getters["userStore/getUser"]?.hasOwnProperty("id");
-
-    if (!hasUser) {
-      const user = await users.getOne("me");
-      store.dispatch("userStore/setUser", user);
-    }
     return next();
   }
 
@@ -62,7 +56,19 @@ const routes: Array<RouteConfig> = [
     path: "/home",
     name: "Home",
     component: PgHome,
-    beforeEnter: ensureLogged
+    beforeEnter: ensureLogged,
+    meta: {
+      bottomBar: true
+    }
+  },
+  {
+    path: "/buscar",
+    name: "Search",
+    component: PgSearch,
+    beforeEnter: ensureLogged,
+    meta: {
+      bottomBar: true
+    }
   },
   {
     path: "/estabelecimento/:id",

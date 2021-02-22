@@ -5,3 +5,5 @@ export * from "./container";
 export * from "./icon";
 export * from "./snackbar";
 export * from "./card";
+export * from "./bottom-bar";
+export * from "./settings";

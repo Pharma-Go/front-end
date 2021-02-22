@@ -1,6 +1,6 @@
 <template>
   <pg-container class="c-establishment bg--background" v-if="establishment">
-    <!-- <div class="c-establishment__header mb-4">
+    <div class="c-establishment__header mb-4">
       <div
         @click.prevent="$router.back"
         class="c-establishment__header-back bg--secondaryBackground"
@@ -49,7 +49,7 @@
           <pg-product-card :product="product"></pg-product-card>
         </div>
       </div>
-    </div> -->
+    </div>
   </pg-container>
 </template>
 
@@ -132,52 +132,52 @@
 <script lang="ts">
 import { Establishment, Product, Review } from "@/lib/models";
 import { Component, Vue } from "vue-property-decorator";
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 
 @Component({
-  // computed: {
-  //   ...mapGetters("establishment", { establishment: "getActive" }),
-  //   ...mapGetters("establishment", {
-  //     featuredProducts: "getProductsMostRateds"
-  //   })
-  // }
+  computed: {
+    ...mapState("establishment", { establishment: "active" }),
+    ...mapState("establishment", {
+      featuredProducts: "productsMostRateds"
+    })
+  }
 })
 export default class PgEstablishment extends Vue {
-  // public establishment!: Establishment;
-  // public featuredProducts!: Product[];
+  public establishment!: Establishment;
+  public featuredProducts!: Product[];
 
-  // public async created() {
-  //   if (!this.establishment.id) {
-  //     const establishment = await this.$api.establishments.getOne(
-  //       this.$route.params.id
-  //     );
+  public async created() {
+    if (!this.establishment.id) {
+      const establishment = await this.$api.establishments.getOne(
+        this.$route.params.id
+      );
 
-  //     this.$store.dispatch("establishment/set", { establishment });
-  //   }
+      this.$store.dispatch("establishment/set", { establishment });
+    }
 
-  //   if (!this.featuredProducts || this.featuredProducts?.length === 0) {
-  //     const products = await this.$api.products.featuredProducts(
-  //       this.establishment.id
-  //     );
+    if (!this.featuredProducts || this.featuredProducts?.length === 0) {
+      const products = await this.$api.products.featuredProducts(
+        this.establishment.id
+      );
 
-  //     this.$store.dispatch("establishment/set", { products });
-  //   }
-  // }
+      this.$store.dispatch("establishment/set", { products });
+    }
+  }
 
-  // public countStarsReviews(): number {
-  //   if (this.establishment && this.establishment.reviews) {
-  //     const totalReviews: number = this.establishment.reviews.reduce(
-  //       (acc: number, review: Review) => {
-  //         acc += review.stars / 100;
-  //         return acc;
-  //       },
-  //       0
-  //     );
+  public countStarsReviews(): number {
+    if (this.establishment && this.establishment.reviews) {
+      const totalReviews: number = this.establishment.reviews.reduce(
+        (acc: number, review: Review) => {
+          acc += review.stars / 100;
+          return acc;
+        },
+        0
+      );
 
-  //     return totalReviews / this.establishment.reviews.length;
-  //   }
+      return totalReviews / this.establishment.reviews.length;
+    }
 
-  //   return 0;
-  // }
+    return 0;
+  }
 }
 </script>

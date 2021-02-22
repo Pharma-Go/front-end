@@ -3,8 +3,9 @@
     :class="[
       themeClass,
       'pg-container',
+      'py-5',
       { 'pg-container--fluid': fluid },
-      'px-4'
+      { 'px-4': hasHorizontalPadding }
     ]"
   >
     <slot></slot>
@@ -18,7 +19,7 @@
   max-width: 1500px;
   margin: 0 auto;
   color: var(--theme-foreground);
-  padding: var(--spacing-5) var(--spacing-4);
+  transition: color, background, background-color 0.3s ease-in-out;
 
   &--fluid {
     max-width: 100%;
@@ -33,5 +34,6 @@ import { Component, Mixins, Prop } from "vue-property-decorator";
 @Component
 export default class PgContainer extends Mixins(Themeable) {
   @Prop(Boolean) public fluid!: boolean;
+  @Prop({ type: Boolean, default: true }) public hasHorizontalPadding!: boolean;
 }
 </script>

@@ -23,7 +23,7 @@ export class ThemeManager {
       primary700: "#3729AA",
       primary800: "#2F22A2",
       primary900: "#201693",
-      contrast: "#FFFFFF"
+      contrast: "#FFFFFF",
     };
 
     const darkTheme = {
@@ -39,7 +39,8 @@ export class ThemeManager {
       error: "#BD2420",
       success: "#4BB543",
       link: "#FFFFFF",
-      backgroundBottomBar: "#292929"
+      backgroundBottomBar: "#292929",
+      backgroundSettings: "#292929"
     };
 
     const lightTheme = {
@@ -54,7 +55,8 @@ export class ThemeManager {
       error: "#BD2420",
       success: "#4BB543",
       link: primaryColors.primary,
-      backgroundBottomBar: primaryColors.primary
+      backgroundBottomBar: primaryColors.primary,
+      backgroundSettings: "#FFFFFF"
     };
 
     this.themes = Object.assign(

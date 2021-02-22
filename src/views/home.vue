@@ -1,6 +1,6 @@
 <template>
   <div class="c-home bg--background" v-if="user">
-    <!-- <pg-container>
+    <pg-container>
       <div class="c-home__header">
         <h1 class="c-home__header-title text--foreground">
           {{ user.name }}
@@ -80,7 +80,7 @@
       </div>
 
       <input type="checkbox" v-model="$pharmago.theme.themes.isDark" />
-    </pg-container> -->
+    </pg-container>
   </div>
 </template>
 
@@ -168,37 +168,37 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { Route } from "vue-router";
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 import { Establishment, Invoice, User } from "../lib/models";
 
 @Component({
-  // computed: {
-  //   ...mapGetters("user", { user: "getUser" }),
-  //   ...mapGetters("invoice", { invoices: "getRecentInvoices" }),
-  //   ...mapGetters("establishment", { establishments: "getMostRated" })
-  // }
+  computed: {
+    ...mapState("user", { user: "user" }),
+    ...mapState("invoice", { invoices: "recents" }),
+    ...mapState("establishment", { establishments: "mostRateds" })
+  }
 })
 export default class PgHome extends Vue {
-  // public establishments!: Establishment[];
-  // public invoices!: Invoice[];
-  // public user!: User;
+  public establishments!: Establishment[];
+  public invoices!: Invoice[];
+  public user!: User;
 
-  // async created() {
-  //   if (!this.invoices || this.invoices?.length === 0) {
-  //     const invoices = await this.$api.invoices.recents();
-  //     this.$store.dispatch("invoice/set", { invoices });
-  //   }
+  async created() {
+    if (!this.invoices || this.invoices?.length === 0) {
+      const invoices = await this.$api.invoices.recents();
+      this.$store.dispatch("invoice/set", { invoices });
+    }
 
-  //   if (!this.establishments || this.establishments?.length === 0) {
-  //     const establishments = await this.$api.establishments.mostRated();
-  //     this.$store.dispatch("establishment/set", { establishments });
-  //   }
-  // }
+    if (!this.establishments || this.establishments?.length === 0) {
+      const establishments = await this.$api.establishments.mostRated();
+      this.$store.dispatch("establishment/set", { establishments });
+    }
+  }
 
-  // public onClickEstablishment(establishment: Establishment): Promise<Route> {
-  //   this.$store.dispatch("establishment/set", { establishment });
+  public onClickEstablishment(establishment: Establishment): Promise<Route> {
+    this.$store.dispatch("establishment/set", { establishment });
 
-  //   return this.$router.replace(`/estabelecimento/${establishment.id}`);
-  // }
+    return this.$router.replace(`/estabelecimento/${establishment.id}`);
+  }
 }
 </script>

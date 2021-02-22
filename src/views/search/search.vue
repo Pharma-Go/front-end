@@ -61,12 +61,12 @@
 import { Establishment } from "@/lib/models";
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 import { debounce } from "@/lib/utils/debounce";
 
 @Component({
   computed: {
-    ...mapGetters("establishment", {
+    ...mapState("establishment", {
       establishments: "establishments"
     })
   }
@@ -75,10 +75,10 @@ export default class PgSearch extends Vue {
   public term = "";
   public establishments!: Establishment[];
 
-  // public search = debounce(400, async () => {
-  //   const establishments = await this.$api.establishments.search(this.term);
-  //   this.$store.dispatch("establishment/set", { establishments });
-  // });
+  public search = debounce(400, async () => {
+    const establishments = await this.$api.establishments.search(this.term);
+    this.$store.dispatch("establishment/set", { establishments });
+  });
 
   public onClickEstablishment(establishment: Establishment): void {
     this.$store.dispatch("establishment/set", { establishment });

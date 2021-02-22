@@ -6239,10 +6239,10 @@ performance-now@^2.1.0:
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
   integrity sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
 
-pharmago-icons-impacta@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/pharmago-icons-impacta/-/pharmago-icons-impacta-0.0.6.tgz#b6831120558b4d6204056226fbec359e063c5e66"
-  integrity sha512-TUkJ4XSYb7UqEOHzn3bg0XVM4VBvchMpb9AKvjxwLAhuXoyWGGKrnIwcrSH0XaZj5BjwgB7iMZt5ItYVy2dp5Q==
+pharmago-icons-impacta@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/pharmago-icons-impacta/-/pharmago-icons-impacta-0.0.7.tgz#5db918c06094fe8766771a34e3f48fa4fac29958"
+  integrity sha512-MxiyLh/k9YGbP0poWILihs510ptDAGSsv2/LDksmyYZV61c0/k9mjAfWIkl+8wgtWNoGhK378KevCPsS5kq8Qw==
   dependencies:
     change-case "^4.1.2"
     rimraf "^3.0.2"

@@ -64,6 +64,7 @@
           >
             <pg-establishment-card
               :establishment="establishment"
+              :route="`estabelecimento/${establishment.id}`"
               @clickCard="onClickEstablishment(establishment)"
             ></pg-establishment-card>
           </div>
@@ -107,7 +108,7 @@
       height: var(--spacing-9);
 
       &--icon {
-        @include font-size($global-beta-size);
+        @include font-size($font-lg);
 
         border: 1px solid var(--theme-primary);
         color: var(--theme-primary);

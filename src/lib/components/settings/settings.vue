@@ -6,7 +6,7 @@
     <div class="c-settings__header">
       <h1 class="c-settings__header-title text--foreground">{{ title }}</h1>
 
-      <div class="c-settings__header-logout">
+      <div class="c-settings__header-logout" @click.prevent="logout">
         <p class="c-settings__header-logout-text text--small text--primary">
           Sair
         </p>
@@ -24,9 +24,13 @@
 
 <style lang="scss">
 @import "../../styles/typography.scss";
+@import "../../styles/mq.scss";
 
 .c-settings {
+  width: 100%;
+
   &__header {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -36,6 +40,7 @@
     &-logout {
       display: flex;
       align-items: center;
+      cursor: pointer;
 
       &-text {
         margin-bottom: 0;
@@ -43,16 +48,22 @@
       }
 
       &-icon {
-        @include font-size($global-delta-size);
+        @include font-size($font-sm);
       }
     }
   }
 
   &__content {
-    height: 100%;
+    width: 100%;
     border-top-left-radius: var(--spacing-4);
     border-top-right-radius: var(--spacing-4);
     padding: var(--spacing-4);
+    height: 100vh;
+
+    @include mq($until: tablet-landscape) {
+      height: auto;
+      min-height: 100vh;
+    }
   }
 }
 </style>
@@ -63,5 +74,10 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 @Component
 export default class PgSettings extends Vue {
   @Prop(String) public title!: string;
+
+  public logout(): void {
+    this.$api.oauth.options.storage.clear();
+    this.$router.replace("/");
+  }
 }
 </script>

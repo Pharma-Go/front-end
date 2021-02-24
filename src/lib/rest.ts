@@ -36,7 +36,10 @@ export class Rest {
   }
 
   async update(data: any, config: AxiosRequestConfig = {}) {
-    return this.request({ method: "PUT", data, ...config });
+    const id = data.id;
+    delete data.id;
+
+    return this.request({ method: "PUT", data, url: id, ...config });
   }
 
   async save(data: any, config: AxiosRequestConfig = {}) {

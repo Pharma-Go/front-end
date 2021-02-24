@@ -1,6 +1,6 @@
 <template>
   <div class="c-login">
-    <!-- <form @submit.prevent="onSubmit" class="c-login__content text--center">
+    <form @submit.prevent="onSubmit" class="c-login__content text--center">
       <h1 class="c-login__title text--center">Acesse sua conta</h1>
 
       <div class="d-flex flex-col align-end">
@@ -60,7 +60,7 @@
     <pg-snackbar v-model="snackbar.visible" :color="snackbar.color">
       <i v-if="snackbar.icon" :class="['pgi', 'mr-3', snackbar.icon]"></i>
       {{ snackbar.text }}
-    </pg-snackbar> -->
+    </pg-snackbar>
   </div>
 </template>
 
@@ -97,10 +97,10 @@
   }
 
   &__title {
-    @include font-size($global-beta-size);
+    @include font-size($font-lg);
 
     @include mq($until: tablet-landscape) {
-      @include font-size($global-gamma-size);
+      @include font-size($font-md);
       padding-top: var(--spacing-5);
     }
   }
@@ -112,37 +112,37 @@ import { Component, Vue } from "vue-property-decorator";
 import { Route } from "vue-router";
 @Component
 export default class PgLogin extends Vue {
-  // public form = {
-  //   email: "",
-  //   password: ""
-  // };
+  public form = {
+    email: "",
+    password: ""
+  };
 
-  // public snackbar: any = {
-  //   visible: false,
-  //   color: "error"
-  // };
+  public snackbar: any = {
+    visible: false,
+    color: "error"
+  };
 
-  // public async onSubmit(): Promise<Route> {
-  //   await this.$api.oauth
-  //     .login(this.form.email, this.form.password)
-  //     .catch(err => {
-  //       this.snackbar = {
-  //         color: "error",
-  //         icon: "pgi-add",
-  //         text: err.response?.data?.error || "Erro desconhecido",
-  //         visible: true
-  //       };
+  public async onSubmit(): Promise<Route> {
+    await this.$api.oauth
+      .login(this.form.email, this.form.password)
+      .catch(err => {
+        this.snackbar = {
+          color: "error",
+          icon: "pgi-add",
+          text: err.response?.data?.error || "Erro desconhecido",
+          visible: true
+        };
 
-  //       return Promise.reject(err);
-  //     });
+        return Promise.reject(err);
+      });
 
-  //   const user = await this.$api.users.getOne("me");
+    const user = await this.$api.users.getOne("me");
 
-  //   this.$store.dispatch("user/set", { user });
+    this.$store.dispatch("user/set", { user });
 
-  //   return this.$router.replace(
-  //     (this.$route.query.redirect as string) || "/home"
-  //   );
-  // }
+    return this.$router.replace(
+      (this.$route.query.redirect as string) || "/home"
+    );
+  }
 }
 </script>

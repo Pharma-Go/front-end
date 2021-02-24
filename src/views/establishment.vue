@@ -81,7 +81,7 @@
       cursor: pointer;
 
       &-icon {
-        @include font-size($global-delta-size);
+        @include font-size($font-sm);
       }
     }
   }
@@ -111,7 +111,7 @@
         justify-content: flex-end;
 
         &-icon {
-          @include font-size($global-delta-size);
+          @include font-size($font-sm);
         }
 
         &-text {

@@ -6,7 +6,7 @@ class InvoiceService extends Rest {
   }
 
   public async recents(): Promise<any> {
-    return this.getOne("recents");
+    return this.getOne("recent");
   }
 }
 

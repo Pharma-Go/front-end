@@ -42,7 +42,7 @@
     </div>
 
     <router-link
-      :to="`estabelecimento/${establishment.id}`"
+      :to="route"
       class="c-establishment-card__go bg--secondaryBackground"
     >
       <i
@@ -68,6 +68,7 @@
     width: var(--spacing-10);
     height: var(--spacing-10);
     margin-right: var(--spacing-4);
+    object-fit: cover;
   }
 
   &__container {
@@ -121,6 +122,7 @@ import { Establishment } from "../../../models";
 @Component
 export default class PgEstablishmentCard extends Mixins(Themeable) {
   @Prop() public establishment!: Establishment;
+  @Prop(String) public route!: string;
 
   public formatHour(time: string) {
     const hour = time.substring(0, 2);

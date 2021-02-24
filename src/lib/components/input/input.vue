@@ -26,7 +26,8 @@
         >{{ label }}</span
       >
       <input
-        class="pg-input__control pl-2"
+        class="pg-input__control pl-2 text--foreground"
+        :disabled="disabled"
         v-model="lazyValue"
         :type="type"
         :placeholder="placeholder"
@@ -62,6 +63,8 @@
 
 <style lang="scss">
 .pg-input {
+  transition: all 0.3s ease-in-out;
+
   font-size: 0.85em;
   text-align: start;
 
@@ -154,6 +157,7 @@ export default class PgInput extends Vue {
   @Prop(String) public prependIcon!: string;
   @Prop(Boolean) public hideMessages!: boolean;
   @Prop({ type: Boolean, default: true }) public hideEmptyErrors!: boolean;
+  @Prop({ type: Boolean, default: false }) public disabled!: boolean;
 
   public isFocused = false;
   public lazyValue = "";

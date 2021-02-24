@@ -17,21 +17,12 @@
         Pessoal
       </h1>
 
-      <div
-        class="c-settings__content-personal-item"
-        @click.prevent="changeTheme"
-      >
-        <p class="c-settings__content-personal-item-text text--foreground">
-          Aparência
-        </p>
-        <i
-          :class="[
-            'text--primary',
-            'pgi',
-            { 'pgi-moon': !$pharmago.theme.themes.isDark },
-            { 'pgi-sun': $pharmago.theme.themes.isDark }
-          ]"
-        ></i>
+      <div @click.prevent="changeTheme">
+        <pg-item-list
+          tag="div"
+          title="Aparência"
+          :icon="$pharmago.theme.themes.isDark ? 'sun' : 'moon'"
+        ></pg-item-list>
       </div>
       <div class="c-settings__content-personal-item">
         <p class="c-settings__content-personal-item-text text--foreground">
@@ -61,17 +52,12 @@
 
     <div class="c-settings__content-admin">
       <h1 class="c-settings__content-admin-title">Administrativo</h1>
-      <router-link
+      <pg-item-list
         to="configuracoes/admin/estabelecimentos"
-        class="c-settings__content-admin-item"
-      >
-        <p class="c-settings__content-admin-item-text text--foreground">
-          Estabelecimentos
-        </p>
-        <i
-          class="c-settings__content-admin-item-icon text--primary pgi pgi-chevron-left"
-        ></i>
-      </router-link>
+        title="Estabelecimentos"
+        icon="chevron-left"
+        :shouldRotate="true"
+      ></pg-item-list>
     </div>
   </pg-settings>
 </template>
@@ -85,6 +71,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      cursor: pointer;
 
       &-image {
         width: var(--spacing-9);
@@ -119,6 +106,7 @@
         justify-content: space-between;
         margin-bottom: var(--spacing-3);
         align-items: center;
+        cursor: pointer;
 
         &-text {
           margin: 0;
@@ -134,9 +122,7 @@
 </style>
 
 <script lang="ts">
-import { Establishment, Product, Review } from "@/lib/models";
 import { Component, Vue } from "vue-property-decorator";
-import { mapGetters, mapState } from "vuex";
 
 @Component
 export default class PgAdminSettings extends Vue {

@@ -149,10 +149,10 @@
   }
 
   &__title {
-    @include font-size($global-beta-size);
+    @include font-size($font-lg);
 
     @include mq($until: tablet-landscape) {
-      @include font-size($global-gamma-size);
+      @include font-size($font-md);
       padding-top: var(--spacing-5);
     }
   }

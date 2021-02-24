@@ -83,14 +83,18 @@
 
   &__item {
     cursor: pointer;
+    transition: color, background, background-color 0.3s ease-in-out;
 
     > i {
-      @include font-size($global-delta-size);
+      @include font-size($font-sm);
 
+      transition: color, background, background-color 0.3s ease-in-out;
       color: #fff;
     }
 
     &-active {
+      transition: color, background, background-color 0.3s ease-in-out;
+
       background: var(--theme-background);
       border-radius: 100%;
       width: var(--spacing-6);

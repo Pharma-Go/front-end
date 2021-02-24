@@ -1,5 +1,6 @@
 <template>
   <pg-settings title="Endereço" class="c-address">
+    <pg-address :address="form" v-if="hasAddress"></pg-address>
     <form @submit.prevent="onSubmit">
       <div class="c-address__field">
         <pg-input
@@ -70,12 +71,50 @@
   </pg-settings>
 </template>
 
+<style lang="scss">
+.c-address {
+  &__header {
+    display: flex;
+    align-items: center;
+
+    &-image {
+      margin-right: var(--spacing-2);
+      max-width: var(--spacing-10);
+      width: 100%;
+    }
+
+    &-address {
+      &-street, &-complement {
+        margin-bottom: 0;
+      }
+
+      &-complement {
+        display: flex;
+        align-items: center;
+
+        &-divider {
+          width: 2px;
+          height: 2px;
+          border-radius: 100%;
+          margin: 0 var(--spacing-1);
+        }
+      }
+    }
+  }
+
+  &__field {
+    margin-top: var(--spacing-5);
+  }
+}
+</style>
+
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class PgSettingsAddress extends Vue {
   @Prop() public form!: any;
+  @Prop(Boolean) public hasAddress: boolean;
 
   public isLoading = false;
 

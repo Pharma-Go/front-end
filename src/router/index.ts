@@ -13,6 +13,8 @@ import PgAdminCreateEstablishment from "../views/settings/admin/establishment/cr
 import PgAdminEditEstablishment from "../views/settings/admin/establishment/edit-establishment.vue";
 import PgHourAdminEstablishment from "../views/settings/admin/establishment/hour-establishment.vue";
 import PgAddressEstablishmentSettings from "../views/settings/admin/establishment/address-establishment.vue";
+import PgAdminEstablishmentProducts from "../views/settings/admin/establishment/products/establishment-products.vue";
+
 import store from "@/store";
 
 Vue.use(VueRouter);
@@ -141,7 +143,13 @@ const routes: Array<RouteConfig> = [
     name: "Estabelecimento",
     component: PgEstablishment,
     beforeEnter: ensureLogged
-  }
+  },
+  {
+    path: "/configuracoes/admin/estabelecimentos/:id/produtos",
+    name: "AdminEstablishmentProducts",
+    component: PgAdminEstablishmentProducts,
+    beforeEnter: ensureLogged,
+  },
 ];
 
 const router = new VueRouter({

@@ -32,8 +32,6 @@
 .c-edit-establishment {
   &__upload {
     margin: 0 auto;
-    width: calc(var(--spacing-1) * 22);
-    height: calc(var(--spacing-1) * 22);
   }
 }
 </style>

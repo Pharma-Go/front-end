@@ -11,3 +11,4 @@ export * from "./upload";
 export * from "./select";
 export * from "./teleport";
 export * from "./list";
+export * from "./address";

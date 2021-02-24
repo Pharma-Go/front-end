@@ -1,5 +1,5 @@
 <template>
-  <label @dragover.prevent @drop.prevent="onDrop">
+  <label @dragover.prevent @drop.prevent="onDrop" class="c-upload">
     <slot name="progress" v-if="isSending" v-bind="this">
       <progress :value="progress * 100"></progress>
     </slot>
@@ -9,15 +9,80 @@
       @change="setFile($event.target.files[0])"
     />
     <slot name="file" v-if="file || url" v-bind="this">
-      <img :src="blobUrl || url" class="fill-w" />
-
-      <div v-if="file">{{ file.name }}</div>
+      <div class="c-upload__image">
+        <img :src="blobUrl || url" class="c-upload__image-photo fill-w" />
+        
+        <div class="c-upload__image-icon bg--secondaryBackground">
+          <i class="c-upload__image-icon-content pgi pgi-add text--primary"></i>
+        </div>
+      </div>
     </slot>
     <slot name="placeholder" v-else>
-      Clique ou arraste aqui para subir uma imagem
+      <div class="c-upload__placeholder bg--secondaryBackground">
+        <i class="c-upload__placeholder-icon pgi pgi-add text--primary"></i>
+        <p class="c-upload__placeholder-text text--small text--primary">
+          Clique ou arraste aqui para subir uma imagem
+        </p>
+      </div>
     </slot>
   </label>
 </template>
+
+<style lang="scss">
+@import "@/lib/styles/typography.scss";
+
+.c-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  margin-bottom: var(--spacing-4);
+
+  &__placeholder {
+    width: calc(var(--spacing-16) * 2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--spacing-2);
+    padding: var(--spacing-4) var(--spacing-6);
+    
+
+    &-icon {
+      @include font-size($font-xl);
+    }
+
+    &-text {
+      margin-top: var(--spacing-2);
+      margin-bottom: 0;
+      text-align: center;
+    }
+  }
+
+  &__image {
+
+    &-photo {
+      border-radius: var(--spacing-1);
+    }
+
+    &-icon {
+      border-radius: 100%;
+      width: var(--spacing-7);
+      height: var(--spacing-7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      bottom: calc(var(--spacing-5) / 2 * -1);
+      right: calc(var(--spacing-7) / 2 * -1);
+
+      &-content {
+        @include font-size($font-md)
+      }
+    }
+  }
+}
+</style>
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";

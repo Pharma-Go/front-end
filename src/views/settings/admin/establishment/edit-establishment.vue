@@ -1,5 +1,9 @@
 <template>
-  <pg-settings :title="active.name">
+  <pg-settings
+    :title="active.name"
+    :canBack="true"
+    backUrl="/configuracoes/admin/estabelecimentos"
+  >
     <div class="c-edit-establishment__upload">
       <pg-upload ref="image" :url="active.imageUrl"></pg-upload>
     </div>

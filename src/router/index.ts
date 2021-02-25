@@ -8,6 +8,7 @@ import PgAuth from "../views/login/auth.vue";
 import PgLogin from "../views/login/login.vue";
 import PgRegister from "../views/login/register.vue";
 import PgSettings from "../views/settings/settings.vue";
+import PgAdminSaveCategory from "../views/settings/admin/category/category.vue";
 import PgAdminEstablishments from "../views/settings/admin/establishments.vue";
 import PgAdminCreateEstablishment from "../views/settings/admin/establishment/create-establishment.vue";
 import PgAdminEditEstablishment from "../views/settings/admin/establishment/edit-establishment.vue";
@@ -139,17 +140,35 @@ const routes: Array<RouteConfig> = [
     }
   },
   {
+    path: "/configuracoes/admin/estabelecimentos/:id/produtos",
+    name: "AdminEstablishmentProducts",
+    component: PgAdminEstablishmentProducts,
+    beforeEnter: ensureLogged
+  },
+  {
+    path: "/configuracoes/admin/estabelecimentos/:id/produtos/:category",
+    name: "AdminEstablishmentProducts",
+    component: PgAdminEstablishmentProducts,
+    beforeEnter: ensureLogged
+  },
+  {
+    path: "/configuracoes/admin/categoria/criar",
+    name: "AdminSaveCategory",
+    component: PgAdminSaveCategory,
+    beforeEnter: ensureLogged
+  },
+  {
+    path: "/configuracoes/admin/categoria/:id",
+    name: "AdminSaveCategory",
+    component: PgAdminSaveCategory,
+    beforeEnter: ensureLogged
+  },
+  {
     path: "/estabelecimento/:id",
     name: "Estabelecimento",
     component: PgEstablishment,
     beforeEnter: ensureLogged
-  },
-  {
-    path: "/configuracoes/admin/estabelecimentos/:id/produtos",
-    name: "AdminEstablishmentProducts",
-    component: PgAdminEstablishmentProducts,
-    beforeEnter: ensureLogged,
-  },
+  }
 ];
 
 const router = new VueRouter({

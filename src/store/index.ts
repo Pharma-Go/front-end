@@ -3,9 +3,10 @@ import Vuex from "vuex";
 import user from "./user";
 import invoice from "./invoice";
 import establishment from "./establishment";
+import category from "./category";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  modules: { user, invoice, establishment }
+  modules: { user, invoice, establishment, category }
 });

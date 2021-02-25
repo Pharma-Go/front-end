@@ -1,5 +1,9 @@
 <template>
-  <pg-address-settings :form="form" @submit="onSubmit" :hasAddress="hasAddress"></pg-address-settings>
+  <pg-address-settings
+    :form="form"
+    @submit="onSubmit"
+    :hasAddress="hasAddress"
+  ></pg-address-settings>
 </template>
 
 <script lang="ts">
@@ -53,8 +57,7 @@ export default class PgHourAdminEstablishment extends Vue {
     if (this.hasAddress) {
       const address: Address = await this.$api.address.save({
         ...this.form,
-        id: this.active.address.id,
-
+        id: this.active.address.id
       });
 
       addressId = address.id;

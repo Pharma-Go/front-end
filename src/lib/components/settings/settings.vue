@@ -4,7 +4,18 @@
     :hasHorizontalPadding="false"
   >
     <div class="c-settings__header">
-      <h1 class="c-settings__header-title text--foreground">{{ title }}</h1>
+      <div class="c-settings__header-content">
+        <div
+          @click.prevent="onBack"
+          v-if="canBack"
+          class="c-settings__header-content-icon-container bg--secondaryBackground"
+        >
+          <i
+            class="c-settings__header-content-icon pgi pgi-chevron-left text--primary"
+          ></i>
+        </div>
+        <h1 class="c-settings__header-title text--foreground">{{ title }}</h1>
+      </div>
 
       <div class="c-settings__header-logout" @click.prevent="logout">
         <p class="c-settings__header-logout-text text--small text--primary">
@@ -37,10 +48,31 @@
     margin-bottom: var(--spacing-7);
     padding: 0 var(--spacing-4);
 
+    &-content {
+      display: flex;
+      align-items: center;
+
+      &-icon {
+        @include font-size($font-xs);
+
+        &-container {
+          margin-right: var(--spacing-1);
+          margin-top: 3px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 100%;
+          padding: var(--spacing-1) var(--spacing-1) var(--spacing-1) 3px;
+          cursor: pointer;
+        }
+      }
+    }
+
     &-logout {
       display: flex;
       align-items: center;
       cursor: pointer;
+      margin-left: var(--spacing-4);
 
       &-text {
         margin-bottom: 0;
@@ -50,6 +82,11 @@
       &-icon {
         @include font-size($font-sm);
       }
+    }
+
+    &-title {
+      white-space: break-spaces;
+      word-break: break-all;
     }
   }
 
@@ -62,7 +99,7 @@
 
     @include mq($until: tablet-landscape) {
       height: auto;
-      min-height: 100vh;
+      min-height: 86vh;
     }
   }
 }
@@ -74,10 +111,16 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 @Component
 export default class PgSettings extends Vue {
   @Prop(String) public title!: string;
+  @Prop(String) public backUrl!: string;
+  @Prop(Boolean) public canBack!: boolean;
 
   public logout(): void {
     this.$api.oauth.options.storage.clear();
     this.$router.replace("/");
+  }
+
+  public onBack(): void {
+    this.$router.replace(this.backUrl);
   }
 }
 </script>

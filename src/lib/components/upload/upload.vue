@@ -11,7 +11,7 @@
     <slot name="file" v-if="file || url" v-bind="this">
       <div class="c-upload__image">
         <img :src="blobUrl || url" class="c-upload__image-photo fill-w" />
-        
+
         <div class="c-upload__image-icon bg--secondaryBackground">
           <i class="c-upload__image-icon-content pgi pgi-add text--primary"></i>
         </div>
@@ -37,16 +37,17 @@
   align-items: center;
   position: relative;
   margin-bottom: var(--spacing-4);
+  width: calc(var(--spacing-16) * 2);
+  margin: 0 auto;
+  cursor: pointer;
 
   &__placeholder {
-    width: calc(var(--spacing-16) * 2);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     border-radius: var(--spacing-2);
     padding: var(--spacing-4) var(--spacing-6);
-    
 
     &-icon {
       @include font-size($font-xl);
@@ -60,7 +61,6 @@
   }
 
   &__image {
-
     &-photo {
       border-radius: var(--spacing-1);
     }
@@ -77,7 +77,7 @@
       right: calc(var(--spacing-7) / 2 * -1);
 
       &-content {
-        @include font-size($font-md)
+        @include font-size($font-md);
       }
     }
   }

@@ -1,5 +1,10 @@
 <template>
-  <pg-settings class="c-establishments" title="Estabelecimentos">
+  <pg-settings
+    class="c-establishments"
+    title="Estabelecimentos"
+    :canBack="true"
+    backUrl="/configuracoes/"
+  >
     <div v-if="establishments && establishments.length > 0">
       <div
         v-for="establishment in establishments"

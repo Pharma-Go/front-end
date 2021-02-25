@@ -69,6 +69,7 @@
     height: var(--spacing-10);
     margin-right: var(--spacing-4);
     object-fit: cover;
+    border-radius: var(--spacing-1);
   }
 
   &__container {

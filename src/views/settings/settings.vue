@@ -53,7 +53,7 @@
     <div class="c-settings__content-admin">
       <h1 class="c-settings__content-admin-title">Administrativo</h1>
       <pg-item-list
-        to="configuracoes/admin/estabelecimentos"
+        to="/configuracoes/admin/estabelecimentos"
         title="Estabelecimentos"
         icon="chevron-left"
         :shouldRotate="true"

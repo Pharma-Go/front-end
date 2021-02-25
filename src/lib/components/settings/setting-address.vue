@@ -1,5 +1,10 @@
 <template>
-  <pg-settings title="Endereço" class="c-address">
+  <pg-settings
+    title="Endereço"
+    class="c-address"
+    :canBack="true"
+    :backUrl="`/configuracoes/admin/estabelecimentos/${$route.params.id}`"
+  >
     <pg-address :address="form" v-if="hasAddress"></pg-address>
     <form @submit.prevent="onSubmit">
       <div class="c-address__field">
@@ -84,7 +89,8 @@
     }
 
     &-address {
-      &-street, &-complement {
+      &-street,
+      &-complement {
         margin-bottom: 0;
       }
 

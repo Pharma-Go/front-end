@@ -1,5 +1,9 @@
 <template>
-  <div :class="[themeClass, 'c-establishment-card']" v-if="establishment">
+  <router-link
+    :to="route"
+    :class="[themeClass, 'c-establishment-card']"
+    v-if="establishment"
+  >
     <div class="c-establishment-card__container">
       <img
         v-if="establishment.imageUrl"
@@ -10,7 +14,7 @@
 
       <div class="c-establishment-card__content">
         <div class="c-establishment-card__content-header">
-          <h2 class="c-establishment-card__content-title">
+          <h2 class="c-establishment-card__content-title text--foreground">
             {{ establishment.name }}
           </h2>
           <p
@@ -41,15 +45,12 @@
       </div>
     </div>
 
-    <router-link
-      :to="route"
-      class="c-establishment-card__go bg--secondaryBackground"
-    >
+    <div class="c-establishment-card__go bg--secondaryBackground">
       <i
         class="c-establishment-card__go-icon pgi pgi-chevron-left text--primary"
       ></i>
-    </router-link>
-  </div>
+    </div>
+  </router-link>
 </template>
 
 <style lang="scss">
@@ -101,7 +102,7 @@
   }
 
   &__go {
-    width: var(--spacing-5);
+    width: var(--spacing-7);
     height: var(--spacing-5);
     border-radius: 100%;
     display: flex;

@@ -5,7 +5,7 @@
     title="Categoria"
   >
     <form @submit.prevent="onSubmit">
-      <pg-input label="Nome" prependIcon="edit" v-model="form.name"></pg-input>
+      <pg-input label="Nome" prependIcon="user" v-model="form.name"></pg-input>
 
       <pg-button class="my-4 fill-w" v-color="'backgroundButton'" type="submit">
         <span class="text--contrast"> Salvar </span>

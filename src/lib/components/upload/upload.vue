@@ -38,6 +38,7 @@
   position: relative;
   margin-bottom: var(--spacing-4);
   width: calc(var(--spacing-16) * 2);
+  height: calc(var(--spacing-16) * 2);
   margin: 0 auto;
   cursor: pointer;
 
@@ -50,10 +51,12 @@
     padding: var(--spacing-4) var(--spacing-6);
 
     &-icon {
+      transition: all 0.3s ease-in-out;
       @include font-size($font-xl);
     }
 
     &-text {
+      transition: all 0.3s ease-in-out;
       margin-top: var(--spacing-2);
       margin-bottom: 0;
       text-align: center;
@@ -61,12 +64,18 @@
   }
 
   &__image {
+    height: 100%;
+
     &-photo {
+      height: 100%;
+      object-fit: cover;
+      transition: all 0.3s ease-in-out;
       border-radius: var(--spacing-1);
     }
 
     &-icon {
       border-radius: 100%;
+      transition: all 0.3s ease-in-out;
       width: var(--spacing-7);
       height: var(--spacing-7);
       display: flex;
@@ -101,6 +110,8 @@ export default class PgContainer extends Vue {
   public setFile(file: File): void {
     this.file = file;
     this.blobUrl = URL.createObjectURL(file);
+
+    this.$emit("uploaded");
   }
 
   public onDrop(event: DragEvent): void {

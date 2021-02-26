@@ -47,6 +47,7 @@
     align-items: center;
     margin-bottom: var(--spacing-7);
     padding: 0 var(--spacing-4);
+    transition: all 0.3s ease-in-out;
 
     &-content {
       display: flex;
@@ -85,6 +86,8 @@
     }
 
     &-title {
+      @include font-size($font-sm - 1);
+
       white-space: break-spaces;
       word-break: break-all;
     }
@@ -94,8 +97,10 @@
     width: 100%;
     border-top-left-radius: var(--spacing-4);
     border-top-right-radius: var(--spacing-4);
-    padding: var(--spacing-4);
+    padding: var(--spacing-4) var(--spacing-4) var(--spacing-16)
+      var(--spacing-4);
     height: 100vh;
+    transition: all 0.3s ease-in-out;
 
     @include mq($until: tablet-landscape) {
       height: auto;

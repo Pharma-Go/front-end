@@ -16,6 +16,7 @@
   background: var(--current-color);
   color: white;
   padding: var(--spacing-2) var(--spacing-4);
+  width: calc(100% - var(--spacing-10));
   max-width: 100%;
   transform: translateX(-50%);
   border-radius: var(--spacing-1);

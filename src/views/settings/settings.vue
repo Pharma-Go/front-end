@@ -1,15 +1,11 @@
 <template>
   <pg-settings title="Configurações">
     <div class="c-settings__content-header">
-      <div class="c-settings__content-header-image"></div>
-      <div class="c-settings__content-header-label">
-        <p class="c-settings__content-header-label-text text--primary">
-          Editar foto
-        </p>
-        <i
-          class="c-settings__content-header-label-icon pgi pgi-edit text--primary"
-        ></i>
-      </div>
+      <pg-upload
+        @uploaded="onUploadedImage"
+        ref="image"
+        :url="user.imageUrl"
+      ></pg-upload>
     </div>
 
     <div class="c-settings__content-personal">
@@ -24,30 +20,27 @@
           :icon="$pharmago.theme.themes.isDark ? 'sun' : 'moon'"
         ></pg-item-list>
       </div>
-      <div class="c-settings__content-personal-item">
-        <p class="c-settings__content-personal-item-text text--foreground">
-          Dados
-        </p>
-        <i
-          class="c-settings__content-personal-item-icon text--primary pgi pgi-chevron-left"
-        ></i>
-      </div>
-      <div class="c-settings__content-personal-item">
-        <p class="c-settings__content-personal-item-text text--foreground">
-          Endereço
-        </p>
-        <i
-          class="c-settings__content-personal-item-icon text--primary pgi pgi-chevron-left"
-        ></i>
-      </div>
-      <div class="c-settings__content-personal-item">
-        <p class="c-settings__content-personal-item-text text--foreground">
-          Formas de pagamento
-        </p>
-        <i
-          class="c-settings__content-personal-item-icon text--primary pgi pgi-chevron-left"
-        ></i>
-      </div>
+
+      <pg-item-list
+        to="/configuracoes/perfil"
+        title="Perfil"
+        icon="chevron-left"
+        :shouldRotate="true"
+      ></pg-item-list>
+
+      <pg-item-list
+        to="/configuracoes/endereco"
+        title="Endereço"
+        icon="chevron-left"
+        :shouldRotate="true"
+      ></pg-item-list>
+
+      <pg-item-list
+        to="/configuracoes/cartoes"
+        title="Formas de pagamento"
+        icon="chevron-left"
+        :shouldRotate="true"
+      ></pg-item-list>
     </div>
 
     <div class="c-settings__content-admin">
@@ -122,12 +115,38 @@
 </style>
 
 <script lang="ts">
+import { PgUpload } from "@/lib/components";
+import { User } from "@/lib/models";
 import { Component, Vue } from "vue-property-decorator";
+import { mapState } from "vuex";
 
-@Component
+@Component({
+  computed: {
+    ...mapState("user", ["user"])
+  }
+})
 export default class PgAdminSettings extends Vue {
+  public user!: User;
+  public $refs!: { image: PgUpload };
+
   public changeTheme(): void {
     this.$pharmago.theme.themes.isDark = !this.$pharmago.theme.themes.isDark;
+  }
+
+  public async onUploadedImage(): Promise<void> {
+    let imageUrl: string;
+
+    if (this.$refs.image.file) {
+      const media = await this.$refs.image.submit();
+      imageUrl = media.url;
+    }
+
+    const user = await this.$api.users.save({
+      id: this.user.id,
+      imageUrl
+    });
+
+    this.$store.dispatch("user/set", { user });
   }
 }
 </script>

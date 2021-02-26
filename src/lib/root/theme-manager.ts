@@ -41,7 +41,9 @@ export class ThemeManager {
       link: "#FFFFFF",
       backgroundBottomBar: "#292929",
       backgroundSettings: "#292929",
-      backgroundButton: "#292929"
+      backgroundButton: "#292929",
+      backgroundGradient:
+        "linear-gradient(238.21deg, #4736B9 19.22%, rgba(136, 49, 214, 0) 98.87%), #BB27CC;"
     };
 
     const lightTheme = {
@@ -58,7 +60,9 @@ export class ThemeManager {
       link: primaryColors.primary,
       backgroundBottomBar: primaryColors.primary,
       backgroundSettings: "#FFFFFF",
-      backgroundButton: primaryColors.primary
+      backgroundButton: primaryColors.primary,
+      backgroundGradient:
+        "linear-gradient(238.21deg, #4736B9 19.22%, rgba(136, 49, 214, 0) 98.87%), #BB27CC;"
     };
 
     this.themes = Object.assign(

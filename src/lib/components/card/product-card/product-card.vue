@@ -3,23 +3,40 @@
     <div class="c-product-card__items-product-content">
       <img
         class="c-product-card__items-product-image mr-3"
-        :src="product.imageUrl"
+        :src="
+          product.imageUrl ||
+          require(`../../../../assets/pill-${
+            $pharmago.theme.themes.isDark ? 'dark' : 'light'
+          }.svg`)
+        "
       />
 
       <div class="c-product-card__items-product-information">
-        <p class="c-product-card__items-product-information-name">
+        <p
+          class="c-product-card__items-product-information-name text--foreground"
+        >
           {{ product.name }}
         </p>
-        <p class="c-product-card__items-product-information-price text--bold">
-          {{ format(product.price) }}
+        <p
+          class="c-product-card__items-product-information-price text--bold text--primary"
+        >
+          R$ {{ format(product.price) }}
         </p>
       </div>
     </div>
 
     <div class="c-product-card__items-product-icon bg--secondaryBackground">
       <i
-        class="c-product-card__items-product-icon-content pgi pgi-chevron-left"
-      ></i>
+        :class="[
+          'c-product-card__items-product-icon-content',
+          'text--primary',
+          'pgi',
+          'pgi-' + icon,
+          { 'c-product-card__items-product-icon-content--rotate': rotateIcon }
+        ]"
+      >
+      </i>
+      <i></i>
     </div>
   </div>
 </template>
@@ -39,7 +56,7 @@
       align-items: center;
       cursor: pointer;
       padding: var(--spacing-2) 0;
-      border-bottom: 1px solid var(--light-foregroundSecondary);
+      border-bottom: 1px solid var(--dark-foregroundSecondary);
 
       &-image {
         width: var(--spacing-10);
@@ -70,7 +87,9 @@
         padding: var(--spacing-1) 4px 3px 4px;
 
         &-content {
-          transform: rotate(180deg);
+          &--rotate {
+            transform: rotate(180deg);
+          }
         }
       }
     }
@@ -86,6 +105,8 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 @Component
 export default class PgProductCard extends Vue {
   @Prop() public product!: Product;
+  @Prop({ type: String, default: "chevron-left" }) public icon!: string;
+  @Prop({ type: Boolean, default: true }) public rotateIcon!: boolean;
 
   public format(value: number) {
     return formatPrice(value);

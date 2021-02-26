@@ -79,8 +79,6 @@
           </p>
         </div>
       </div>
-
-      <input type="checkbox" v-model="$pharmago.theme.themes.isDark" />
     </pg-container>
   </div>
 </template>
@@ -106,6 +104,8 @@
     &-avatar {
       width: var(--spacing-9);
       height: var(--spacing-9);
+      border-radius: var(--spacing-1);
+      object-fit: cover;
 
       &--icon {
         @include font-size($font-lg);

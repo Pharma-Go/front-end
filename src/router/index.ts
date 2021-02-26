@@ -7,20 +7,13 @@ import PgEstablishment from "../views/establishment.vue";
 import PgAuth from "../views/login/auth.vue";
 import PgLogin from "../views/login/login.vue";
 import PgRegister from "../views/login/register.vue";
-import PgSettings from "../views/settings/settings.vue";
-import PgAdminSaveCategory from "../views/settings/admin/category/category.vue";
-import PgAdminEstablishments from "../views/settings/admin/establishments.vue";
-import PgAdminCreateEstablishment from "../views/settings/admin/establishment/create-establishment.vue";
-import PgAdminEditEstablishment from "../views/settings/admin/establishment/edit-establishment.vue";
-import PgHourAdminEstablishment from "../views/settings/admin/establishment/hour-establishment.vue";
-import PgAddressEstablishmentSettings from "../views/settings/admin/establishment/address-establishment.vue";
-import PgAdminEstablishmentProducts from "../views/settings/admin/establishment/products/establishment-products.vue";
-
+import PgRecoverPassword from "../views/recover-password/recover-password.vue";
+import { settingsRoutes } from "./settings";
 import store from "@/store";
 
 Vue.use(VueRouter);
 
-async function ensureNotLogged(
+export async function ensureNotLogged(
   to: Route,
   _: Route,
   next: NavigationGuardNext<Vue>
@@ -32,7 +25,7 @@ async function ensureNotLogged(
   next();
 }
 
-async function ensureLogged(
+export async function ensureLogged(
   to: Route,
   _: Route,
   next: NavigationGuardNext<Vue>
@@ -80,6 +73,15 @@ const routes: Array<RouteConfig> = [
     }
   },
   {
+    path: "/recuperar-senha",
+    name: "RecoverPassword",
+    component: PgRecoverPassword,
+    beforeEnter: ensureLogged,
+    meta: {
+      bottomBar: true
+    }
+  },
+  {
     path: "/buscar",
     name: "Search",
     component: PgSearch,
@@ -89,86 +91,12 @@ const routes: Array<RouteConfig> = [
     }
   },
   {
-    path: "/configuracoes",
-    name: "Settings",
-    component: PgSettings,
-    beforeEnter: ensureLogged,
-    meta: {
-      bottomBar: true
-    }
-  },
-  {
-    path: "/configuracoes/admin/estabelecimentos",
-    name: "Admin Establishments",
-    component: PgAdminEstablishments,
-    beforeEnter: ensureLogged
-  },
-  {
-    path: "/configuracoes/admin/estabelecimentos/criar",
-    name: "AdminCreateEstablishment",
-    component: PgAdminCreateEstablishment,
-    beforeEnter: ensureLogged,
-    meta: {
-      isEditing: false
-    }
-  },
-  {
-    path: "/configuracoes/admin/estabelecimentos/:id",
-    name: "AdminCreateEstablishment",
-    component: PgAdminEditEstablishment,
-    beforeEnter: ensureLogged,
-    meta: {
-      isEditing: false
-    }
-  },
-  {
-    path: "/configuracoes/admin/estabelecimentos/:id/horarios",
-    name: "HourAdminEstablishment",
-    component: PgHourAdminEstablishment,
-    beforeEnter: ensureLogged,
-    meta: {
-      isEditing: false
-    }
-  },
-  {
-    path: "/configuracoes/admin/estabelecimentos/:id/endereco",
-    name: "AddressEstablishmentSettings",
-    component: PgAddressEstablishmentSettings,
-    beforeEnter: ensureLogged,
-    meta: {
-      isEditing: false
-    }
-  },
-  {
-    path: "/configuracoes/admin/estabelecimentos/:id/produtos",
-    name: "AdminEstablishmentProducts",
-    component: PgAdminEstablishmentProducts,
-    beforeEnter: ensureLogged
-  },
-  {
-    path: "/configuracoes/admin/estabelecimentos/:id/produtos/:category",
-    name: "AdminEstablishmentProducts",
-    component: PgAdminEstablishmentProducts,
-    beforeEnter: ensureLogged
-  },
-  {
-    path: "/configuracoes/admin/categoria/criar",
-    name: "AdminSaveCategory",
-    component: PgAdminSaveCategory,
-    beforeEnter: ensureLogged
-  },
-  {
-    path: "/configuracoes/admin/categoria/:id",
-    name: "AdminSaveCategory",
-    component: PgAdminSaveCategory,
-    beforeEnter: ensureLogged
-  },
-  {
     path: "/estabelecimento/:id",
     name: "Estabelecimento",
     component: PgEstablishment,
     beforeEnter: ensureLogged
-  }
+  },
+  ...settingsRoutes
 ];
 
 const router = new VueRouter({

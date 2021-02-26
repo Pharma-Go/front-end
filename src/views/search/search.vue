@@ -17,13 +17,14 @@
         v-if="establishments && establishments.length > 0"
       >
         <div
-          class="c-search__establishment"
+          class="c-search__establishment mt-4"
           v-for="establishment in establishments"
           :key="establishment.id"
         >
           <pg-establishment-card
             :establishment="establishment"
             @clickCard="onClickEstablishment(establishment)"
+            :route="`/estabelecimento/${establishment.id}`"
           ></pg-establishment-card>
         </div>
       </div>
@@ -61,7 +62,7 @@
 import { Establishment } from "@/lib/models";
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
-import { mapGetters, mapState } from "vuex";
+import { mapState } from "vuex";
 import { debounce } from "@/lib/utils/debounce";
 
 @Component({
@@ -76,9 +77,13 @@ export default class PgSearch extends Vue {
   public establishments!: Establishment[];
 
   public search = debounce(400, async () => {
-    const establishments = await this.$api.establishments.search(this.term);
+    const establishments = await this.searchEstablishments();
     this.$store.dispatch("establishment/set", { establishments });
   });
+
+  public async searchEstablishments(): Promise<Establishment[]> {
+    return this.$api.establishments.search(this.term);
+  }
 
   public onClickEstablishment(establishment: Establishment): void {
     this.$store.dispatch("establishment/set", { establishment });

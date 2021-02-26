@@ -41,7 +41,12 @@
           </validation-observer>
         </div>
 
-        <a class="text--normal text--foregroundTertiary">Esqueceu a senha?</a>
+        <p
+          class="c-login__forgot-password text--normal text--foregroundTertiary"
+          @click.prevent="forgotPassword"
+        >
+          Esqueceu a senha?
+        </p>
 
         <div class="d-flex flex-col align-center fill-w">
           <pg-button class="mt-4 fill-w" v-color="'primary'" type="submit">
@@ -104,6 +109,10 @@
       padding-top: var(--spacing-5);
     }
   }
+
+  &__forgot-password {
+    cursor: pointer;
+  }
 }
 </style>
 
@@ -121,6 +130,38 @@ export default class PgLogin extends Vue {
     visible: false,
     color: "error"
   };
+
+  public async forgotPassword() {
+    if (!this.form.email) {
+      this.snackbar = {
+        color: "error",
+        icon: "pgi-add",
+        text: "Digite um email para recuperar a senha",
+        visible: true
+      };
+      return;
+    }
+
+    console.log("a");
+
+    await this.$api.users.recoverPassword(this.form.email).catch(err => {
+      this.snackbar = {
+        color: "error",
+        icon: "pgi-add",
+        text: err.response?.data?.message || "Erro desconhecido",
+        visible: true
+      };
+
+      return Promise.reject(err);
+    });
+
+    this.snackbar = {
+      color: "success",
+      icon: "pgi-added",
+      text: "Verifique seu email para recuperar a senha.",
+      visible: true
+    };
+  }
 
   public async onSubmit(): Promise<Route> {
     await this.$api.oauth

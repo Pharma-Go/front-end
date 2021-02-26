@@ -5,52 +5,34 @@
     :backUrl="`/configuracoes/admin/estabelecimentos/${$route.params.id}`"
   >
     <div class="c-establishment-products">
-      <div
-        class="c-establishment-products__header"
-        v-if="activeCategoryId && categories && categories.length > 0"
-      >
-        <div class="c-establishment-products__header-tabs">
-          <p
-            v-for="category in categories"
-            :key="category.id"
-            @click.prevent="clickCategory(category.id)"
-            :class="[
-              'c-establishment-products__header-tabs-tab',
-              { 'text--bold': category.id === activeCategoryId }
-            ]"
-          >
-            {{ category.name }}
-          </p>
-        </div>
-
-        <div
-          class="c-establishment-products__header-icon bg--secondaryBackground"
-          title="Adicionar categoria"
-          @click.prevent="createCategory"
-        >
-          <i
-            class="c-establishment-products__header-icon-content pgi pgi-add"
-          ></i>
-        </div>
-      </div>
+      <pg-tab
+        :categories="categories"
+        :activeCategoryId="activeCategoryId"
+        :canCreateCategory="true"
+        @createCategory="onCreateCategory"
+        @clickCategory="onClickCategory"
+      ></pg-tab>
 
       <div
         class="c-establishment-products__items mt-2"
         v-if="products && products.length > 0"
       >
-        <pg-product-card
+        <router-link
           v-for="product in products"
           :key="product.id"
-          :product="product"
-        ></pg-product-card>
+          :to="`/configuracoes/admin/estabelecimentos/${$route.params.id}/produtos/${product.id}`"
+        >
+          <pg-product-card :product="product"></pg-product-card>
+        </router-link>
       </div>
 
       <p v-else class="text--center mt-2">
         Ops! Parece que você não tem nenhum produto para esta categoria.
       </p>
 
-      <div
+      <router-link
         v-if="categories && categories.length > 0"
+        :to="`/configuracoes/admin/estabelecimentos/${$route.params.id}/produtos/criar`"
         class="c-establishment-products__action mt-4"
       >
         <i class="c-establishment-products__action-icon pgi pgi-add mr-2"></i>
@@ -59,7 +41,7 @@
         >
           Adicionar produto
         </p>
-      </div>
+      </router-link>
       <div class="c-establishment-products__action" v-else>
         <i class="c-establishment-products__action-icon pgi pgi-add mr-2"></i>
         <p
@@ -79,35 +61,6 @@
   display: flex;
   flex-direction: column;
 
-  &__header {
-    display: flex;
-    height: var(--spacing-5);
-    justify-content: space-between;
-    align-items: center;
-
-    &-tabs {
-      display: flex;
-      height: 100%;
-      overflow-x: scroll;
-      width: 85%;
-
-      &-tab {
-        white-space: nowrap;
-        margin: 0 9px;
-      }
-    }
-
-    &-icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 100%;
-      height: 100%;
-      width: var(--spacing-5);
-      cursor: pointer;
-    }
-  }
-
   &__action {
     display: flex;
     align-items: center;
@@ -117,9 +70,11 @@
 
     &-icon {
       @include font-size($font-sm);
+      color: var(--theme-primary);
     }
 
     &-text {
+      color: var(--theme-primary);
       margin: 0;
     }
   }
@@ -169,19 +124,19 @@ export default class PgAdminEstablishmentProducts extends Vue {
     }
   }
 
-  public createCategory(): void {
+  public onCreateCategory(): void {
     this.$router.push("/configuracoes/admin/categoria/criar");
   }
 
-  public clickCategory(id: string): void {
+  public async onClickCategory(id: string) {
     if (this.activeCategoryId === id) {
       this.$router.push("/configuracoes/admin/categoria/" + id);
 
       return;
     }
 
-    this.$router.replace(
-      `/configuracoes/admin/estabelecimentos/${this.active.id}/produtos/${id}`
+    await this.$router.replace(
+      `/configuracoes/admin/estabelecimentos/${this.active.id}/produtos/categoria/${id}`
     );
     window.location.reload();
   }

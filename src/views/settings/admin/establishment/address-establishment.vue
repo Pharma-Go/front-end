@@ -3,6 +3,7 @@
     :form="form"
     @submit="onSubmit"
     :hasAddress="hasAddress"
+    :backUrl="`/configuracoes/admin/estabelecimentos/${$route.params.id}`"
   ></pg-address-settings>
 </template>
 
@@ -12,7 +13,7 @@ import { Component, Vue } from "vue-property-decorator";
 import { mapState } from "vuex";
 
 @Component({ computed: { ...mapState("establishment", ["active"]) } })
-export default class PgHourAdminEstablishment extends Vue {
+export default class PgAddressAdminEstablishment extends Vue {
   public active!: Establishment;
 
   public hasAddress = false;

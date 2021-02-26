@@ -3,7 +3,7 @@
     title="Endereço"
     class="c-address"
     :canBack="true"
-    :backUrl="`/configuracoes/admin/estabelecimentos/${$route.params.id}`"
+    :backUrl="backUrl"
   >
     <pg-address :address="form" v-if="hasAddress"></pg-address>
     <form @submit.prevent="onSubmit">
@@ -121,6 +121,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 export default class PgSettingsAddress extends Vue {
   @Prop() public form!: any;
   @Prop(Boolean) public hasAddress: boolean;
+  @Prop(String) public backUrl: string;
 
   public isLoading = false;
 

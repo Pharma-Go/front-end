@@ -15,12 +15,14 @@
     "pharmago-icons-impacta": "^0.0.7",
     "register-service-worker": "^1.7.1",
     "sass-mq": "^5.0.1",
+    "socket.io": "^3.1.2",
     "vee-validate": "^3.4.5",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.6",
     "vue-notibar": "^0.3.2",
     "vue-property-decorator": "^9.1.2",
     "vue-router": "^3.2.0",
+    "vue-socket.io": "^3.0.10",
     "vuex": "^3.4.0"
   },
   "devDependencies": {

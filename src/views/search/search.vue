@@ -8,33 +8,63 @@
       type="text"
       label="Buscar"
       v-model="term"
-      @input="search"
+      @input="searchValue"
     />
 
-    <div class="c-search__content">
-      <div
-        class="c-search__establishments mt-6"
-        v-if="establishments && establishments.length > 0"
-      >
-        <div
-          class="c-search__establishment mt-4"
-          v-for="establishment in establishments"
-          :key="establishment.id"
-        >
-          <pg-establishment-card
-            :establishment="establishment"
-            @clickCard="onClickEstablishment(establishment)"
-            :route="`/estabelecimento/${establishment.id}`"
-          ></pg-establishment-card>
+    <pg-tab-result
+      @changeCategory="onChangeCategory($event)"
+      :activeCategory="activeCategory"
+    >
+      <template v-slot:content>
+        <div class="c-search__content">
+          <div v-if="activeCategory === 'pharmacies'">
+            <div
+              v-if="search.establishments && search.establishments.length > 0"
+            >
+              <div
+                class="mt-4"
+                v-for="establishment in search.establishments"
+                :key="establishment.id"
+              >
+                <pg-establishment-card
+                  :establishment="establishment"
+                  @clickCard="onClickEstablishment(establishment)"
+                  :route="`/estabelecimento/${establishment.id}`"
+                ></pg-establishment-card>
+              </div>
+            </div>
+            <div class="c-search__content-no-search" v-else>
+              <i class="pgi pgi-search-big"></i>
+              <p class="text--foreground">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              </p>
+            </div>
+          </div>
+          <div v-else>
+            <div v-if="search.products && search.products.length > 0">
+              <div
+                class="mt-4"
+                v-for="product in search.products"
+                :key="product.id"
+              >
+                <div @click.prevent="onClickProduct(product)">
+                  <pg-establishment-product-card
+                    :product="product"
+                    :hasAddIcon="true"
+                  ></pg-establishment-product-card>
+                </div>
+              </div>
+            </div>
+            <div class="c-search__content-no-search" v-else>
+              <i class="pgi pgi-search-big"></i>
+              <p class="text--foreground">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              </p>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="c-search__content-no-search" v-else>
-        <i class="pgi pgi-search-big"></i>
-        <p class="text--foreground">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </p>
-      </div>
-    </div>
+      </template>
+    </pg-tab-result>
   </pg-container>
 </template>
 
@@ -59,7 +89,7 @@
 </style>
 
 <script lang="ts">
-import { Establishment } from "@/lib/models";
+import { Establishment, Product, SearchResponse } from "@/lib/models";
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import { mapState } from "vuex";
@@ -67,28 +97,37 @@ import { debounce } from "@/lib/utils/debounce";
 
 @Component({
   computed: {
-    ...mapState("establishment", {
-      establishments: "establishments"
-    })
+    ...mapState("bff", ["search"])
   }
 })
 export default class PgSearch extends Vue {
   public term = "";
-  public establishments!: Establishment[];
+  public search!: SearchResponse;
+  public activeCategory = "pharmacies";
+  public $refs!: { myBottomSheet: any };
 
-  public search = debounce(400, async () => {
-    const establishments = await this.searchEstablishments();
-    this.$store.dispatch("establishment/set", { establishments });
+  public searchValue = debounce(400, async () => {
+    const search = await this.searchValues();
+    this.$store.dispatch("bff/set", { search });
   });
 
-  public async searchEstablishments(): Promise<Establishment[]> {
-    return this.$api.establishments.search(this.term);
+  public async searchValues(): Promise<SearchResponse> {
+    return this.$api.bff.search(this.term);
+  }
+
+  public onChangeCategory(category: string): void {
+    this.activeCategory = category;
   }
 
   public onClickEstablishment(establishment: Establishment): void {
-    this.$store.dispatch("establishment/set", { establishment });
+    this.$store.dispatch("establishment/set", { active: establishment });
 
     this.$router.push(`/estabelecimento/${establishment.id}`);
+  }
+
+  public onClickProduct(product: Product): void {
+    this.$refs.myBottomSheet.open();
+    console.log("oioioi");
   }
 }
 </script>

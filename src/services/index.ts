@@ -6,4 +6,5 @@ export * from "./media.service";
 export * from "./address.service";
 export * from "./category.service";
 export * from "./card.service";
+export * from "./bff.service";
 export { oauth } from "../lib/OAuth";

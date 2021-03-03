@@ -12,6 +12,14 @@
           class="c-establishment__header-back-icon pgi pgi-chevron-left text--primary"
         ></i>
       </div>
+      <div
+        @click.prevent="onFavorite"
+        class="c-establishment__header-back bg--secondaryBackground"
+      >
+        <i
+          class="c-establishment__header-back-icon pgi pgi-favorite text--primary"
+        ></i>
+      </div>
     </div>
 
     <img
@@ -167,7 +175,7 @@
 </style>
 
 <script lang="ts">
-import { Category, Establishment, Product, Review } from "@/lib/models";
+import { Category, Establishment, Product, Review, User } from "@/lib/models";
 import { Component, Vue } from "vue-property-decorator";
 import { mapState } from "vuex";
 
@@ -175,7 +183,8 @@ import { mapState } from "vuex";
   computed: {
     ...mapState("establishment", ["active"]),
     ...mapState("establishment", ["productsMostRateds"]),
-    ...mapState("category", ["categories"])
+    ...mapState("category", ["categories"]),
+    ...mapState("user", ["user"])
   }
 })
 export default class PgEstablishment extends Vue {
@@ -183,7 +192,9 @@ export default class PgEstablishment extends Vue {
   public productsMostRateds!: Product[];
   public activeCategoryId = "";
   public categories!: Category[];
+  public user!: User;
   public products: Product[] = [];
+  public hasFavorited = false;
 
   public async created() {
     if (!this.active.id) {
@@ -193,6 +204,10 @@ export default class PgEstablishment extends Vue {
 
       this.$store.dispatch("establishment/set", { active: establishment });
     }
+
+    this.hasFavorited = !!this.user.favoriteEstablishments.find(
+      establishment => establishment.id === this.$route.params.id
+    );
 
     if (!this.productsMostRateds || this.productsMostRateds?.length === 0) {
       const products = await this.$api.products.featuredProducts(
@@ -239,6 +254,26 @@ export default class PgEstablishment extends Vue {
 
   public hasReviews(): boolean {
     return this.active.reviews && this.active.reviews.length > 0;
+  }
+
+  public async onFavorite(): Promise<void> {
+    const favorites = this.user.favoriteEstablishments.map(
+      establishment => establishment.id
+    );
+
+    if (this.hasFavorited) {
+      const index = favorites.indexOf(this.$route.params.id);
+      favorites.splice(index, 1);
+    } else {
+      favorites.push(this.$route.params.id);
+    }
+
+    const user = await this.$api.users.save({
+      id: this.user.id,
+      favoriteEstablishments: favorites
+    });
+
+    this.$store.dispatch("user/set", user);
   }
 }
 </script>

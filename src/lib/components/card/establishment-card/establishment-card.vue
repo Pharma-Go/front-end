@@ -76,6 +76,7 @@
   &__container {
     display: flex;
     align-items: center;
+    flex: 9;
   }
 
   &__content {
@@ -102,12 +103,12 @@
   }
 
   &__go {
-    width: var(--spacing-7);
     height: var(--spacing-5);
     border-radius: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex: 1;
 
     &-icon {
       transform: rotate(180deg);

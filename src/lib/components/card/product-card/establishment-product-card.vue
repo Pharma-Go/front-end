@@ -30,6 +30,12 @@
         {{ formatPrice(product.price) }}
       </p>
     </div>
+
+    <div class="c-product-card__go bg--secondaryBackground" v-if="hasAddIcon">
+      <i
+        class="c-product-card__go-icon pgi pgi-add text--primary"
+      ></i>
+    </div>
   </div>
 </template>
 
@@ -52,6 +58,8 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    flex: 6;
+
     &-header {
       > p {
         margin: 0;
@@ -60,6 +68,15 @@
     > p {
       margin: 0;
     }
+  }
+
+  &__go {
+    height: var(--spacing-5);
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
   }
 }
 </style>
@@ -72,6 +89,7 @@ import { Product } from "../../../models";
 @Component
 export default class PgEstablishmentProductCard extends Mixins(Themeable) {
   @Prop() public product!: Product;
+  @Prop(Boolean) public hasAddIcon!: boolean;
 
   public formatPrice(value: number) {
     const val = (value / 100).toFixed(2).replace(".", ",");

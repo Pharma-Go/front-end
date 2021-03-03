@@ -4,9 +4,9 @@
       class="c-product-card__image"
       :src="
         product.imageUrl ||
-        require(`../../../../assets/pill-${
-          $pharmago.theme.themes.isDark ? 'dark' : 'light'
-        }.svg`)
+          require(`../../../../assets/pill-${
+            $pharmago.theme.themes.isDark ? 'dark' : 'light'
+          }.svg`)
       "
       :alt="product.name"
     />

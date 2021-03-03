@@ -5,9 +5,9 @@
         class="c-product-card__items-product-image mr-3"
         :src="
           product.imageUrl ||
-          require(`../../../../assets/pill-${
-            $pharmago.theme.themes.isDark ? 'dark' : 'light'
-          }.svg`)
+            require(`../../../../assets/pill-${
+              $pharmago.theme.themes.isDark ? 'dark' : 'light'
+            }.svg`)
         "
       />
 

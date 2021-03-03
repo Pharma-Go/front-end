@@ -20,7 +20,9 @@
         <router-link
           v-for="product in products"
           :key="product.id"
-          :to="`/configuracoes/admin/estabelecimentos/${$route.params.id}/produtos/${product.id}`"
+          :to="
+            `/configuracoes/admin/estabelecimentos/${$route.params.id}/produtos/${product.id}`
+          "
         >
           <pg-product-card :product="product"></pg-product-card>
         </router-link>
@@ -32,7 +34,9 @@
 
       <router-link
         v-if="categories && categories.length > 0"
-        :to="`/configuracoes/admin/estabelecimentos/${$route.params.id}/produtos/criar`"
+        :to="
+          `/configuracoes/admin/estabelecimentos/${$route.params.id}/produtos/criar`
+        "
         class="c-establishment-products__action mt-4"
       >
         <i class="c-establishment-products__action-icon pgi pgi-add mr-2"></i>

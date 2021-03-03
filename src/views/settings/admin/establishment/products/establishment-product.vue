@@ -2,7 +2,9 @@
   <pg-settings
     :title="title"
     :canBack="true"
-    :backUrl="`/configuracoes/admin/estabelecimentos/${$route.params.id}/produtos`"
+    :backUrl="
+      `/configuracoes/admin/estabelecimentos/${$route.params.id}/produtos`
+    "
     class="c-establishment-product"
   >
     <form @submit.prevent="onSubmit" class="c-establishment-product__form">

@@ -43,9 +43,9 @@
     <div
       v-if="
         !hideMessages &&
-        !(hideEmptyErrors
-          ? hideEmptyErrors && (!errors || errors.length === 0)
-          : true)
+          !(hideEmptyErrors
+            ? hideEmptyErrors && (!errors || errors.length === 0)
+            : true)
       "
       class="pg-input__messages my-1"
     >

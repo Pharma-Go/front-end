@@ -74,7 +74,9 @@
         <router-link
           v-for="product in products"
           :key="product.id"
-          :to="`/configuracoes/admin/estabelecimentos/${$route.params.id}/produtos/${product.id}`"
+          :to="
+            `/configuracoes/admin/estabelecimentos/${$route.params.id}/produtos/${product.id}`
+          "
         >
           <pg-product-card
             :product="product"

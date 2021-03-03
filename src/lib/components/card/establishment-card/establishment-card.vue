@@ -21,9 +21,9 @@
             class="c-establishment-card__content-address text--small text--foregroundTertiary"
             v-if="
               establishment.address &&
-              establishment.address.street &&
-              establishment.address.streetNumber &&
-              establishment.address.district
+                establishment.address.street &&
+                establishment.address.streetNumber &&
+                establishment.address.district
             "
           >
             {{
@@ -38,8 +38,8 @@
           ></i>
           {{
             formatHour(establishment.opensAt) +
-            " - " +
-            formatHour(establishment.closesAt)
+              " - " +
+              formatHour(establishment.closesAt)
           }}
         </p>
       </div>

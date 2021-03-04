@@ -22,7 +22,10 @@
         :class="[{ 'text--primary': isActive('Search') }, 'pgi', 'pgi-search']"
       ></i>
     </router-link>
-    <div :class="['c-bottom-bar__item']">
+    <div
+      :class="['c-bottom-bar__item']"
+      @click.prevent="showBottomSheet = true"
+    >
       <i :class="['pgi', 'pgi-cart']"></i>
     </div>
     <router-link
@@ -55,6 +58,10 @@
         ]"
       ></i>
     </router-link>
+
+    <pg-bottom-sheet :show="showBottomSheet" @close="onCloseBottomSheet">
+      <pg-cart-bottom-sheet></pg-cart-bottom-sheet>
+    </pg-bottom-sheet>
   </div>
 </template>
 
@@ -115,9 +122,14 @@ import { Component, Mixins, Prop } from "vue-property-decorator";
 export default class PgBottomBar extends Mixins(Themeable) {
   @Prop(String)
   public activeRoute!: string;
+  public showBottomSheet = false;
 
   public isActive(routeName: string): boolean {
     return this.activeRoute === routeName;
+  }
+
+  public onCloseBottomSheet(): void {
+    this.showBottomSheet = false;
   }
 }
 </script>

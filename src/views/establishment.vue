@@ -14,10 +14,16 @@
       </div>
       <div
         @click.prevent="onFavorite"
-        class="c-establishment__header-back bg--secondaryBackground"
+        class="c-establishment__header-favorite bg--secondaryBackground"
       >
         <i
-          class="c-establishment__header-back-icon pgi pgi-favorite text--primary"
+          :class="[
+            'c-establishment__header-favorite-icon',
+            'pgi',
+            { 'pgi-favorite': !hasFavorited },
+            { 'pgi-added': hasFavorited },
+            'text--primary'
+          ]"
         ></i>
       </div>
     </div>
@@ -72,6 +78,7 @@
       <pg-tab
         :categories="categories"
         :activeCategoryId="activeCategoryId"
+        @clickCategory="onClickCategory"
         class="mt-6"
       ></pg-tab>
 
@@ -79,33 +86,41 @@
         class="c-establishment__products mt-2"
         v-if="products && products.length > 0"
       >
-        <router-link
+        <div
           v-for="product in products"
           :key="product.id"
-          :to="
-            `/configuracoes/admin/estabelecimentos/${$route.params.id}/produtos/${product.id}`
-          "
+          @click.prevent="onClickProduct(product.id)"
         >
           <pg-product-card
             :product="product"
             icon="add"
             :rotateIcon="false"
           ></pg-product-card>
-        </router-link>
+        </div>
       </div>
     </div>
+
+    <pg-bottom-sheet :show="showBottomSheet" @close="onCloseBottomSheet">
+      <pg-cart-bottom-sheet></pg-cart-bottom-sheet>
+    </pg-bottom-sheet>
   </pg-container>
 </template>
 
 <style lang="scss">
 @import "../lib/styles/typography.scss";
+@import "../lib/styles/mq.scss";
 
 .c-establishment {
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  height: 100%;
+  height: 100vh;
+
+  @include mq($until: tablet-landscape) {
+    height: auto;
+    min-height: 100vh;
+  }
 
   &__header {
     width: 100%;
@@ -113,20 +128,24 @@
     justify-content: space-between;
     align-items: center;
 
-    &-back {
+    &-back,
+    &-favorite {
       width: var(--spacing-7);
       height: var(--spacing-7);
       border-radius: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding-right: 3px;
 
       cursor: pointer;
 
       &-icon {
         @include font-size($font-sm);
       }
+    }
+
+    &-back {
+      padding-right: 3px;
     }
   }
 
@@ -183,7 +202,6 @@ import { mapState } from "vuex";
   computed: {
     ...mapState("establishment", ["active"]),
     ...mapState("establishment", ["productsMostRateds"]),
-    ...mapState("category", ["categories"]),
     ...mapState("user", ["user"])
   }
 })
@@ -191,10 +209,11 @@ export default class PgEstablishment extends Vue {
   public active!: Establishment;
   public productsMostRateds!: Product[];
   public activeCategoryId = "";
-  public categories!: Category[];
+  public categories: Category[] = [];
   public user!: User;
   public products: Product[] = [];
   public hasFavorited = false;
+  public showBottomSheet = false;
 
   public async created() {
     if (!this.active.id) {
@@ -219,11 +238,7 @@ export default class PgEstablishment extends Vue {
       });
     }
 
-    if (!this.categories || this.categories?.length === 0) {
-      const categories = await this.$api.category.get();
-
-      this.$store.dispatch("category/set", { categories });
-    }
+    this.categories = this.active.products.map(product => product.category);
 
     if (this.categories.length > 0) {
       this.activeCategoryId = this.$route.params.category
@@ -257,23 +272,30 @@ export default class PgEstablishment extends Vue {
   }
 
   public async onFavorite(): Promise<void> {
-    const favorites = this.user.favoriteEstablishments.map(
-      establishment => establishment.id
-    );
-
     if (this.hasFavorited) {
-      const index = favorites.indexOf(this.$route.params.id);
-      favorites.splice(index, 1);
+      await this.$api.users.removeEstablishmentFavorite(this.$route.params.id);
     } else {
-      favorites.push(this.$route.params.id);
+      await this.$api.users.addEstablishmentFavorite(this.$route.params.id);
     }
 
-    const user = await this.$api.users.save({
-      id: this.user.id,
-      favoriteEstablishments: favorites
-    });
-
+    const user = await this.$api.users.getOne("me");
+    this.hasFavorited = !this.hasFavorited;
     this.$store.dispatch("user/set", user);
+  }
+
+  public async onClickCategory(id: string) {
+    await this.$router.replace(
+      `/estabelecimento/${this.$route.params.id}/categoria/${id}`
+    );
+    window.location.reload();
+  }
+
+  public onClickProduct(id: string) {
+    this.showBottomSheet = true;
+  }
+
+  public onCloseBottomSheet(): void {
+    this.showBottomSheet = false;
   }
 }
 </script>

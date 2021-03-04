@@ -107,9 +107,15 @@ export default class PgSearch extends Vue {
   public $refs!: { myBottomSheet: any };
 
   public searchValue = debounce(400, async () => {
-    const search = await this.searchValues();
-    this.$store.dispatch("bff/set", { search });
+    if (this.checkTermLength()) {
+      const search = await this.searchValues();
+      this.$store.dispatch("bff/set", { search });
+    }
   });
+
+  public checkTermLength(): boolean {
+    return this.term && this.term.length >= 3;
+  }
 
   public async searchValues(): Promise<SearchResponse> {
     return this.$api.bff.search(this.term);
@@ -125,7 +131,7 @@ export default class PgSearch extends Vue {
     this.$router.push(`/estabelecimento/${establishment.id}`);
   }
 
-  public onClickProduct(product: Product): void {
+  public onClickProduct(): void {
     this.$refs.myBottomSheet.open();
     console.log("oioioi");
   }

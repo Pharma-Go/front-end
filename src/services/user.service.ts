@@ -22,6 +22,20 @@ class UserService extends Rest {
       public: true
     });
   }
+
+  public async addEstablishmentFavorite(id: string): Promise<void> {
+    await this.request({
+      url: `/establishment/${id}/favorite`,
+      method: "POST"
+    });
+  }
+
+  public async removeEstablishmentFavorite(id: string): Promise<void> {
+    await this.deleteOne(null, {
+      url: `/establishment/${id}/favorite`,
+      method: "DELETE"
+    });
+  }
 }
 
 export const users = Object.freeze(new UserService());

@@ -12,6 +12,7 @@ export interface User extends Base {
   cpf: string;
   password: string;
   role: any;
+  isDark: boolean;
   phone: string;
   imageUrl: string;
   address: Address;

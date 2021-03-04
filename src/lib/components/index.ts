@@ -13,3 +13,4 @@ export * from "./teleport";
 export * from "./list";
 export * from "./address";
 export * from "./tab";
+export * from "./modal";

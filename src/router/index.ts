@@ -96,6 +96,24 @@ const routes: Array<RouteConfig> = [
     component: PgEstablishment,
     beforeEnter: ensureLogged
   },
+  {
+    path: "/estabelecimento/:id",
+    name: "Estabelecimento",
+    component: PgEstablishment,
+    beforeEnter: ensureLogged
+  },
+  {
+    path: "/estabelecimento/:id",
+    name: "Estabelecimento",
+    component: PgEstablishment,
+    beforeEnter: ensureLogged
+  },
+  {
+    path: "/estabelecimento/:id/categoria/:category",
+    name: "Estabelecimento",
+    component: PgEstablishment,
+    beforeEnter: ensureLogged
+  },
   ...settingsRoutes
 ];
 

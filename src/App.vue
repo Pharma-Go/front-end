@@ -11,53 +11,6 @@
       <i v-if="snackbar.icon" :class="['pgi', 'mr-3', snackbar.icon]"></i>
       {{ snackbar.text }}
     </pg-snackbar>
-
-    <button @click.prevent="click">abrir</button>
-
-    <vue-bottom-sheet
-      maxHeight="90%"
-      :maxWidth="null"
-      :rounded="true"
-      ref="myBottomSheet"
-    >
-      <div class="c-bottom-sheet">
-        <h1>Lorem Ipsum</h1>
-        <h2>What is Lorem Ipsum?</h2>
-        <p style="margin: 0">
-          <strong>Lorem Ipsum</strong> is simply dummy text of the printing and
-          typesetting industry. Lorem Ipsum has been the industry's standard
-          dummy text ever since the 1500s, when an unknown printer took a galley
-          of type and scrambled it to make a type specimen book. It has survived
-          not only five centuries, but also the leap into electronic
-          typesetting, remaining essentially unchanged. It was popularised in
-          the 1960s with the release of Letraset sheets containing Lorem Ipsum
-          passages, and more recently with desktop publishing software like
-          Aldus PageMaker including versions of Lorem Ipsum.
-        </p>
-        <p style="margin: 0">
-          <strong>Lorem Ipsum</strong> is simply dummy text of the printing and
-          typesetting industry. Lorem Ipsum has been the industry's standard
-          dummy text ever since the 1500s, when an unknown printer took a galley
-          of type and scrambled it to make a type specimen book. It has survived
-          not only five centuries, but also the leap into electronic
-          typesetting, remaining essentially unchanged. It was popularised in
-          the 1960s with the release of Letraset sheets containing Lorem Ipsum
-          passages, and more recently with desktop publishing software like
-          Aldus PageMaker including versions of Lorem Ipsum.
-        </p>
-        <p style="margin: 0">
-          <strong>Lorem Ipsum</strong> is simply dummy text of the printing and
-          typesetting industry. Lorem Ipsum has been the industry's standard
-          dummy text ever since the 1500s, when an unknown printer took a galley
-          of type and scrambled it to make a type specimen book. It has survived
-          not only five centuries, but also the leap into electronic
-          typesetting, remaining essentially unchanged. It was popularised in
-          the 1960s with the release of Letraset sheets containing Lorem Ipsum
-          passages, and more recently with desktop publishing software like
-          Aldus PageMaker including versions of Lorem Ipsum.
-        </p>
-      </div>
-    </vue-bottom-sheet>
   </pg-app>
 </template>
 
@@ -75,31 +28,41 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import VueBottomSheet from "@webzlodimir/vue-bottom-sheet";
+
+import { oauth } from "./services";
+import { mapState } from "vuex";
+import { User } from "./lib/models";
 
 @Component({
-  components: {
-    VueBottomSheet
+  computed: {
+    ...mapState("user", ["user"])
   }
 })
 export default class PgAppVue extends Vue {
   public $refs!: { myBottomSheet: any };
+  public user: User;
 
   public snackbar: any = {
     visible: false,
     color: "error"
   };
 
-  public created(): void {
-    this.sockets.subscribe("newInvoice", data => {
-      console.log(data);
-      this.snackbar = {
-        color: "success",
-        icon: "pgi-added",
-        text: data,
-        visible: true
-      };
-    });
+  public async created() {
+    if (await oauth.isAuthenticated()) {
+      if (!this.user.id) {
+        const user = await this.$api.users.getOne("me");
+        this.$pharmago.theme.themes.isDark = user.isDark;
+      }
+    }
+    // this.sockets.subscribe("newInvoice", data => {
+    //   console.log(data);
+    //   this.snackbar = {
+    //     color: "success",
+    //     icon: "pgi-added",
+    //     text: data,
+    //     visible: true
+    //   };
+    // });
   }
 
   public beforeDestroy(): void {

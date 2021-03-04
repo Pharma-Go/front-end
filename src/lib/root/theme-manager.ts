@@ -65,11 +65,7 @@ export class ThemeManager {
         "linear-gradient(238.21deg, #4736B9 19.22%, rgba(136, 49, 214, 0) 98.87%), #BB27CC;"
     };
 
-    this.themes = Object.assign(
-      {},
-      { isDark: window.matchMedia("(prefers-color-scheme: dark)").matches },
-      this.themes ?? {}
-    );
+    this.themes = Object.assign({}, { isDark: false }, this.themes ?? {});
 
     this.themes.dark = Object.assign({}, darkTheme, this.themes.dark ?? {});
     this.themes.light = Object.assign({}, lightTheme, this.themes.light ?? {});

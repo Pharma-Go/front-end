@@ -129,7 +129,13 @@ export default class PgAdminSettings extends Vue {
   public user!: User;
   public $refs!: { image: PgUpload };
 
-  public changeTheme(): void {
+  public async changeTheme(): Promise<void> {
+    const user = await this.$api.users.save({
+      id: this.user.id,
+      isDark: !this.$pharmago.theme.themes.isDark
+    });
+
+    this.$store.dispatch("user/set", { user });
     this.$pharmago.theme.themes.isDark = !this.$pharmago.theme.themes.isDark;
   }
 

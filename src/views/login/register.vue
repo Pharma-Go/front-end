@@ -97,7 +97,7 @@
 
         <div class="d-flex flex-col align-center fill-w">
           <pg-button class="mt-4 fill-w" v-color="'primary'" type="submit">
-            <span class="text--contrast"> Registrar </span>
+            <span class="text--buttonContrast"> Registrar </span>
           </pg-button>
         </div>
       </form>

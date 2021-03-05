@@ -29,6 +29,7 @@ export class ThemeManager {
     const darkTheme = {
       ...primaryColors,
       primary: "#FFFFFF",
+      contrast: "#373737",
       foreground: "#FFFFFF",
       foregroundSecondary: "#EFEFEF",
       foregroundTertiary: "#D9D9D9",
@@ -41,9 +42,14 @@ export class ThemeManager {
       link: "#FFFFFF",
       backgroundBottomBar: "#292929",
       backgroundSettings: "#292929",
-      backgroundButton: "#292929",
+      backgroundButton: "#101010",
+      backgroundSecondaryButton: "#292929",
       backgroundGradient:
-        "linear-gradient(238.21deg, #4736B9 19.22%, rgba(136, 49, 214, 0) 98.87%), #BB27CC;"
+        "linear-gradient(238.21deg, #4736B9 19.22%, rgba(136, 49, 214, 0) 98.87%), #BB27CC;",
+      overlay: "rgba(101, 101, 101, .35)",
+      loadingBackground: "#FFFFFF38",
+      loadingBackgroundActive: "#FFFFFF",
+      buttonContrast: "#FFFFFF"
     };
 
     const lightTheme = {
@@ -61,8 +67,13 @@ export class ThemeManager {
       backgroundBottomBar: primaryColors.primary,
       backgroundSettings: "#FFFFFF",
       backgroundButton: primaryColors.primary,
+      backgroundSecondaryButton: primaryColors.primary,
       backgroundGradient:
-        "linear-gradient(238.21deg, #4736B9 19.22%, rgba(136, 49, 214, 0) 98.87%), #BB27CC;"
+        "linear-gradient(238.21deg, #4736B9 19.22%, rgba(136, 49, 214, 0) 98.87%), #BB27CC;",
+      overlay: "rgba(0, 0, 0, .35)",
+      loadingBackground: primaryColors.primary + "38",
+      loadingBackgroundActive: primaryColors.primary,
+      buttonContrast: "#FFFFFF"
     };
 
     this.themes = Object.assign({}, { isDark: false }, this.themes ?? {});

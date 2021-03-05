@@ -4,7 +4,7 @@
 
 <style lang="scss">
 .c-overlay {
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--theme-overlay);
   position: absolute;
   left: 0;
   right: 0;

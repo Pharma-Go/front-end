@@ -7,8 +7,8 @@
     <form @submit.prevent="onSubmit">
       <pg-input label="Nome" prependIcon="user" v-model="form.name"></pg-input>
 
-      <pg-button class="my-4 fill-w" v-color="'backgroundButton'" type="submit">
-        <span class="text--contrast"> Salvar </span>
+      <pg-button class="my-4 fill-w" v-color="'backgroundSecondaryButton'" type="submit">
+        <span class="text--buttonContrast"> Salvar </span>
       </pg-button>
     </form>
 

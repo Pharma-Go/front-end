@@ -50,7 +50,7 @@
 
         <div class="d-flex flex-col align-center fill-w">
           <pg-button class="mt-4 fill-w" v-color="'primary'" type="submit">
-            <span class="text--contrast"> Login </span>
+            <span class="text--buttonContrast"> Login </span>
           </pg-button>
         </div>
       </div>

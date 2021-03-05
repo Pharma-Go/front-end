@@ -40,7 +40,6 @@ export default class PgProfileAddress extends Vue {
   }
 
   public async onSubmit(): Promise<void> {
-    const userData = { ...this.user };
     let addressId: string;
 
     if (this.hasAddress) {
@@ -58,7 +57,7 @@ export default class PgProfileAddress extends Vue {
 
       addressId = address.id;
       await this.$api.users.save({
-        ...userData,
+        id: this.user.id,
         address: addressId
       });
     }

@@ -1,19 +1,27 @@
 <template>
   <div v-if="card" class="c-card">
-    <div class="c-card__delete" @click.prevent="onDelete">
+    <div v-if="canDelete" class="c-card__delete" @click.prevent="onDelete">
       <i class="c-card__delete-icon pgi pgi-trash text--primary"></i>
     </div>
 
-    <div class="c-card__content ml-3" @click.prevent="onCard">
+    <div
+      :class="['c-card__content', { 'ml-3': canDelete }]"
+      @click.prevent="onCard"
+    >
       <p class="c-card__content-text text--foreground">
         {{
-          `${card.first_digits.substring(0, 4)} ${card.first_digits.substring(
-            4,
-            6
-          )}** **** ${card.last_digits}`
+          `${(card.first_digits || card.firstDigits).substring(0, 4)} ${(
+            card.first_digits || card.firstDigits
+          ).substring(4, 6)}** **** ${card.last_digits || card.lastDigits}`
         }}
       </p>
-      <i class="c-card__content-icon pgi pgi-chevron-left text--primary"></i>
+      <i
+        v-if="goToCard"
+        class="c-card__content-icon pgi pgi-chevron-left text--primary"
+      ></i>
+      <div v-else>
+        <slot></slot>
+      </div>
     </div>
   </div>
 </template>
@@ -62,6 +70,8 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 @Component
 export default class PgCard extends Vue {
   @Prop() public card!: Card;
+  @Prop({ type: Boolean, default: true }) public canDelete: boolean;
+  @Prop({ type: Boolean, default: true }) public goToCard: boolean;
 
   public onDelete(): void {
     this.$emit("delete");

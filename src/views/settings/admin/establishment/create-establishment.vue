@@ -37,11 +37,11 @@
       </div>
       <pg-button
         class="mt-4 fill-w"
-        v-color="'backgroundButton'"
+        v-color="'backgroundSecondaryButton'"
         @click.prevent="save"
         type="submit"
       >
-        <span class="text--contrast"> Salvar </span>
+        <span class="text--buttonContrast"> Salvar </span>
       </pg-button>
     </form>
   </pg-settings>

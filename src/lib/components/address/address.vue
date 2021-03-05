@@ -1,25 +1,30 @@
 <template>
   <div class="c-address__header">
-      <img
-        class="c-address__header-image"
-        :src="
-          require($pharmago.theme.themes.isDark
-            ? '../../../assets/address-dark.svg'
-            : '../../../assets/address-light.svg')
-        "
-      />
-      <div class="c-address__header-address">
-        <p class="c-address__header-address-street text--small text--foreground">
-          {{ address.street }}, {{ address.streetNumber }}, {{ address.district }},
-          {{ address.city }} - {{ address.state }}
-        </p>
-        <p class="c-address__header-address-complement text--small text--foregroundTertiary">
-          {{ address.complement }}
-          <ul v-if="address.complement && address.reference" class="c-address__header-address-complement-divider bg--foreground"></ul>
-          {{ address.reference }}
-        </p>
-      </div>
+    <img
+      class="c-address__header-image"
+      :src="
+        require($pharmago.theme.themes.isDark
+          ? '../../../assets/address-dark.svg'
+          : '../../../assets/address-light.svg')
+      "
+    />
+    <div class="c-address__header-address">
+      <p class="c-address__header-address-street text--small text--foreground">
+        {{ address.street }}, {{ address.streetNumber }},
+        {{ address.district }}, {{ address.city }} - {{ address.state }}
+      </p>
+      <span
+        class="c-address__header-address-complement text--small text--foregroundTertiary"
+      >
+        {{ address.complement }}
+        <ul
+          v-if="address.complement && address.reference"
+          class="c-address__header-address-complement-divider bg--foreground"
+        ></ul>
+        {{ address.reference }}
+      </span>
     </div>
+  </div>
 </template>
 
 <script lang="ts">

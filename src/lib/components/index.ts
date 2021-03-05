@@ -14,3 +14,4 @@ export * from "./list";
 export * from "./address";
 export * from "./tab";
 export * from "./modal";
+export * from "./loading";

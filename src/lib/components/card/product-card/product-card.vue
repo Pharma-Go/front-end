@@ -5,9 +5,9 @@
         class="c-product-card__items-product-image mr-3"
         :src="
           product.imageUrl ||
-            require(`../../../../assets/pill-${
-              $pharmago.theme.themes.isDark ? 'dark' : 'light'
-            }.svg`)
+          require(`../../../../assets/pill-${
+            $pharmago.theme.themes.isDark ? 'dark' : 'light'
+          }.svg`)
         "
       />
 
@@ -20,12 +20,15 @@
         <p
           class="c-product-card__items-product-information-price text--bold text--primary"
         >
-          R$ {{ format(product.price) }}
+          R$ {{ product.price | formatPrice }}
         </p>
       </div>
     </div>
 
-    <div class="c-product-card__items-product-icon bg--secondaryBackground">
+    <div
+      v-if="!isQuantity"
+      class="c-product-card__items-product-icon bg--secondaryBackground"
+    >
       <i
         :class="[
           'c-product-card__items-product-icon-content',
@@ -36,7 +39,9 @@
         ]"
       >
       </i>
-      <i></i>
+    </div>
+    <div v-else>
+      <slot name="quantity"></slot>
     </div>
   </div>
 </template>
@@ -98,7 +103,6 @@
 </style>
 
 <script lang="ts">
-import { formatPrice } from "@/lib/utils/price";
 import { Product } from "@/lib/models";
 import { Component, Prop, Vue } from "vue-property-decorator";
 
@@ -107,9 +111,6 @@ export default class PgProductCard extends Vue {
   @Prop() public product!: Product;
   @Prop({ type: String, default: "chevron-left" }) public icon!: string;
   @Prop({ type: Boolean, default: true }) public rotateIcon!: boolean;
-
-  public format(value: number) {
-    return formatPrice(value);
-  }
+  @Prop({ type: Boolean, default: false }) public isQuantity!: boolean;
 }
 </script>

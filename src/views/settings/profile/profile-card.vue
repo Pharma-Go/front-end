@@ -10,7 +10,7 @@
         <p class="c-profile-card__card-name">{{ card.holder_name }}</p>
 
         <div class="c-profile-card__card-footer">
-          <p class="c-profile-card__card-footer-text text--contrast mb-1">
+          <p class="c-profile-card__card-footer-text text--buttonContrast mb-1">
             {{ getCardDigits() }}
           </p>
           <div class="c-profile-card__card-footer-informations">
@@ -53,10 +53,10 @@
         </div>
         <pg-button
           class="mt-4 fill-w"
-          v-color="'backgroundButton'"
+          v-color="'backgroundSecondaryButton'"
           type="submit"
         >
-          <span class="text--contrast"> Salvar </span>
+          <span class="text--buttonContrast"> Salvar </span>
         </pg-button>
       </form>
     </div>
@@ -130,8 +130,11 @@ export default class PgProfileCard extends Vue {
     await this.$api.cards.save(this.form);
 
     const cards = await this.$api.cards.getOne("me");
-
     this.$store.dispatch("card/set", { cards });
+
+    const user = await this.$api.users.getOne("me");
+    this.$store.dispatch("user/set", { user });
+
     this.$router.go(-1);
   }
 

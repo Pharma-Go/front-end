@@ -89,7 +89,7 @@
         <div
           v-for="product in products"
           :key="product.id"
-          @click.prevent="onClickProduct(product.id)"
+          @click.prevent="onClickProduct(product)"
         >
           <pg-product-card
             :product="product"
@@ -101,7 +101,7 @@
     </div>
 
     <pg-bottom-sheet :show="showBottomSheet" @close="onCloseBottomSheet">
-      <pg-cart-bottom-sheet></pg-cart-bottom-sheet>
+      <pg-cart-bottom-sheet @close="onCloseBottomSheet"></pg-cart-bottom-sheet>
     </pg-bottom-sheet>
   </pg-container>
 </template>
@@ -194,7 +194,14 @@
 </style>
 
 <script lang="ts">
-import { Category, Establishment, Product, Review, User } from "@/lib/models";
+import {
+  Category,
+  CreateProduct,
+  Establishment,
+  Product,
+  Review,
+  User
+} from "@/lib/models";
 import { Component, Vue } from "vue-property-decorator";
 import { mapState } from "vuex";
 
@@ -290,7 +297,13 @@ export default class PgEstablishment extends Vue {
     window.location.reload();
   }
 
-  public onClickProduct(id: string) {
+  public async onClickProduct(product: Product) {
+    const createProduct: CreateProduct = {
+      product,
+      quantity: 1
+    };
+
+    await this.$store.dispatch("cart/addProduct", createProduct);
     this.showBottomSheet = true;
   }
 

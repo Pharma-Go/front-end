@@ -15,7 +15,7 @@
         class="c-invoice-card__content-footer text--normal text--bold text--primary"
       >
         R$
-        {{ format(getInvoicePrice()) }}
+        {{ getInvoicePrice() | formatPrice }}
       </p>
     </div>
   </div>
@@ -56,7 +56,6 @@
 </style>
 
 <script lang="ts">
-import { formatPrice } from "@/lib/utils/price";
 import { Themeable } from "@/lib/mixins";
 import { Component, Mixins, Prop } from "vue-property-decorator";
 import { Invoice } from "../../../models";
@@ -64,10 +63,6 @@ import { Invoice } from "../../../models";
 @Component
 export default class PginvoiceCard extends Mixins(Themeable) {
   @Prop() public invoice!: Invoice;
-
-  public format(value: number) {
-    return formatPrice(value);
-  }
 
   public getInvoicePrice(): number {
     return (

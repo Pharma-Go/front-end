@@ -4,9 +4,9 @@
       class="c-product-card__image"
       :src="
         product.imageUrl ||
-          require(`../../../../assets/pill-${
-            $pharmago.theme.themes.isDark ? 'dark' : 'light'
-          }.svg`)
+        require(`../../../../assets/pill-${
+          $pharmago.theme.themes.isDark ? 'dark' : 'light'
+        }.svg`)
       "
       :alt="product.name"
     />
@@ -27,14 +27,12 @@
         class="c-product-card__content-footer text--normal text--bold text--primary"
       >
         R$
-        {{ formatPrice(product.price) }}
+        {{ product.price | formatPrice }}
       </p>
     </div>
 
     <div class="c-product-card__go bg--secondaryBackground" v-if="hasAddIcon">
-      <i
-        class="c-product-card__go-icon pgi pgi-add text--primary"
-      ></i>
+      <i class="c-product-card__go-icon pgi pgi-add text--primary"></i>
     </div>
   </div>
 </template>
@@ -90,10 +88,5 @@ import { Product } from "../../../models";
 export default class PgEstablishmentProductCard extends Mixins(Themeable) {
   @Prop() public product!: Product;
   @Prop(Boolean) public hasAddIcon!: boolean;
-
-  public formatPrice(value: number) {
-    const val = (value / 100).toFixed(2).replace(".", ",");
-    return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  }
 }
 </script>

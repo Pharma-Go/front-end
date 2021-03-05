@@ -9,6 +9,7 @@ import "pharmago-icons-impacta/dist/PharmaGo-Icons.css";
 import * as services from "./services/";
 import "./vee-validate";
 import VueSocketIO from "vue-socket.io";
+import { formatPrice } from "./lib/pipes/price.pipe";
 
 declare module "vue/types/vue" {
   export interface Vue {
@@ -25,6 +26,8 @@ Vue.use(
     connection: "https://pharmago-backend.herokuapp.com/"
   })
 );
+
+Vue.filter("formatPrice", formatPrice);
 
 Vue.mixin({
   computed: {

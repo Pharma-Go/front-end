@@ -234,10 +234,8 @@ export default class PgInvoicePage extends Vue {
   };
 
   public async created(): Promise<void> {
-    if (!this.active.id) {
-      const active = await this.$api.invoices.getOne(this.$route.params.id);
-      await this.$store.dispatch("invoice/set", { active });
-    }
+    const active = await this.$api.invoices.getOne(this.$route.params.id);
+    await this.$store.dispatch("invoice/set", { active });
 
     if (this.active.delivererAccepted && !this.active.delivered) {
       this.showMap = true;

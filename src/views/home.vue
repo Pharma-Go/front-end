@@ -2,7 +2,7 @@
   <div class="c-home bg--background" v-if="user">
     <pg-container>
       <div class="c-home__header">
-        <h1 class="c-home__header-title text--foreground">
+        <h1 class="c-home__header-title text--foreground mr-2">
           {{ user.name }}
         </h1>
         <img
@@ -23,15 +23,19 @@
         </div>
 
         <div
-          v-if="invoices && invoices.length > 0"
+          v-if="recents && recents.length > 0"
           class="c-home__invoices-content mt-4 pb-4"
         >
           <div
             class="c-home__invoices-content-card"
-            v-for="invoice in invoices"
+            v-for="invoice in recents"
             :key="invoice.id"
+            @click.prevent="onClickInvoice(invoice)"
           >
-            <pg-invoice-card :invoice="invoice"></pg-invoice-card>
+            <pg-invoice-card
+              v-color="getColorOfInvoice(invoice)"
+              :invoice="invoice"
+            ></pg-invoice-card>
           </div>
         </div>
 
@@ -55,16 +59,15 @@
 
         <div
           class="c-home__establishments-content mt-4"
-          v-if="establishments && establishments.length > 0"
+          v-if="mostRateds && mostRateds.length > 0"
         >
           <div
-            v-for="establishment in establishments"
+            v-for="establishment in mostRateds"
             :key="establishment.id"
             class="c-home__establishments-content-card"
           >
             <pg-establishment-card
               :establishment="establishment"
-              :route="`estabelecimento/${establishment.id}`"
               @clickCard="onClickEstablishment(establishment)"
             ></pg-establishment-card>
           </div>
@@ -143,9 +146,27 @@
       overflow-x: scroll;
       padding: var(--spacing-1);
 
+      &::-webkit-scrollbar {
+        width: 1px;
+        height: 3px;
+      }
+
+      /* Track */
+      &::-webkit-scrollbar-track {
+        background: var(--theme-loadingBackground);
+        margin-top: 36px;
+      }
+
+      /* Handle */
+      &::-webkit-scrollbar-thumb {
+        background: var(--theme-primary);
+        border-radius: var(--spacing-1);
+      }
+
       &-card {
         margin-right: var(--spacing-2);
         padding-right: var(--spacing-2);
+        cursor: pointer;
       }
     }
   }
@@ -167,37 +188,61 @@
 </style>
 
 <script lang="ts">
+import { invoices } from "@/services";
 import { Component, Vue } from "vue-property-decorator";
 import { Route } from "vue-router";
-import { mapGetters, mapState } from "vuex";
-import { Establishment, Invoice, User } from "../lib/models";
+import { mapState } from "vuex";
+import { Establishment, Invoice, PaymentStatus, User } from "../lib/models";
 
 @Component({
   computed: {
-    ...mapState("user", { user: "user" }),
-    ...mapState("invoice", { invoices: "recents" }),
-    ...mapState("establishment", { establishments: "mostRateds" })
+    ...mapState("user", ["user"]),
+    ...mapState("invoice", ["recents"]),
+    ...mapState("establishment", ["mostRateds"])
   }
 })
 export default class PgHome extends Vue {
-  public establishments!: Establishment[];
-  public invoices!: Invoice[];
+  public mostRateds!: Establishment[];
+  public recents!: Invoice[];
   public user!: User;
 
   async created() {
-    if (!this.invoices || this.invoices?.length === 0) {
-      const invoices = await this.$api.invoices.recents();
-      this.$store.dispatch("invoice/set", { invoices });
+    if (!this.recents || this.recents?.length === 0) {
+      const recents = await this.$api.invoices.recents();
+      this.$store.dispatch("invoice/set", { recents });
     }
 
-    if (!this.establishments || this.establishments?.length === 0) {
-      const establishments = await this.$api.establishments.mostRated();
-      this.$store.dispatch("establishment/set", { establishments });
+    if (!this.mostRateds || this.mostRateds?.length === 0) {
+      const mostRateds = await this.$api.establishments.mostRated();
+      this.$store.dispatch("establishment/set", { mostRateds });
     }
   }
 
-  public onClickEstablishment(establishment: Establishment): Promise<Route> {
-    this.$store.dispatch("establishment/set", { establishment });
+  public getColorOfInvoice(invoice: Invoice): string {
+    if (invoice.paymentStatus === PaymentStatus.refused) {
+      return "error";
+    }
+
+    if (invoice.strictAccepted) {
+      if (invoice.delivered) {
+        return "success";
+      } else {
+        return "attention";
+      }
+    }
+
+    return "pending";
+  }
+
+  public async onClickInvoice(invoice: Invoice): Promise<void> {
+    await this.$store.dispatch("invoice/set", { active: invoice });
+    await this.$router.push(`/pedidos/${invoice.id}`);
+  }
+
+  public async onClickEstablishment(
+    establishment: Establishment
+  ): Promise<Route> {
+    await this.$store.dispatch("establishment/set", { establishment });
 
     return this.$router.replace(`/estabelecimento/${establishment.id}`);
   }

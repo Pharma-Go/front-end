@@ -20,7 +20,7 @@
         <p
           class="c-product-card__items-product-information-price text--bold text--primary"
         >
-          R$ {{ product.price | formatPrice }}
+          R$ {{ price ? price : product.price | formatPrice }}
         </p>
       </div>
     </div>
@@ -112,5 +112,6 @@ export default class PgProductCard extends Vue {
   @Prop({ type: String, default: "chevron-left" }) public icon!: string;
   @Prop({ type: Boolean, default: true }) public rotateIcon!: boolean;
   @Prop({ type: Boolean, default: false }) public isQuantity!: boolean;
+  @Prop(Number) public price!: number;
 }
 </script>

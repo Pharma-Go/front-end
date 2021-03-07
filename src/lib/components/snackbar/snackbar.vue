@@ -20,6 +20,7 @@
   max-width: 100%;
   transform: translateX(-50%);
   border-radius: var(--spacing-1);
+  z-index: 999;
 }
 
 .snackbar-transition {

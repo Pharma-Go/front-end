@@ -83,7 +83,7 @@ export default class PgAdminProduct extends Vue {
     await this.$api.products.save(this.form).catch(err => {
       this.snackbar = {
         color: "error",
-        icon: "pgi-add",
+        icon: "pgi-close",
         text: err.response?.data?.error || "Erro desconhecido",
         visible: true
       };

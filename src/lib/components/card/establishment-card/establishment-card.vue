@@ -1,6 +1,6 @@
 <template>
-  <router-link
-    :to="route"
+  <div
+    @click.prevent="onClickCard"
     :class="[themeClass, 'c-establishment-card']"
     v-if="establishment"
   >
@@ -21,9 +21,9 @@
             class="c-establishment-card__content-address text--small text--foregroundTertiary"
             v-if="
               establishment.address &&
-                establishment.address.street &&
-                establishment.address.streetNumber &&
-                establishment.address.district
+              establishment.address.street &&
+              establishment.address.streetNumber &&
+              establishment.address.district
             "
           >
             {{
@@ -37,9 +37,9 @@
             class="c-establishment-card__content-hour-icon pgi pgi-clock mr-1"
           ></i>
           {{
-            formatHour(establishment.opensAt) +
-              " - " +
-              formatHour(establishment.closesAt)
+            `${formatHour(establishment.opensAt)} - ${formatHour(
+              establishment.closesAt
+            )}`
           }}
         </p>
       </div>
@@ -50,7 +50,7 @@
         class="c-establishment-card__go-icon pgi pgi-chevron-left text--primary"
       ></i>
     </div>
-  </router-link>
+  </div>
 </template>
 
 <style lang="scss">
@@ -64,6 +64,7 @@
   align-items: center;
   border-radius: var(--spacing-2);
   padding: var(--spacing-2) var(--spacing-3);
+  cursor: pointer;
 
   &__image {
     width: var(--spacing-10);
@@ -125,13 +126,16 @@ import { Establishment } from "../../../models";
 @Component
 export default class PgEstablishmentCard extends Mixins(Themeable) {
   @Prop() public establishment!: Establishment;
-  @Prop(String) public route!: string;
 
   public formatHour(time: string) {
     const hour = time.substring(0, 2);
     const minute = time.substring(2, 4);
 
     return `${hour}:${minute}`;
+  }
+
+  public onClickCard(): void {
+    this.$emit("clickCard", this.establishment);
   }
 }
 </script>

@@ -60,7 +60,10 @@
     </router-link>
 
     <pg-bottom-sheet :show="showBottomSheet" @close="onCloseBottomSheet">
-      <pg-cart-bottom-sheet></pg-cart-bottom-sheet>
+      <pg-cart-bottom-sheet
+        @close="onCloseBottomSheet"
+        @cleanupCart="onCleanupCart"
+      ></pg-cart-bottom-sheet>
     </pg-bottom-sheet>
   </div>
 </template>
@@ -71,7 +74,7 @@
 
 .c-bottom-bar {
   @include z-depth($level: 2, $omni: true);
-  transition: color, background, background-color 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
   position: absolute;
 
   display: flex;
@@ -90,17 +93,17 @@
 
   &__item {
     cursor: pointer;
-    transition: color, background, background-color 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
 
     > i {
       @include font-size($font-sm);
 
-      transition: color, background, background-color 0.3s ease-in-out;
+      transition: all 0.3s ease-in-out;
       color: #fff;
     }
 
     &-active {
-      transition: color, background, background-color 0.3s ease-in-out;
+      transition: all 0.3s ease-in-out;
 
       background: var(--theme-background);
       border-radius: 100%;
@@ -130,6 +133,10 @@ export default class PgBottomBar extends Mixins(Themeable) {
 
   public onCloseBottomSheet(): void {
     this.showBottomSheet = false;
+  }
+
+  public async onCleanupCart(): Promise<void> {
+    await this.$store.dispatch("cart/clean");
   }
 }
 </script>

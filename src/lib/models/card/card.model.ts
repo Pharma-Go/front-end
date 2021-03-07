@@ -5,6 +5,10 @@ export interface Card extends Base {
   card_id: string;
   method: any;
   user: User;
+  holderName: string;
+  firstDigits: string;
+  lastDigits: string;
+  expirationDate: string;
 }
 
 export interface PagarmeCard {

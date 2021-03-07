@@ -190,7 +190,7 @@ export default class PgRegister extends Vue {
       .catch(err => {
         this.snackbar = {
           color: "error",
-          icon: "pgi-add",
+          icon: "pgi-close",
           text:
             err.response?.data?.message ||
             err.response?.data?.error ||

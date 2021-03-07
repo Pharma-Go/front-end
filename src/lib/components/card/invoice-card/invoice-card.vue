@@ -11,9 +11,7 @@
           {{ $dayjs(invoice.created_at).format("DD/MM/YYYY") }}
         </p>
       </div>
-      <p
-        class="c-invoice-card__content-footer text--normal text--bold text--primary"
-      >
+      <p class="c-invoice-card__content-footer text--normal text--bold">
         R$
         {{ getInvoicePrice() | formatPrice }}
       </p>
@@ -30,6 +28,7 @@
   display: flex;
   border-radius: var(--spacing-2);
   padding: var(--spacing-2);
+  border: 1px solid var(--current-color);
 
   &__icon {
     font-size: var(--spacing-10);
@@ -50,6 +49,7 @@
 
     > p {
       margin: 0;
+      color: var(--current-color);
     }
   }
 }
@@ -58,18 +58,21 @@
 <script lang="ts">
 import { Themeable } from "@/lib/mixins";
 import { Component, Mixins, Prop } from "vue-property-decorator";
-import { Invoice } from "../../../models";
+import { Invoice, ItemProduct } from "../../../models";
 
 @Component
-export default class PginvoiceCard extends Mixins(Themeable) {
+export default class PgInvoiceCard extends Mixins(Themeable) {
   @Prop() public invoice!: Invoice;
 
   public getInvoicePrice(): number {
     return (
-      this.invoice.products?.reduce((acc: number, product: any) => {
-        acc += product.originalPrice;
-        return acc;
-      }, 0) ?? 0
+      this.invoice.itemProducts?.reduce(
+        (acc: number, itemProduct: ItemProduct) => {
+          acc += itemProduct.price;
+          return acc;
+        },
+        0
+      ) ?? 0
     );
   }
 }

@@ -1,5 +1,6 @@
 import { Invoice } from "@/lib/models";
 
 export const state = () => ({
-  recents: [] as Invoice[]
+  recents: [] as Invoice[],
+  active: {} as Invoice
 });

@@ -79,7 +79,7 @@ export default class PgProfilePassword extends Vue {
     await this.$api.users.changePassword(this.form).catch(err => {
       this.snackbar = {
         color: "error",
-        icon: "pgi-add",
+        icon: "pgi-close",
         text: err.response?.data?.message || "Erro desconhecido",
         visible: true
       };

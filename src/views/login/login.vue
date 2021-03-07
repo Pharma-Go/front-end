@@ -135,7 +135,7 @@ export default class PgLogin extends Vue {
     if (!this.form.email) {
       this.snackbar = {
         color: "error",
-        icon: "pgi-add",
+        icon: "pgi-close",
         text: "Digite um email para recuperar a senha",
         visible: true
       };
@@ -147,7 +147,7 @@ export default class PgLogin extends Vue {
     await this.$api.users.recoverPassword(this.form.email).catch(err => {
       this.snackbar = {
         color: "error",
-        icon: "pgi-add",
+        icon: "pgi-close",
         text: err.response?.data?.message || "Erro desconhecido",
         visible: true
       };
@@ -169,7 +169,7 @@ export default class PgLogin extends Vue {
       .catch(err => {
         this.snackbar = {
           color: "error",
-          icon: "pgi-add",
+          icon: "pgi-close",
           text: err.response?.data?.error || "Erro desconhecido",
           visible: true
         };

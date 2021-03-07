@@ -21,7 +21,7 @@
             'c-establishment__header-favorite-icon',
             'pgi',
             { 'pgi-favorite': !hasFavorited },
-            { 'pgi-added': hasFavorited },
+            { 'pgi-favorited': hasFavorited },
             'text--primary'
           ]"
         ></i>
@@ -100,8 +100,29 @@
       </div>
     </div>
 
+    <pg-snackbar v-model="snackbar.visible" :color="snackbar.color">
+      <i v-if="snackbar.icon" :class="['pgi', 'mr-3', snackbar.icon]"></i>
+      {{ snackbar.text }}
+    </pg-snackbar>
+
     <pg-bottom-sheet :show="showBottomSheet" @close="onCloseBottomSheet">
-      <pg-cart-bottom-sheet @close="onCloseBottomSheet"></pg-cart-bottom-sheet>
+      <pg-product-bottom-sheet
+        v-if="showProductBottomSheet && activeProduct && activeProduct.id"
+        @close="onCloseProductBottomSheet"
+        @addProduct="onAddProduct($event)"
+        :product="activeProduct"
+      ></pg-product-bottom-sheet>
+      <pg-cart-bottom-sheet
+        v-if="showCartBottomSheet"
+        @close="onCloseBottomSheet"
+        @cleanupCart="onCleanupCart"
+        @generateInvoice="onGenerateInvoice"
+      ></pg-cart-bottom-sheet>
+      <pg-confirmation-bottom-sheet
+        v-if="showConfirmationBottomSheet && generatedInvoice"
+        :invoice="generatedInvoice"
+        :user="user"
+      ></pg-confirmation-bottom-sheet>
     </pg-bottom-sheet>
   </pg-container>
 </template>
@@ -198,6 +219,7 @@ import {
   Category,
   CreateProduct,
   Establishment,
+  Invoice,
   Product,
   Review,
   User
@@ -220,7 +242,17 @@ export default class PgEstablishment extends Vue {
   public user!: User;
   public products: Product[] = [];
   public hasFavorited = false;
+  public showProductBottomSheet = true;
   public showBottomSheet = false;
+  public showCartBottomSheet = false;
+  public showConfirmationBottomSheet = false;
+  public activeProduct: Product = {} as Product;
+  public generatedInvoice: Invoice = {} as Invoice;
+
+  public snackbar: any = {
+    visible: false,
+    color: "error"
+  };
 
   public async created() {
     if (!this.active.id) {
@@ -235,17 +267,17 @@ export default class PgEstablishment extends Vue {
       establishment => establishment.id === this.$route.params.id
     );
 
-    if (!this.productsMostRateds || this.productsMostRateds?.length === 0) {
-      const products = await this.$api.products.featuredProducts(
-        this.active.id
-      );
+    const products = await this.$api.products.featuredProducts(this.active.id);
 
-      this.$store.dispatch("establishment/set", {
-        productsMostRateds: products
-      });
-    }
+    this.$store.dispatch("establishment/set", {
+      productsMostRateds: products
+    });
 
     this.categories = this.active.products.map(product => product.category);
+
+    this.categories.sort((a: Category, b: Category) => {
+      return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+    });
 
     if (this.categories.length > 0) {
       this.activeCategoryId = this.$route.params.category
@@ -298,17 +330,68 @@ export default class PgEstablishment extends Vue {
   }
 
   public async onClickProduct(product: Product) {
-    const createProduct: CreateProduct = {
-      product,
-      quantity: 1
-    };
-
-    await this.$store.dispatch("cart/addProduct", createProduct);
     this.showBottomSheet = true;
+    this.showProductBottomSheet = true;
+    this.activeProduct = product;
+  }
+
+  public onCloseProductBottomSheet(): void {
+    this.showBottomSheet = false;
+    this.showProductBottomSheet = false;
+
+    setTimeout(() => {
+      this.showBottomSheet = true;
+      this.showCartBottomSheet = true;
+    }, 500);
   }
 
   public onCloseBottomSheet(): void {
     this.showBottomSheet = false;
+    this.showProductBottomSheet = false;
+    this.showCartBottomSheet = false;
+    this.showConfirmationBottomSheet = false;
+  }
+
+  public async onAddProduct(createProduct: CreateProduct): Promise<void> {
+    await this.$store.dispatch("cart/addProduct", createProduct).catch(err => {
+      this.snackbar = {
+        color: "error",
+        icon: "pgi-close",
+        text:
+          "Não pode adicionar produtos de diferentes farmácias no mesmo pedido.",
+        visible: true
+      };
+      return Promise.reject(err);
+    });
+
+    this.onCloseProductBottomSheet();
+  }
+
+  public async onCleanupCart(): Promise<void> {
+    await this.$store.dispatch("cart/clean");
+  }
+
+  public async onGenerateInvoice(invoice: Invoice): Promise<void> {
+    this.showBottomSheet = false;
+    this.showCartBottomSheet = false;
+    this.generatedInvoice = await this.$api.invoices.getOne(invoice.id);
+
+    await this.$store.dispatch("cart/clean");
+
+    this.sockets.subscribe("updateInvoice", (invoice: Invoice) => {
+      if (invoice.buyer.id === this.user.id) {
+        this.generatedInvoice = invoice;
+      }
+    });
+
+    setTimeout(() => {
+      this.showConfirmationBottomSheet = true;
+      this.showBottomSheet = true;
+    }, 500);
+  }
+
+  public beforeDestroy(): void {
+    this.sockets.unsubscribe("updateInvoice");
   }
 }
 </script>

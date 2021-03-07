@@ -48,7 +48,7 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    border-bottom: 1px solid var(--light-foregroundSecondary);
+    border-bottom: 1px solid var(--dark-foregroundSecondary);
     padding-bottom: var(--spacing-2);
     cursor: pointer;
 

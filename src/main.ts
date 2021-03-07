@@ -10,6 +10,8 @@ import * as services from "./services/";
 import "./vee-validate";
 import VueSocketIO from "vue-socket.io";
 import { formatPrice } from "./lib/pipes/price.pipe";
+import { formatPaymentMethod } from "./lib/pipes/payment-method.pipe";
+import { cardDigits } from "./lib/pipes/card.pipe";
 
 declare module "vue/types/vue" {
   export interface Vue {
@@ -23,11 +25,14 @@ Vue.use(PharmaGoUI);
 Vue.use(
   new VueSocketIO({
     debug: true,
-    connection: "https://pharmago-backend.herokuapp.com/"
+    // connection: "https://pharmago-backend.herokuapp.com/"
+    connection: "http://localhost:3000/"
   })
 );
 
 Vue.filter("formatPrice", formatPrice);
+Vue.filter("formatPaymentMethod", formatPaymentMethod);
+Vue.filter("cardDigits", cardDigits);
 
 Vue.mixin({
   computed: {

@@ -13,7 +13,7 @@
       >
         <pg-establishment-card
           :establishment="establishment"
-          :route="`estabelecimentos/${establishment.id}`"
+          @clickCard="onClickEstablishment"
         ></pg-establishment-card>
       </div>
     </div>
@@ -70,6 +70,13 @@ export default class PgAdminEstablishments extends Vue {
       const establishments = await this.$api.establishments.get();
       this.$store.dispatch("establishment/set", { establishments });
     }
+  }
+
+  public async onClickEstablishment(
+    establishment: Establishment
+  ): Promise<void> {
+    await this.$store.dispatch("establishment/set", { active: establishment });
+    await this.$router.push(`estabelecimentos/${establishment.id}`);
   }
 }
 </script>

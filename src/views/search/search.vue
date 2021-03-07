@@ -29,7 +29,6 @@
                 <pg-establishment-card
                   :establishment="establishment"
                   @clickCard="onClickEstablishment(establishment)"
-                  :route="`/estabelecimento/${establishment.id}`"
                 ></pg-establishment-card>
               </div>
             </div>
@@ -94,6 +93,7 @@ import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import { mapState } from "vuex";
 import { debounce } from "@/lib/utils/debounce";
+import { establishments } from "@/services";
 
 @Component({
   computed: {
@@ -125,8 +125,11 @@ export default class PgSearch extends Vue {
     this.activeCategory = category;
   }
 
-  public onClickEstablishment(establishment: Establishment): void {
-    this.$store.dispatch("establishment/set", { active: establishment });
+  public async onClickEstablishment(
+    establishment: Establishment
+  ): Promise<void> {
+    await this.$store.dispatch("establishment/set", { active: establishment });
+    console.log(establishment);
 
     this.$router.push(`/estabelecimento/${establishment.id}`);
   }

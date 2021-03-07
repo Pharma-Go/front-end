@@ -50,7 +50,7 @@ export default class PgAdminSaveCategory extends Vue {
     await this.$api.category.save(this.form).catch(err => {
       this.snackbar = {
         color: "error",
-        icon: "pgi-add",
+        icon: "pgi-close",
         text: err.response?.data?.error || "Erro desconhecido",
         visible: true
       };

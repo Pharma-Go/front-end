@@ -13,13 +13,15 @@
         <img :src="blobUrl || url" class="c-upload__image-photo fill-w" />
 
         <div class="c-upload__image-icon bg--secondaryBackground">
-          <i class="c-upload__image-icon-content pgi pgi-add text--primary"></i>
+          <i
+            class="c-upload__image-icon-content pgi pgi-upload text--primary"
+          ></i>
         </div>
       </div>
     </slot>
     <slot name="placeholder" v-else>
       <div class="c-upload__placeholder bg--secondaryBackground">
-        <i class="c-upload__placeholder-icon pgi pgi-add text--primary"></i>
+        <i class="c-upload__placeholder-icon pgi pgi-upload text--primary"></i>
         <p class="c-upload__placeholder-text text--small text--primary">
           Clique ou arraste aqui para subir uma imagem
         </p>
@@ -111,7 +113,7 @@ export default class PgContainer extends Vue {
     this.file = file;
     this.blobUrl = URL.createObjectURL(file);
 
-    this.$emit("uploaded");
+    this.$emit("uploaded", file);
   }
 
   public onDrop(event: DragEvent): void {

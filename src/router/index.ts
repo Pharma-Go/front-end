@@ -8,6 +8,7 @@ import PgAuth from "../views/login/auth.vue";
 import PgLogin from "../views/login/login.vue";
 import PgRegister from "../views/login/register.vue";
 import PgRecoverPassword from "../views/recover-password/recover-password.vue";
+import PgInvoicePage from "../views/invoice/invoice.vue";
 import { settingsRoutes } from "./settings";
 import store from "@/store";
 
@@ -112,6 +113,12 @@ const routes: Array<RouteConfig> = [
     path: "/estabelecimento/:id/categoria/:category",
     name: "Estabelecimento",
     component: PgEstablishment,
+    beforeEnter: ensureLogged
+  },
+  {
+    path: "/pedidos/:id",
+    name: "Invoice",
+    component: PgInvoicePage,
     beforeEnter: ensureLogged
   },
   ...settingsRoutes

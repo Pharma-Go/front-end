@@ -5,7 +5,7 @@ class MediaService extends Rest {
     super("/medias");
   }
 
-  public async upload(file: File, callback: Function): Promise<any> {
+  public async upload(file: File, callback?: Function): Promise<any> {
     const data = new FormData();
     data.append("image", file, file.name);
     data.append("type", "file");
@@ -18,7 +18,9 @@ class MediaService extends Rest {
       },
       data,
       onUploadProgress: event => {
-        callback(event.loaded / event.total);
+        if (callback) {
+          callback(event.loaded / event.total);
+        }
       }
     });
   }

@@ -31,7 +31,7 @@ import { Component, Vue } from "vue-property-decorator";
 
 import { oauth } from "./services";
 import { mapState } from "vuex";
-import { User } from "./lib/models";
+import { Invoice, User } from "./lib/models";
 
 @Component({
   computed: {
@@ -54,19 +54,22 @@ export default class PgAppVue extends Vue {
         this.$pharmago.theme.themes.isDark = user.isDark;
       }
     }
-    // this.sockets.subscribe("newInvoice", data => {
-    //   console.log(data);
-    //   this.snackbar = {
-    //     color: "success",
-    //     icon: "pgi-added",
-    //     text: data,
-    //     visible: true
-    //   };
-    // });
+
+    this.sockets.subscribe("strictAccept", (invoice: Invoice) => {
+      this.snackbar = {
+        color: "success",
+        icon: "pgi-added",
+        text: `Sua(s) receita(s) foi(foram) aceita(s) do pedido #${invoice.id.substring(
+          0,
+          5
+        )} `,
+        visible: true
+      };
+    });
   }
 
   public beforeDestroy(): void {
-    this.sockets.unsubscribe("newInvoice");
+    this.sockets.unsubscribe("strictAccept");
   }
 
   public click(): void {

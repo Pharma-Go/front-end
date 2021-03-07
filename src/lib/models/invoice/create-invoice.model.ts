@@ -4,6 +4,6 @@ export interface CreateInvoice {
   discount: number;
   itemProducts: CreateProduct[];
   buyer: string;
-  cardId: string;
+  paymentCard: string;
   paymentMethod: string;
 }

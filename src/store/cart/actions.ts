@@ -6,5 +6,8 @@ export const actions = {
   },
   addProduct({ commit }: any, product: CreateProduct) {
     commit("addProduct", product);
+  },
+  clean({ commit }: any) {
+    commit("clean");
   }
 };

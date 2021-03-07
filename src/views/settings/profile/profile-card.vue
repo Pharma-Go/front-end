@@ -7,13 +7,15 @@
   >
     <div v-if="!isLoading">
       <div v-if="card && card.id" class="c-profile-card__card text--bold">
-        <p class="c-profile-card__card-name">{{ card.holder_name }}</p>
+        <p class="c-profile-card__card-name text--contrast">
+          {{ card.holder_name }}
+        </p>
 
         <div class="c-profile-card__card-footer">
-          <p class="c-profile-card__card-footer-text text--buttonContrast mb-1">
+          <p class="c-profile-card__card-footer-text text--contrast mb-1">
             {{ getCardDigits() }}
           </p>
-          <div class="c-profile-card__card-footer-informations">
+          <div class="c-profile-card__card-footer-informations text--contrast">
             <p class="c-profile-card__card-footer-informations-val mr-2">
               VAL: {{ getCardVal() }}
             </p>
@@ -136,24 +138,6 @@ export default class PgProfileCard extends Vue {
     this.$store.dispatch("user/set", { user });
 
     this.$router.go(-1);
-  }
-
-  public getCardDigits(): string {
-    return (
-      `${this.card?.first_digits?.substring(
-        0,
-        4
-      )} ${this.card?.first_digits?.substring(4, 6)}** **** ${
-        this.card?.last_digits
-      }` || ""
-    );
-  }
-
-  public getCardVal(): string {
-    return `${this.card?.expiration_date?.substring(
-      0,
-      2
-    )}/${this.card?.expiration_date?.substring(2, 4)}`;
   }
 }
 </script>

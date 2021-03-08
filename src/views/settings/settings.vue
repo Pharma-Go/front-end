@@ -43,7 +43,7 @@
       ></pg-item-list>
     </div>
 
-    <div class="c-settings__content-admin">
+    <div class="c-settings__content-admin" v-if="user.role === 'admin'">
       <h1 class="c-settings__content-admin-title">Administrativo</h1>
       <pg-item-list
         to="/configuracoes/admin/estabelecimentos"

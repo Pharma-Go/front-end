@@ -15,6 +15,10 @@ class EstablishmentService extends Rest {
       url: `/search/${term}`
     });
   }
+
+  public async getMy(): Promise<Establishment[]> {
+    return this.getOne("my");
+  }
 }
 
 export const establishments = Object.freeze(new EstablishmentService());

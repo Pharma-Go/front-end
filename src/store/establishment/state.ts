@@ -4,5 +4,6 @@ export const state = () => ({
   establishments: [] as Establishment[],
   mostRateds: [] as Establishment[],
   active: {} as Establishment,
-  productsMostRateds: [] as Product[]
+  productsMostRateds: [] as Product[],
+  myEstablishments: [] as Establishment[]
 });

@@ -5,9 +5,9 @@
     :canBack="true"
     backUrl="/configuracoes/"
   >
-    <div v-if="establishments && establishments.length > 0">
+    <div v-if="myEstablishments && myEstablishments.length > 0">
       <div
-        v-for="establishment in establishments"
+        v-for="establishment in myEstablishments"
         :key="establishment.id"
         class="mb-4"
       >
@@ -59,16 +59,16 @@ import { mapState } from "vuex";
 
 @Component({
   computed: {
-    ...mapState("establishment", ["establishments"])
+    ...mapState("establishment", ["myEstablishments"])
   }
 })
 export default class PgAdminEstablishments extends Vue {
-  public establishments!: Establishment[];
+  public myEstablishments!: Establishment[];
 
   public async created(): Promise<void> {
-    if (!this.establishments || this.establishments?.length === 0) {
-      const establishments = await this.$api.establishments.get();
-      this.$store.dispatch("establishment/set", { establishments });
+    if (!this.myEstablishments || this.myEstablishments?.length === 0) {
+      const myEstablishments = await this.$api.establishments.getMy();
+      this.$store.dispatch("establishment/set", { myEstablishments });
     }
   }
 

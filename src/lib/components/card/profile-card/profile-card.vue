@@ -6,7 +6,7 @@
 
     <div class="c-profile-card__card-footer">
       <p class="c-profile-card__card-footer-text text--contrast mb-1">
-        {{ getCardDigits() }}
+        {{ card.first_digits | getCardDigits }}
       </p>
       <div class="c-profile-card__card-footer-informations text--contrast">
         <p class="c-profile-card__card-footer-informations-val mr-2">

@@ -3,17 +3,20 @@ import { Card } from "../models";
 export function cardDigits(card: Card): string {
   let cardNumber = "";
 
+  const firstDigits = card.firstDigits || card["first_digits"];
+  const lastDigits = card.lastDigits || card["last_digits"];
+
   if (card) {
-    if (card.firstDigits) {
-      cardNumber = card.firstDigits.substring(0, 4);
+    if (firstDigits) {
+      cardNumber = firstDigits.substring(0, 4);
       cardNumber += "  ";
-      cardNumber += card.firstDigits.substring(4, 6);
+      cardNumber += firstDigits.substring(4, 6);
     }
 
     cardNumber += "** ****";
 
-    if (card.lastDigits) {
-      cardNumber += card.lastDigits;
+    if (lastDigits) {
+      cardNumber += lastDigits;
     }
   }
 

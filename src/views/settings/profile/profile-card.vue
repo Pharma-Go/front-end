@@ -13,11 +13,16 @@
 
         <div class="c-profile-card__card-footer">
           <p class="c-profile-card__card-footer-text text--contrast mb-1">
-            {{ getCardDigits() }}
+            {{ card | cardDigits }}
           </p>
           <div class="c-profile-card__card-footer-informations text--contrast">
             <p class="c-profile-card__card-footer-informations-val mr-2">
-              VAL: {{ getCardVal() }}
+              VAL:
+              {{
+                card.expiration_date.substring(0, 2) +
+                "/" +
+                card.expiration_date.substring(2, 4)
+              }}
             </p>
             <p class="c-profile-card__card-footer-informations-cvv">CVV: ***</p>
           </div>

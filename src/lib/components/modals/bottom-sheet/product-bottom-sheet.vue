@@ -74,6 +74,8 @@
 
   &__description {
     word-break: break-all;
+
+    padding-bottom: var(--spacing-14);
   }
 
   &__footer {

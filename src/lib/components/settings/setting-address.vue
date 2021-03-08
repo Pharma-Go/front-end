@@ -69,7 +69,11 @@
         ></pg-input>
       </div>
 
-      <pg-button class="my-4 fill-w" v-color="'backgroundSecondaryButton'" type="submit">
+      <pg-button
+        class="my-4 fill-w"
+        v-color="'backgroundSecondaryButton'"
+        type="submit"
+      >
         <span class="text--buttonContrast"> Salvar </span>
       </pg-button>
     </form>
@@ -129,16 +133,15 @@ export default class PgSettingsAddress extends Vue {
     if (this.form.zipcode.length === 8) {
       this.isLoading = true;
 
-      const informations = await this.$api.address.request({
-        public: true,
-        baseURL: `https://viacep.com.br/ws/${this.form.zipcode}/json/`
-      });
+      const informations = await this.$api.address.getByCep(this.form.zipcode);
 
       this.isLoading = false;
       this.form.street = informations.logradouro;
       this.form.district = informations.bairro;
       this.form.city = informations.localidade;
       this.form.state = informations.uf;
+      this.form.lat = informations.lat;
+      this.form.lon = informations.lon;
     }
   }
 

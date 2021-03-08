@@ -1,7 +1,7 @@
 <template>
   <label @dragover.prevent @drop.prevent="onDrop" class="c-upload">
     <slot name="progress" v-if="isSending" v-bind="this">
-      <progress :value="progress * 100"></progress>
+      <!-- <progress :value="progress * 100"></progress> -->
     </slot>
     <input
       type="file"

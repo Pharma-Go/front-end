@@ -4,10 +4,10 @@
     class="c-establishment"
   >
     <form @submit.prevent="save">
-      <div class="c-establishment__field">
+      <div class="c-establishment__field mb-2">
         <pg-upload ref="image" :url="form.imageUrl"></pg-upload>
       </div>
-      <div class="c-establishment__field">
+      <div class="c-establishment__field mt-4">
         <pg-input
           label="Nome"
           prependIcon="user"
@@ -51,17 +51,19 @@
 
 <script lang="ts">
 import { PgUpload } from "@/lib/components";
-import { Establishment } from "@/lib/models";
+import { Establishment, User } from "@/lib/models";
 import { Component, Vue } from "vue-property-decorator";
 import { mapState } from "vuex";
 
 @Component({
   computed: {
-    ...mapState("establishment", ["active"])
+    ...mapState("establishment", ["active"]),
+    ...mapState("user", ["user"])
   }
 })
 export default class PgAdminEstablishments extends Vue {
   public active!: Establishment;
+  public user!: User;
   public isEditing: boolean = this.$route.meta.isEditing;
   public form = {
     imageUrl: "",
@@ -69,6 +71,7 @@ export default class PgAdminEstablishments extends Vue {
     phone: "",
     opensAt: "",
     closesAt: "",
+    owner: "",
     id: ""
   };
 
@@ -80,11 +83,13 @@ export default class PgAdminEstablishments extends Vue {
       this.form.imageUrl = media.url;
     }
 
+    this.form.owner = this.user.id;
+
     const establishment = await this.$api.establishments.save(this.form);
-    const establishments = await this.$api.establishments.get();
+    const myEstablishments = await this.$api.establishments.getMy();
 
     this.$store.dispatch("establishment/set", { active: establishment });
-    this.$store.dispatch("establishment/set", { establishments });
+    this.$store.dispatch("establishment/set", { myEstablishments });
 
     this.$router.push("/configuracoes/admin/estabelecimentos");
   }

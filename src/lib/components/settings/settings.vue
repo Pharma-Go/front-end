@@ -119,8 +119,9 @@ export default class PgSettings extends Vue {
   @Prop(String) public backUrl!: string;
   @Prop(Boolean) public canBack!: boolean;
 
-  public logout(): void {
+  public async logout(): Promise<void> {
     this.$api.oauth.options.storage.clear();
+    // await this.$store.
     this.$router.replace("/");
   }
 

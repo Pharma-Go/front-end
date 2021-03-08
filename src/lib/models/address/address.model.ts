@@ -11,4 +11,6 @@ export interface Address extends Base {
   zipcode: string;
   reference: string;
   establishment: Establishment;
+  lat: number;
+  lon: number;
 }

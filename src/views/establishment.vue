@@ -288,6 +288,12 @@ export default class PgEstablishment extends Vue {
         (product: Product) => product.category.id === this.activeCategoryId
       );
     }
+
+    this.sockets.subscribe("updateInvoice", (invoice: Invoice) => {
+      if (invoice.buyer.id === this.user.id) {
+        this.generatedInvoice = invoice;
+      }
+    });
   }
 
   public countStarsReviews(): number {
@@ -374,15 +380,15 @@ export default class PgEstablishment extends Vue {
   public async onGenerateInvoice(invoice: Invoice): Promise<void> {
     this.showBottomSheet = false;
     this.showCartBottomSheet = false;
-    this.generatedInvoice = await this.$api.invoices.getOne(invoice.id);
 
+    console.log("generatedInvoice");
+
+    if (!this.generatedInvoice.id) {
+      this.generatedInvoice = await this.$api.invoices.getOne(invoice.id);
+    }
+
+    console.log(this.generatedInvoice);
     await this.$store.dispatch("cart/clean");
-
-    this.sockets.subscribe("updateInvoice", (invoice: Invoice) => {
-      if (invoice.buyer.id === this.user.id) {
-        this.generatedInvoice = invoice;
-      }
-    });
 
     setTimeout(() => {
       this.showConfirmationBottomSheet = true;

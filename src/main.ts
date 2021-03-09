@@ -25,8 +25,8 @@ Vue.use(PharmaGoUI);
 Vue.use(
   new VueSocketIO({
     debug: true,
-    // connection: "https://pharmago-backend.herokuapp.com/"
-    connection: "http://localhost:3000/"
+    connection: "https://pharmago-backend.herokuapp.com/"
+    //connection: "http://localhost:3000/"
   })
 );
 

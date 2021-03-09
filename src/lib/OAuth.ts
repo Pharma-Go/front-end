@@ -217,7 +217,7 @@ export const oauth = Object.freeze(
   new OAuthClient({
     clientId: "30fcc8d3-7cb4-4442-949e-294c26f21e14",
     clientSecret: "pharmago",
-    // tokenUrl: "https://pharmago-backend.herokuapp.com/oauth/token"
-    tokenUrl: "http://localhost:3000/oauth/token"
+    tokenUrl: "https://pharmago-backend.herokuapp.com/oauth/token"
+    //tokenUrl: "http://localhost:3000/oauth/token"
   })
 );

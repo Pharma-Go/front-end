@@ -16,3 +16,4 @@ export * from "./tab";
 export * from "./modals";
 export * from "./lottie";
 export * from "./loading";
+export * from "./form";

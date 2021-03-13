@@ -13,6 +13,7 @@
           prependIcon="clock"
           @input="onSearch"
           v-model="form.zipcode"
+          v-mask="'#####-###'"
         ></pg-input>
       </div>
       <div class="c-address__field">
@@ -130,10 +131,12 @@ export default class PgSettingsAddress extends Vue {
   public isLoading = false;
 
   public async onSearch(): Promise<void> {
-    if (this.form.zipcode.length === 8) {
+    if (this.form.zipcode.length === 9) {
       this.isLoading = true;
 
-      const informations = await this.$api.address.getByCep(this.form.zipcode);
+      const zipcode = this.form.zipcode.replace("-", "");
+
+      const informations = await this.$api.address.getByCep(zipcode);
 
       this.isLoading = false;
       this.form.street = informations.logradouro;

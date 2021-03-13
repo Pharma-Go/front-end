@@ -3,6 +3,7 @@ import Vue from "vue";
 import VueRouter, { NavigationGuardNext, Route, RouteConfig } from "vue-router";
 import PgHome from "../views/home.vue";
 import PgSearch from "../views/search/search.vue";
+import PgFavorites from "../views/favorites/favorites.vue";
 import PgEstablishment from "../views/establishment.vue";
 import PgAuth from "../views/login/auth.vue";
 import PgLogin from "../views/login/login.vue";
@@ -76,16 +77,21 @@ const routes: Array<RouteConfig> = [
   {
     path: "/recuperar-senha",
     name: "RecoverPassword",
-    component: PgRecoverPassword,
+    component: PgRecoverPassword
+  },
+  {
+    path: "/buscar",
+    name: "Search",
+    component: PgSearch,
     beforeEnter: ensureLogged,
     meta: {
       bottomBar: true
     }
   },
   {
-    path: "/buscar",
-    name: "Search",
-    component: PgSearch,
+    path: "/favoritos",
+    name: "Favorites",
+    component: PgFavorites,
     beforeEnter: ensureLogged,
     meta: {
       bottomBar: true

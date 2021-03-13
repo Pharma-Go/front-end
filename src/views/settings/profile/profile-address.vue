@@ -45,14 +45,16 @@ export default class PgProfileAddress extends Vue {
     if (this.hasAddress) {
       const address: Address = await this.$api.address.save({
         ...this.form,
-        id: this.user.address.id
+        id: this.user.address.id,
+        zipcode: this.form.zipcode.replaceAll("-", "")
       });
 
       addressId = address.id;
     } else {
       const address: Address = await this.$api.address.save({
         ...this.form,
-        user: this.user.id
+        user: this.user.id,
+        zipcode: this.form.zipcode.replaceAll("-", "")
       });
 
       addressId = address.id;

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="c-invoice pa-4"
+    class="c-invoice pa-4 bg--background"
     v-if="active && active.id && establishment && establishment.id"
   >
     <div class="c-invoice__header mb-4">
@@ -79,6 +79,19 @@
             </p>
           </template>
         </pg-product-card>
+        <div
+          v-if="product.prescriptionUrl"
+          class="d-flex align-center justify-center"
+        >
+          <i class="pgi pgi-add text--primary text--small mr-1"></i>
+          <a
+            :href="product.prescriptionUrl"
+            target="_blank"
+            class="text--small text--foregroundTertiary"
+          >
+            Ver receita médica
+          </a>
+        </div>
       </div>
       <div class="c-invoice__details-item mt-4">
         <p class="mb-0 text--foreground text--normal">Subtotal</p>

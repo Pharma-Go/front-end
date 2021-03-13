@@ -1,8 +1,8 @@
 import { Card } from "../card";
-import { CreateProduct } from "../product";
+import { CreateItemProduct } from "../product";
 
 export interface Cart {
   total: number;
-  products: CreateProduct[];
+  products: CreateItemProduct[];
   payment: Card;
 }

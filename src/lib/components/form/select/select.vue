@@ -52,6 +52,7 @@
   border-radius: var(--spacing-1);
   align-items: center;
   min-height: 52px;
+  cursor: pointer;
 
   &__label {
     display: flex;
@@ -89,7 +90,7 @@
 .select-transition {
   &-enter-active,
   &-leave-active {
-    transition: all 0.5s ease-in-out;
+    transition: all 0.25s ease-in-out;
   }
 
   &-enter,

@@ -56,20 +56,54 @@ export default class PgAppVue extends Vue {
     }
 
     this.sockets.subscribe("strictAccept", (invoice: Invoice) => {
+      if (invoice.strictAccepted) {
+        this.snackbar = {
+          color: "success",
+          icon: "pgi-added",
+          text: `Sua(s) receita(s) foi(foram) aceita(s) do pedido #${invoice.id.substring(
+            0,
+            5
+          )} `,
+          visible: true
+        };
+      } else {
+        this.snackbar = {
+          color: "error",
+          icon: "pgi-close",
+          text: `Sua(s) receita(s) foi(foram) recusada(s) do pedido #${invoice.id.substring(
+            0,
+            5
+          )} `,
+          visible: true
+        };
+      }
+    });
+
+    this.sockets.subscribe("delivererAccept", (id: string) => {
       this.snackbar = {
         color: "success",
         icon: "pgi-added",
-        text: `Sua(s) receita(s) foi(foram) aceita(s) do pedido #${invoice.id.substring(
-          0,
-          5
-        )} `,
+        text: `Seu pedido #${id.substring(0, 5)} está saindo para entrega ;)`,
         visible: true
       };
+    });
+
+    this.sockets.subscribe("newInvoice", (id: string) => {
+      if (this.user.role !== "default") {
+        this.snackbar = {
+          color: "success",
+          icon: "pgi-added",
+          text: `Novo pedido #${id.substring(0, 5)}!`,
+          visible: true
+        };
+      }
     });
   }
 
   public beforeDestroy(): void {
+    this.sockets.unsubscribe("newInvoice");
     this.sockets.unsubscribe("strictAccept");
+    this.sockets.unsubscribe("delivererAccept");
   }
 
   public click(): void {

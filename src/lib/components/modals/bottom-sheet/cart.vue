@@ -362,7 +362,7 @@ import {
   Card,
   Cart,
   CreateInvoice,
-  CreateProduct,
+  CreateItemProduct,
   Product,
   User
 } from "@/lib/models";
@@ -401,7 +401,7 @@ export default class PgCartBottomSheet extends Vue {
         cart: { ...this.cart, payment: this.user.cards[0] }
       });
 
-      this.cart.products.forEach((product: CreateProduct) => {
+      this.cart.products.forEach((product: CreateItemProduct) => {
         if (product.product.strict) {
           this.hasProductStrit = true;
         }
@@ -434,10 +434,13 @@ export default class PgCartBottomSheet extends Vue {
   }
 
   public getTotal(): number {
-    return this.cart.products.reduce((acc: number, value: CreateProduct) => {
-      acc += value.product.price * value.quantity;
-      return acc;
-    }, 0);
+    return this.cart.products.reduce(
+      (acc: number, value: CreateItemProduct) => {
+        acc += value.product.price * value.quantity;
+        return acc;
+      },
+      0
+    );
   }
 
   public onUpload(file: File, product: Product): void {
@@ -488,7 +491,8 @@ export default class PgCartBottomSheet extends Vue {
       itemProducts: this.cart.products,
       buyer: this.user.id,
       paymentCard: this.cart.payment.id,
-      paymentMethod: this.cart.payment.method
+      paymentMethod: this.cart.payment.method,
+      // establishment: this.cart.establishment.id
     };
 
     console.log(createInvoice);

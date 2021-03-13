@@ -45,9 +45,24 @@
 
     <div class="c-settings__content-admin" v-if="user.role === 'admin'">
       <h1 class="c-settings__content-admin-title">Administrativo</h1>
+
       <pg-item-list
         to="/configuracoes/admin/estabelecimentos"
         title="Estabelecimentos"
+        icon="chevron-left"
+        :shouldRotate="true"
+      ></pg-item-list>
+
+      <pg-item-list
+        to="/configuracoes/admin/pedidos"
+        title="Pedidos"
+        icon="chevron-left"
+        :shouldRotate="true"
+      ></pg-item-list>
+
+      <pg-item-list
+        to="/configuracoes/admin/receitas"
+        title="Receitas"
         icon="chevron-left"
         :shouldRotate="true"
       ></pg-item-list>

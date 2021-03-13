@@ -17,8 +17,20 @@ class UserService extends Rest {
 
   public async recoverPassword(email: string): Promise<void> {
     await this.request({
-      url: "/recoverPassword/" + email,
-      method: "GET",
+      url: "/requestRecoverPassword/" + email,
+      method: "POST",
+      public: true
+    });
+  }
+
+  public async changeRecoverPassword(
+    email: string,
+    data: { code: string; password: string }
+  ): Promise<void> {
+    await this.request({
+      url: "/changeRecoverPassword/" + email,
+      data,
+      method: "POST",
       public: true
     });
   }

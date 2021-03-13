@@ -12,6 +12,8 @@ import VueSocketIO from "vue-socket.io";
 import { formatPrice } from "./lib/pipes/price.pipe";
 import { formatPaymentMethod } from "./lib/pipes/payment-method.pipe";
 import { cardDigits } from "./lib/pipes/card.pipe";
+import VueMask from "v-mask";
+import { VueMaskFilter } from "v-mask";
 
 declare module "vue/types/vue" {
   export interface Vue {
@@ -26,10 +28,12 @@ Vue.use(
   new VueSocketIO({
     debug: true,
     connection: "https://pharmago-backend.herokuapp.com/"
-    //connection: "http://localhost:3000/"
+    // connection: "http://localhost:3000/"
   })
 );
+Vue.use(VueMask);
 
+Vue.filter("VMask", VueMaskFilter);
 Vue.filter("formatPrice", formatPrice);
 Vue.filter("formatPaymentMethod", formatPaymentMethod);
 Vue.filter("cardDigits", cardDigits);

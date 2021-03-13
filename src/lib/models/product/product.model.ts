@@ -17,3 +17,13 @@ export interface Product extends Base {
   reviews: Review[];
   strict: boolean;
 }
+
+export interface CreateProduct {
+  name: string;
+  imageUrl?: string;
+  price: any;
+  establishment: string;
+  strict: boolean;
+  available: boolean,
+  description?: string;
+}

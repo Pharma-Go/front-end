@@ -17,6 +17,7 @@
 <style lang="scss">
 .c-item-select {
   padding: var(--spacing-1) var(--spacing-2);
+  cursor: pointer;
 }
 </style>
 

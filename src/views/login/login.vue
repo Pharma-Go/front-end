@@ -142,8 +142,6 @@ export default class PgLogin extends Vue {
       return;
     }
 
-    console.log("a");
-
     await this.$api.users.recoverPassword(this.form.email).catch(err => {
       this.snackbar = {
         color: "error",

@@ -1,10 +1,10 @@
-import { Cart, CreateProduct } from "@/lib/models";
+import { Cart, CreateItemProduct } from "@/lib/models";
 
 export const mutations = {
   SET(state: any, payload: any) {
     Object.assign(state, payload);
   },
-  addProduct(state: { cart: Cart }, product: CreateProduct) {
+  addProduct(state: { cart: Cart }, product: CreateItemProduct) {
     if (state.cart.products && state.cart.products.length > 0) {
       for (const createProduct of state.cart.products) {
         if (
@@ -19,7 +19,7 @@ export const mutations = {
       }
 
       const index = state.cart.products.findIndex(
-        (createProduct: CreateProduct) =>
+        (createProduct: CreateItemProduct) =>
           createProduct.product.id === product.product.id
       );
 

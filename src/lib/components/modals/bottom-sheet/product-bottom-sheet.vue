@@ -148,7 +148,7 @@
 </style>
 
 <script lang="ts">
-import { CreateProduct, Product } from "@/lib/models";
+import { CreateItemProduct, Product } from "@/lib/models";
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
@@ -174,7 +174,7 @@ export default class PgProductBottomSheet extends Vue {
   }
 
   public onContinue(): void {
-    const createProduct: CreateProduct = {
+    const createProduct: CreateItemProduct = {
       product: this.product,
       quantity: this.quantity
     };

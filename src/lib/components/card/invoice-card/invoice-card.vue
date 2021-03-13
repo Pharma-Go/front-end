@@ -1,21 +1,32 @@
 <template>
-  <div :class="[themeClass, 'c-invoice-card']" v-if="invoice">
-    <i class="c-invoice-card__icon pgi pgi-invoice" alt="Ícone do produto"></i>
+  <div
+    :class="[themeClass, 'c-invoice-card']"
+    v-if="invoice"
+    @click.prevent="onClick"
+  >
+    <div class="d-flex align-center">
+      <i
+        class="c-invoice-card__icon pgi pgi-invoice"
+        alt="Ícone do produto"
+      ></i>
 
-    <div class="c-invoice-card__content">
-      <div class="c-invoice-card__content-header">
-        <p class="text--normal text--bold text--foreground">
-          #{{ invoice.id.substring(0, 5) }}
-        </p>
-        <p class="text--normal text--foregroundTertiary">
-          {{ $dayjs(invoice.created_at).format("DD/MM/YYYY") }}
+      <div class="c-invoice-card__content">
+        <div class="c-invoice-card__content-header">
+          <p class="text--normal text--bold text--foreground">
+            #{{ invoice.id.substring(0, 5) }}
+          </p>
+          <p class="text--normal text--foregroundTertiary">
+            {{ $dayjs(invoice.created_at).format("DD/MM/YYYY") }}
+          </p>
+        </div>
+        <p class="c-invoice-card__content-footer text--normal text--bold">
+          R$
+          {{ getInvoicePrice() | formatPrice }}
         </p>
       </div>
-      <p class="c-invoice-card__content-footer text--normal text--bold">
-        R$
-        {{ getInvoicePrice() | formatPrice }}
-      </p>
     </div>
+
+    <slot></slot>
   </div>
 </template>
 
@@ -29,11 +40,13 @@
   border-radius: var(--spacing-2);
   padding: var(--spacing-2);
   border: 1px solid var(--current-color);
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
 
   &__icon {
     font-size: var(--spacing-10);
     margin-right: var(--spacing-4);
-    padding-top: 9px;
   }
 
   &__content {
@@ -74,6 +87,10 @@ export default class PgInvoiceCard extends Mixins(Themeable) {
         0
       ) ?? 0
     );
+  }
+
+  public onClick(): void {
+    this.$emit("clickInvoice", this.invoice);
   }
 }
 </script>

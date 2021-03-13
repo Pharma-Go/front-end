@@ -217,7 +217,7 @@
 <script lang="ts">
 import {
   Category,
-  CreateProduct,
+  CreateItemProduct,
   Establishment,
   Invoice,
   Product,
@@ -358,7 +358,7 @@ export default class PgEstablishment extends Vue {
     this.showConfirmationBottomSheet = false;
   }
 
-  public async onAddProduct(createProduct: CreateProduct): Promise<void> {
+  public async onAddProduct(createProduct: CreateItemProduct): Promise<void> {
     await this.$store.dispatch("cart/addProduct", createProduct).catch(err => {
       this.snackbar = {
         color: "error",
@@ -381,13 +381,10 @@ export default class PgEstablishment extends Vue {
     this.showBottomSheet = false;
     this.showCartBottomSheet = false;
 
-    console.log("generatedInvoice");
-
     if (!this.generatedInvoice.id) {
       this.generatedInvoice = await this.$api.invoices.getOne(invoice.id);
     }
 
-    console.log(this.generatedInvoice);
     await this.$store.dispatch("cart/clean");
 
     setTimeout(() => {

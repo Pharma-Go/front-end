@@ -58,7 +58,8 @@ export default class PgAddressAdminEstablishment extends Vue {
     if (this.hasAddress) {
       const address: Address = await this.$api.address.save({
         ...this.form,
-        id: this.active.address.id
+        id: this.active.address.id,
+        zipcode: this.form.zipcode.replaceAll("-", "")
       });
 
       addressId = address.id;
@@ -68,7 +69,8 @@ export default class PgAddressAdminEstablishment extends Vue {
     } else {
       const address: Address = await this.$api.address.save({
         ...this.form,
-        establishment: this.active.id
+        establishment: this.active.id,
+        zipcode: this.form.zipcode.replaceAll("-", "")
       });
 
       addressId = address.id;

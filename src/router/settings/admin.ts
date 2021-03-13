@@ -1,3 +1,6 @@
+import PgAdminInvoices from "@/views/settings/admin/invoices/admin-invoices.vue";
+import PgAdminPrescriptions from "@/views/settings/admin/prescriptions/prescriptions.vue";
+import PgAdminPrescriptionsDetails from "@/views/settings/admin/prescriptions/prescriptions-details.vue";
 import PgAdminSaveCategory from "@/views/settings/admin/category/category.vue";
 import PgAdminEstablishments from "@/views/settings/admin/establishments.vue";
 import PgAdminCreateEstablishment from "@/views/settings/admin/establishment/create-establishment.vue";
@@ -9,6 +12,24 @@ import PgAdminProduct from "@/views/settings/admin/establishment/products/establ
 import { ensureLogged } from "..";
 
 export const adminSettings = [
+  {
+    path: "/configuracoes/admin/pedidos",
+    name: "AdminInvoices",
+    component: PgAdminInvoices,
+    beforeEnter: ensureLogged
+  },
+  {
+    path: "/configuracoes/admin/receitas",
+    name: "AdminPrescriptions",
+    component: PgAdminPrescriptions,
+    beforeEnter: ensureLogged
+  },
+  {
+    path: "/configuracoes/admin/receitas/:id",
+    name: "AdminPrescriptionsDetails",
+    component: PgAdminPrescriptionsDetails,
+    beforeEnter: ensureLogged
+  },
   {
     path: "/configuracoes/admin/estabelecimentos",
     name: "Admin Establishments",

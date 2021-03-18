@@ -1,0 +1,1 @@
+export { default as PgSidebar } from './sidebar.vue';

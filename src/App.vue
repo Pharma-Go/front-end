@@ -1,8 +1,15 @@
 <template>
   <pg-app id="app">
-    <router-view />
+    <div class="c-app__content">
+      <pg-sidebar
+        class="c-app__content-sidebar"
+        :activeItem="$route.name"
+      ></pg-sidebar>
+      <router-view class="c-app__content-router" />
+    </div>
 
     <pg-bottom-bar
+      class="c-app__bottom-bar"
       v-if="$route.meta.bottomBar"
       :activeRoute="$route.name"
     ></pg-bottom-bar>
@@ -14,14 +21,23 @@
   </pg-app>
 </template>
 
-<style lang="scss">
-.bottom-sheet {
-  &__card {
-    background: var(--theme-background) !important;
+<style lang="scss" scoped>
+@import "@/lib/styles/mq.scss";
+
+.c-app {
+  &__content {
+    display: flex;
+
+    &-router {
+      width: 100%;
+    }
   }
 
-  &__bar {
-    background: var(--theme-foreground) !important;
+  &__bottom-bar {
+    display: block;
+    @include mq($from: tablet-landscape) {
+      display: none;
+    }
   }
 }
 </style>

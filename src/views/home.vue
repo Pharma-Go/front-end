@@ -86,7 +86,7 @@
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "../lib/styles/mq.scss";
 @import "../lib/styles/typography.scss";
 
@@ -111,7 +111,7 @@
       object-fit: cover;
 
       &--icon {
-        @include font-size($font-lg);
+        @include font-size($font-size-lg);
 
         border: 1px solid var(--theme-primary);
         color: var(--theme-primary);
@@ -167,6 +167,10 @@
         margin-right: var(--spacing-2);
         padding-right: var(--spacing-2);
         cursor: pointer;
+
+        .c-invoice-card {
+          box-shadow: none !important;
+        }
       }
     }
   }
@@ -219,15 +223,15 @@ export default class PgHome extends Vue {
   }
 
   public getColorOfInvoice(invoice: Invoice): string {
-    if (invoice.paymentStatus === PaymentStatus.refused) {
-      return "error";
+    if (invoice.paymentStatus === PaymentStatus.refused || invoice.isFee) {
+      return "feedbackErrorMedium";
     }
 
     if (invoice.strictAccepted) {
       if (invoice.delivered) {
-        return "success";
+        return "feedbackSuccessMedium";
       } else {
-        return "attention";
+        return "feedbackWarningMedium";
       }
     }
 

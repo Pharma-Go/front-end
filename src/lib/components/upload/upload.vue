@@ -54,7 +54,7 @@
 
     &-icon {
       transition: all 0.3s ease-in-out;
-      @include font-size($font-xl);
+      @include font-size($font-size-xl);
     }
 
     &-text {
@@ -88,7 +88,7 @@
       right: calc(var(--spacing-7) / 2 * -1);
 
       &-content {
-        @include font-size($font-md);
+        @include font-size($font-size-md);
       }
     }
   }

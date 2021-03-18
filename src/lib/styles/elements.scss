@@ -34,27 +34,27 @@ strong {
 
 h1,
 .alpha {
-  @include font-size($font-md);
+  @include font-size($font-size-md);
 }
 
 h2,
 .beta {
-  @include font-size($font-sm);
+  @include font-size($font-size-sm);
 }
 
 h3,
 .gamma {
-  @include font-size($font-xs);
+  @include font-size($font-size-xs);
 }
 
 h4,
 .delta {
-  @include font-size($font-xxs);
+  @include font-size($font-size-xxs);
 }
 
 h5,
 .epsilon {
-  @include font-size($font-xxs);
+  @include font-size($font-size-xxs);
 }
 
 .text--large,
@@ -67,55 +67,55 @@ h5,
 }
 
 .text--large {
-  @include font-size($font-sm);
+  @include font-size($font-size-sm);
 }
 
 .text--medium {
-  @include font-size($font-xs);
+  @include font-size($font-size-xs);
 }
 
 p,
 .text--normal {
-  @include font-size($font-xxs);
+  @include font-size($font-size-xxs);
 }
 
 .text--small {
-  @include font-size($font-xxxs);
+  @include font-size($font-size-xxxs);
 }
 
 @include mq($from: tablet-landscape) {
   h1,
   .alpha {
-    @include font-size($font-xl);
+    @include font-size($font-size-xl);
   }
   h2,
   .beta {
-    @include font-size($font-lg);
+    @include font-size($font-size-lg);
   }
   h3,
   .gamma {
-    @include font-size($font-md);
+    @include font-size($font-size-md);
   }
   h4,
   .delta {
-    @include font-size($font-sm);
+    @include font-size($font-size-sm);
   }
   h5,
   .epsilon {
-    @include font-size($font-xs);
+    @include font-size($font-size-xs);
   }
   .text--large {
-    @include font-size($font-sm);
+    @include font-size($font-size-sm);
   }
   .text--medium {
-    @include font-size($font-xs);
+    @include font-size($font-size-xs);
   }
   p,
   .text--normal {
-    @include font-size($font-xxs);
+    @include font-size($font-size-xxs);
   }
   .text--small {
-    @include font-size($font-xxxs);
+    @include font-size($font-size-xxxs);
   }
 }
 

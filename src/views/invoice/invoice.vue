@@ -15,7 +15,7 @@
       <h1>{{ getEstablishmentName() }}</h1>
       <div class="c-invoice__header-feedback">
         <i
-          class="c-invoice__header-feedback-icon pgi pgi-star text--primary"
+          class="c-invoice__header-feedback-icon pgi pgi-star text--feedbackWarningMedium"
         ></i>
       </div>
     </div>
@@ -24,7 +24,7 @@
       <transition name="enter-transition">
         <pg-lottie
           v-if="showCheck"
-          :options="defaultOptions"
+          :options="checkOption"
           :height="200"
           :width="200"
           v-on:animCreated="handleAnimation"
@@ -39,17 +39,47 @@
         </div>
       </transition>
     </div>
-    <div class="mb-7 mt-4" v-else>
-      <div class="c-invoice__icon text--center d-flex flex-col align-center">
-        <i class="text--attention pgi pgi-clock mb-4"></i>
-        <p class="text--center mb-0">
-          A <strong>{{ getEstablishmentName() }}</strong> está processando seu
-          pedido!
-        </p>
-        <p class="text--center text--bold text--foreground">
-          Quando sair para entrega você será notificado ;)
-        </p>
+    <div class="mb-3 mt-4" v-if="!active.delivererAccept">
+      <div v-if="!showCancel">
+        <div class="c-invoice__icon text--center d-flex flex-col align-center">
+          <i class="text--feedbackWarningMedium pgi pgi-clock mb-4"></i>
+          <p class="text--center mb-0">
+            A <strong>{{ getEstablishmentName() }}</strong> está processando seu
+            pedido!
+          </p>
+          <p class="text--center text--bold text--foreground">
+            Quando sair para entrega você será notificado ;)
+          </p>
+        </div>
       </div>
+      <div v-else>
+        <pg-lottie
+          :options="cancelOption"
+          :height="200"
+          :width="200"
+          v-on:animCreated="handleAnimation"
+        />
+      </div>
+    </div>
+
+    <div
+      class="c-invoice__actions d-flex justify-center mb-7"
+      v-if="!showCancel && !active.delivered"
+    >
+      <div v-if="!isLoading" class="d-flex align-center justify-between">
+        <pg-button class="fill-w" @click.prevent="onCancel">
+          <span class="text--primary"> Cancelar </span>
+        </pg-button>
+
+        <pg-button
+          @click.prevent="onDelivered"
+          class="fill-w"
+          v-color="'primary'"
+        >
+          <span class="text--buttonContrast"> Entregue </span>
+        </pg-button>
+      </div>
+      <pg-loading class="c-invoice__actions-loading" v-else></pg-loading>
     </div>
 
     <div class="c-invoice__details">
@@ -57,8 +87,14 @@
         <p class="mb-0 text--bold text--foreground text--normal">
           Pedido: #{{ active.id.substring(0, 5) }}
         </p>
-        <p class="mb-0 text--foregroundTertiary text--small">
+        <p
+          class="mb-0 text--foregroundTertiary text--small"
+          v-if="!showCancel && active.paymentStatus === 'paid'"
+        >
           Pago em: {{ $dayjs(active.paymentDate).format("DD/MM/YYYY") }}
+        </p>
+        <p class="mb-0 text--foregroundTertiary text--small" v-else>
+          Cancelado em: {{ $dayjs(active.refunded).format("DD/MM/YYYY") }}
         </p>
       </div>
       <div
@@ -93,22 +129,52 @@
           </a>
         </div>
       </div>
-      <div class="c-invoice__details-item mt-4">
+      <div
+        :class="[
+          'c-invoice__details-item',
+          'mt-4',
+          { 'line--through': showCancel }
+        ]"
+      >
         <p class="mb-0 text--foreground text--normal">Subtotal</p>
         <p class="mb-0 text--foregroundTertiary text--normal">
           R$ {{ active.total | formatPrice }}
         </p>
       </div>
-      <div class="c-invoice__details-item mt-1">
+      <div
+        :class="[
+          'c-invoice__details-item',
+          'mt-1',
+          { 'line--through': showCancel }
+        ]"
+      >
         <p class="mb-0 text--foreground text--normal">Taxa de entrega</p>
         <p class="mb-0 text--foregroundTertiary text--normal">
-          R$ {{ 500 | formatPrice }}
+          R$ {{ active.deliveryFeeAmount || 0 | formatPrice }}
         </p>
       </div>
-      <div class="c-invoice__details-item mt-1">
+      <div
+        :class="[
+          'c-invoice__details-item',
+          'mt-1',
+          { 'line--through': showCancel }
+        ]"
+      >
         <p class="mb-0 text--foreground text--bold text--medium">Total</p>
         <p class="mb-0 text--foreground text--bold text--medium">
-          R$ {{ (active.total + 500) | formatPrice }}
+          R$
+          {{ (active.total + (active.deliveryFeeAmount || 0)) | formatPrice }}
+        </p>
+      </div>
+      <div
+        class="c-invoice__details-item mt-1"
+        v-if="showCancel && active.feeAmount"
+      >
+        <p class="mb-0 text--foreground text--bold text--medium">
+          Taxa de cancelamento
+        </p>
+        <p class="mb-0 text--foreground text--bold text--medium">
+          R$ {{ active.feeAmount | formatPrice }}
         </p>
       </div>
       <div class="c-invoice__details-payment my-2 py-2">
@@ -153,7 +219,7 @@
       cursor: pointer;
 
       &-icon {
-        @include font-size($font-sm);
+        @include font-size($font-size-sm);
       }
     }
 
@@ -199,7 +265,7 @@
   }
 
   &__icon {
-    @include font-size($font-xl * 1.5);
+    @include font-size($font-size-xl * 1.5);
   }
 
   &__map {
@@ -210,6 +276,13 @@
 
     .mapboxgl-canvas {
       border-radius: var(--spacing-4);
+    }
+  }
+
+  &__actions {
+    &-loading {
+      width: var(--spacing-4);
+      height: var(--spacing-4);
     }
   }
 }
@@ -266,11 +339,11 @@
 
 <script lang="ts">
 import { Establishment, Invoice } from "@/lib/models";
-import establishment from "@/store/establishment";
 
 import { Component, Vue } from "vue-property-decorator";
 import { mapState } from "vuex";
 import * as animationData from "../../assets/check-circle.json";
+import * as cancelAnimationData from "../../assets/cancel.json";
 
 @Component({
   computed: {
@@ -281,17 +354,26 @@ export default class PgInvoicePage extends Vue {
   public active!: Invoice;
   public establishment: Establishment = {} as Establishment;
 
+  public isLoading = false;
   public showCheck = false;
+  public showCancel = false;
   public showMap = false;
   public mountedMap = false;
   public anim!: any;
-  public defaultOptions = {
+  public checkOption = {
     animationData: animationData,
     autoplay: true
   };
+
+  public cancelOption = {
+    animationData: cancelAnimationData,
+    autoplay: true,
+    loop: true
+  };
+
   public snackbar: any = {
     visible: false,
-    color: "error"
+    color: "feedbackErrorMedium"
   };
 
   public map!: any;
@@ -303,6 +385,10 @@ export default class PgInvoicePage extends Vue {
 
     if (this.active.delivererAccepted && !this.active.delivered) {
       this.showMap = true;
+    }
+
+    if (this.active.isFee && this.active.feeAmount) {
+      this.showCancel = true;
     }
 
     const product = await this.$api.products.getOne(
@@ -321,7 +407,7 @@ export default class PgInvoicePage extends Vue {
         await this.$store.dispatch("invoice/set", { active });
 
         this.snackbar = {
-          color: "success",
+          color: "feedbackSuccessMedium",
           icon: "pgi-added",
           text: "O seu pedido está a caminho ;)",
           visible: true
@@ -341,6 +427,12 @@ export default class PgInvoicePage extends Vue {
       }
     });
 
+    this.sockets.subscribe("refundInvoice", async (invoice: Invoice) => {
+      await this.$store.dispatch("invoice/set", { active: invoice });
+      this.showCancel = true;
+      this.isLoading = false;
+    });
+
     // @ts-ignore
     const tt = window.tt;
 
@@ -358,30 +450,16 @@ export default class PgInvoicePage extends Vue {
   }
 
   public updated(): void {
-    console.log(this.showMap, !this.mountedMap);
     if (this.showMap && !this.mountedMap) {
       this.mountMap();
       this.mountedMap = true;
     }
   }
 
-  public rad(x: any) {
-    return (x * Math.PI) / 180;
-  }
-
-  public getDistance(lat1, lng1, lat2, lng2) {
-    const R = 6378137; // Earth’s mean radius in meter
-    const dLat = this.rad(lat2 - lat1);
-    const dLong = this.rad(lng2 - lng1);
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(this.rad(lat1)) *
-        Math.cos(this.rad(lat2)) *
-        Math.sin(dLong / 2) *
-        Math.sin(dLong / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const d = R * c;
-    return d;
+  public beforeDestroyed(): void {
+    this.sockets.unsubscribe("refundInvoice");
+    this.sockets.unsubscribe("delivererAccept");
+    this.sockets.unsubscribe("gpsToClient");
   }
 
   public toRad(value: number) {
@@ -451,11 +529,6 @@ export default class PgInvoicePage extends Vue {
     ]);
   }
 
-  public beforeDestroyed(): void {
-    this.sockets.unsubscribe("delivererAccept");
-    this.sockets.unsubscribe("gpsToClient");
-  }
-
   private createMarker(tt: any, icon: string, lngLat: number[]): void {
     const markerElement = document.createElement("div");
     markerElement.className = "marker";
@@ -480,6 +553,16 @@ export default class PgInvoicePage extends Vue {
 
   public getEstablishmentName(): string {
     return this.establishment.name;
+  }
+
+  public onDelivered(): void {
+    console.log("a");
+  }
+
+  public async onCancel(): Promise<void> {
+    this.isLoading = true;
+
+    await this.$api.invoices.refundInvoice(this.active.id);
   }
 }
 </script>

@@ -149,10 +149,10 @@
   }
 
   &__title {
-    @include font-size($font-lg);
+    @include font-size($font-size-lg);
 
     @include mq($until: tablet-landscape) {
-      @include font-size($font-md);
+      @include font-size($font-size-md);
       padding-top: var(--spacing-5);
     }
   }
@@ -174,7 +174,7 @@ export default class PgRegister extends Vue {
 
   public snackbar: any = {
     visible: false,
-    color: "error"
+    color: "feedbackErrorMedium"
   };
 
   public async onSubmit(): Promise<Route> {
@@ -189,7 +189,7 @@ export default class PgRegister extends Vue {
       })
       .catch(err => {
         this.snackbar = {
-          color: "error",
+          color: "feedbackErrorMedium",
           icon: "pgi-close",
           text:
             err.response?.data?.message ||

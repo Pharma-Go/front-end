@@ -5,7 +5,8 @@ import { ItemProduct } from "./item-product.model";
 export enum PaymentStatus {
   paid = "paid",
   pending = "pending",
-  refused = "refused"
+  refused = "refused",
+  refunded = "refunded"
 }
 
 export enum PaymentMethod {
@@ -17,11 +18,16 @@ export interface Invoice extends Base {
   discount: number;
   paymentStatus: PaymentStatus;
   paymentMethod: PaymentMethod;
+  refunded: Date;
   paymentDate: Date;
   strictAccepted: boolean;
+  transactionId: number;
   delivererAccepted: boolean;
   delivered: boolean;
   buyer: User;
   itemProducts: ItemProduct[];
   deliverer: User;
+  deliveryFeeAmount: number;
+  isFee: boolean;
+  feeAmount: number;
 }

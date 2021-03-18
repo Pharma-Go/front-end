@@ -12,17 +12,14 @@
           class="c-establishment__header-back-icon pgi pgi-chevron-left text--primary"
         ></i>
       </div>
-      <div
-        @click.prevent="onFavorite"
-        class="c-establishment__header-favorite bg--secondaryBackground"
-      >
+      <div @click.prevent="onFavorite" class="c-establishment__header-favorite">
         <i
           :class="[
             'c-establishment__header-favorite-icon',
             'pgi',
             { 'pgi-favorite': !hasFavorited },
             { 'pgi-favorited': hasFavorited },
-            'text--primary'
+            'text--feedbackErrorMedium'
           ]"
         ></i>
       </div>
@@ -161,7 +158,7 @@
       cursor: pointer;
 
       &-icon {
-        @include font-size($font-sm);
+        @include font-size($font-size-sm);
       }
     }
 
@@ -196,7 +193,7 @@
         justify-content: flex-end;
 
         &-icon {
-          @include font-size($font-sm);
+          @include font-size($font-size-sm);
         }
 
         &-text {
@@ -251,7 +248,7 @@ export default class PgEstablishment extends Vue {
 
   public snackbar: any = {
     visible: false,
-    color: "error"
+    color: "feedbackErrorMedium"
   };
 
   public async created() {
@@ -359,16 +356,21 @@ export default class PgEstablishment extends Vue {
   }
 
   public async onAddProduct(createProduct: CreateItemProduct): Promise<void> {
-    await this.$store.dispatch("cart/addProduct", createProduct).catch(err => {
-      this.snackbar = {
-        color: "error",
-        icon: "pgi-close",
-        text:
-          "Não pode adicionar produtos de diferentes farmácias no mesmo pedido.",
-        visible: true
-      };
-      return Promise.reject(err);
-    });
+    await this.$store
+      .dispatch("cart/addProduct", {
+        createProduct,
+        establishment: this.active
+      })
+      .catch(err => {
+        this.snackbar = {
+          color: "feedbackErrorMedium",
+          icon: "pgi-close",
+          text:
+            "Não pode adicionar produtos de diferentes farmácias no mesmo pedido.",
+          visible: true
+        };
+        return Promise.reject(err);
+      });
 
     this.onCloseProductBottomSheet();
   }

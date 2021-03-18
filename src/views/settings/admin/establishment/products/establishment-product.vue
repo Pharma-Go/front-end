@@ -93,7 +93,7 @@
   &__form {
     &-field {
       &-textarea {
-        @include font-size($font-xxxs);
+        @include font-size($font-size-xxxs);
         font-family: unquote($global-body-font);
 
         width: 100%;
@@ -106,7 +106,7 @@
         resize: none;
 
         &::placeholder {
-          @include font-size($font-xxxs);
+          @include font-size($font-size-xxxs);
 
           font-family: unquote($global-body-font);
         }
@@ -178,7 +178,7 @@ export default class PgAdminProduct extends Vue {
 
   public snackbar: any = {
     visible: false,
-    color: "error"
+    color: "feedbackErrorMedium"
   };
 
   public async created(): Promise<void> {
@@ -241,7 +241,7 @@ export default class PgAdminProduct extends Vue {
       })
       .catch(err => {
         this.snackbar = {
-          color: "error",
+          color: "feedbackErrorMedium",
           icon: "pgi-close",
           text: err.response?.data?.error || "Erro desconhecido",
           visible: true
@@ -255,7 +255,7 @@ export default class PgAdminProduct extends Vue {
 
   private openErrorSnackbar(text: string): void {
     this.snackbar = {
-      color: "error",
+      color: "feedbackErrorMedium",
       icon: "pgi-close",
       text: text,
       visible: true

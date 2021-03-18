@@ -75,7 +75,7 @@ export default class PgHourAdminEstablishment extends Vue {
   public async onSubmit(): Promise<void> {
     if (!this.form.opensAt) {
       this.snackbar = {
-        color: "error",
+        color: "feedbackErrorMedium",
         icon: "pgi-close",
         text: "Digite um horário de abertura",
         visible: true
@@ -85,7 +85,7 @@ export default class PgHourAdminEstablishment extends Vue {
 
     if (!this.form.closesAt) {
       this.snackbar = {
-        color: "error",
+        color: "feedbackErrorMedium",
         icon: "pgi-close",
         text: "Digite um horário de fechamento",
         visible: true

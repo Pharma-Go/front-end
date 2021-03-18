@@ -102,10 +102,10 @@
   }
 
   &__title {
-    @include font-size($font-lg);
+    @include font-size($font-size-lg);
 
     @include mq($until: tablet-landscape) {
-      @include font-size($font-md);
+      @include font-size($font-size-md);
       padding-top: var(--spacing-5);
     }
   }
@@ -128,13 +128,13 @@ export default class PgLogin extends Vue {
 
   public snackbar: any = {
     visible: false,
-    color: "error"
+    color: "feedbackErrorMedium"
   };
 
   public async forgotPassword() {
     if (!this.form.email) {
       this.snackbar = {
-        color: "error",
+        color: "feedbackErrorMedium",
         icon: "pgi-close",
         text: "Digite um email para recuperar a senha",
         visible: true
@@ -144,7 +144,7 @@ export default class PgLogin extends Vue {
 
     await this.$api.users.recoverPassword(this.form.email).catch(err => {
       this.snackbar = {
-        color: "error",
+        color: "feedbackErrorMedium",
         icon: "pgi-close",
         text: err.response?.data?.message || "Erro desconhecido",
         visible: true
@@ -154,7 +154,7 @@ export default class PgLogin extends Vue {
     });
 
     this.snackbar = {
-      color: "success",
+      color: "feedbackSuccessMedium",
       icon: "pgi-added",
       text: "Verifique seu email para recuperar a senha.",
       visible: true
@@ -166,7 +166,7 @@ export default class PgLogin extends Vue {
       .login(this.form.email, this.form.password)
       .catch(err => {
         this.snackbar = {
-          color: "error",
+          color: "feedbackErrorMedium",
           icon: "pgi-close",
           text: err.response?.data?.error || "Erro desconhecido",
           visible: true

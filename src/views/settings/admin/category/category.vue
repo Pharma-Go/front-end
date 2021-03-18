@@ -29,7 +29,7 @@ export default class PgAdminSaveCategory extends Vue {
 
   public snackbar: any = {
     visible: false,
-    color: "error"
+    color: "feedbackErrorMedium"
   };
 
   public async created(): Promise<void> {
@@ -49,7 +49,7 @@ export default class PgAdminSaveCategory extends Vue {
   public async onSubmit(): Promise<void> {
     await this.$api.category.save(this.form).catch(err => {
       this.snackbar = {
-        color: "error",
+        color: "feedbackErrorMedium",
         icon: "pgi-close",
         text: err.response?.data?.error || "Erro desconhecido",
         visible: true

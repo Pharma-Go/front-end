@@ -96,7 +96,7 @@
     transition: all 0.3s ease-in-out;
 
     > i {
-      @include font-size($font-sm);
+      @include font-size($font-size-sm);
 
       transition: all 0.3s ease-in-out;
       color: #fff;

@@ -12,4 +12,6 @@ export interface Establishment extends Base {
   products: Product[];
   reviews: Review[];
   address: Address;
+  deliveryFeePerKm: number;
+  maxDistance: number;
 }

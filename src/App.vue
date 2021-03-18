@@ -31,7 +31,7 @@ import { Component, Vue } from "vue-property-decorator";
 
 import { oauth } from "./services";
 import { mapState } from "vuex";
-import { Invoice, User } from "./lib/models";
+import { Invoice, Role, User } from "./lib/models";
 
 @Component({
   computed: {
@@ -44,7 +44,7 @@ export default class PgAppVue extends Vue {
 
   public snackbar: any = {
     visible: false,
-    color: "error"
+    color: "feedbackErrorMedium"
   };
 
   public async created() {
@@ -58,7 +58,7 @@ export default class PgAppVue extends Vue {
     this.sockets.subscribe("strictAccept", (invoice: Invoice) => {
       if (invoice.strictAccepted) {
         this.snackbar = {
-          color: "success",
+          color: "feedbackSuccessMedium",
           icon: "pgi-added",
           text: `Sua(s) receita(s) foi(foram) aceita(s) do pedido #${invoice.id.substring(
             0,
@@ -68,7 +68,7 @@ export default class PgAppVue extends Vue {
         };
       } else {
         this.snackbar = {
-          color: "error",
+          color: "feedbackErrorMedium",
           icon: "pgi-close",
           text: `Sua(s) receita(s) foi(foram) recusada(s) do pedido #${invoice.id.substring(
             0,
@@ -81,7 +81,7 @@ export default class PgAppVue extends Vue {
 
     this.sockets.subscribe("delivererAccept", (id: string) => {
       this.snackbar = {
-        color: "success",
+        color: "feedbackSuccessMedium",
         icon: "pgi-added",
         text: `Seu pedido #${id.substring(0, 5)} está saindo para entrega ;)`,
         visible: true
@@ -89,9 +89,9 @@ export default class PgAppVue extends Vue {
     });
 
     this.sockets.subscribe("newInvoice", (id: string) => {
-      if (this.user.role !== "default") {
+      if (this.user.role !== Role.DEFAULT) {
         this.snackbar = {
-          color: "success",
+          color: "feedbackSuccessMedium",
           icon: "pgi-added",
           text: `Novo pedido #${id.substring(0, 5)}!`,
           visible: true

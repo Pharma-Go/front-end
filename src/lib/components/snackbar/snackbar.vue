@@ -42,7 +42,7 @@ import { Component, Model, Prop, Vue, Watch } from "vue-property-decorator";
 
 @Component
 export default class PgInput extends Vue {
-  @Prop({ type: String, default: "error" }) public color!: string;
+  @Prop({ type: String, default: "feedbackErrorMedium" }) public color!: string;
   @Prop({ type: Number, default: 5000 }) public duration!: number;
   @Model()
   @Prop({ type: Boolean, default: true })

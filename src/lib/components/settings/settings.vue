@@ -54,7 +54,7 @@
       align-items: center;
 
       &-icon {
-        @include font-size($font-xs);
+        @include font-size($font-size-xs);
 
         &-container {
           margin-right: var(--spacing-1);
@@ -81,12 +81,12 @@
       }
 
       &-icon {
-        @include font-size($font-sm);
+        @include font-size($font-size-sm);
       }
     }
 
     &-title {
-      @include font-size($font-sm - 1);
+      @include font-size($font-size-sm - 1);
 
       white-space: break-spaces;
       word-break: break-all;

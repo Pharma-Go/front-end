@@ -62,7 +62,7 @@ export default class PgProfilePassword extends Vue {
 
   public snackbar: any = {
     visible: false,
-    color: "error"
+    color: "feedbackErrorMedium"
   };
   public user!: User;
   public $refs!: { image: PgUpload };
@@ -78,7 +78,7 @@ export default class PgProfilePassword extends Vue {
   public async onSubmit(): Promise<void> {
     await this.$api.users.changePassword(this.form).catch(err => {
       this.snackbar = {
-        color: "error",
+        color: "feedbackErrorMedium",
         icon: "pgi-close",
         text: err.response?.data?.message || "Erro desconhecido",
         visible: true

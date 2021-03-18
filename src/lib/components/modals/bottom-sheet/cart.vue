@@ -27,6 +27,11 @@
 
         <pg-address :address="user.address"></pg-address>
 
+        <div class="d-flex align-center justify-between mt-2">
+          <p class="mb-0">Taxa de entrega</p>
+          <p class="mb-0 text--bold">R$ {{ deliveryFee | formatPrice }}</p>
+        </div>
+
         <!-- Produtos -->
         <div class="c-cart__content-products mt-4">
           <div class="c-cart__content-products-header mb-3">
@@ -270,7 +275,7 @@
         cursor: pointer;
 
         &-icon {
-          @include font-size($font-xs);
+          @include font-size($font-size-xs);
 
           color: var(--theme-primary);
         }
@@ -359,6 +364,7 @@
 
 <script lang="ts">
 import {
+  Address,
   Card,
   Cart,
   CreateInvoice,
@@ -379,6 +385,7 @@ import { PgUpload } from "../../upload";
 export default class PgCartBottomSheet extends Vue {
   public cart: Cart;
   public user: User;
+  public deliveryFee = 0;
   public showDialog = false;
   public prescriptions: { file: File; productId: string }[] = [];
   public $refs!: { image: PgUpload };
@@ -386,7 +393,7 @@ export default class PgCartBottomSheet extends Vue {
   public hasProductStrit = false;
   public snackbar: any = {
     visible: false,
-    color: "error"
+    color: "feedbackErrorMedium"
   };
 
   public async created() {
@@ -400,6 +407,21 @@ export default class PgCartBottomSheet extends Vue {
       await this.$store.dispatch("cart/set", {
         cart: { ...this.cart, payment: this.user.cards[0] }
       });
+
+      const userAddress: Address = this.user.address;
+      const establishmentAddress: Address = this.cart.establishment.address;
+      const distance = this.getDistance(
+        userAddress.lat,
+        userAddress.lon,
+        establishmentAddress.lat,
+        establishmentAddress.lon
+      );
+
+      this.deliveryFee = Number(
+        (this.cart.establishment.deliveryFeePerKm * (distance / 1000)).toFixed(
+          0
+        )
+      );
 
       this.cart.products.forEach((product: CreateItemProduct) => {
         if (product.product.strict) {
@@ -425,6 +447,25 @@ export default class PgCartBottomSheet extends Vue {
     this.showDialog = true;
   }
 
+  public rad(x: any) {
+    return (x * Math.PI) / 180;
+  }
+
+  public getDistance(lat1, lng1, lat2, lng2) {
+    const R = 6378137; // Earth’s mean radius in meter
+    const dLat = this.rad(lat2 - lat1);
+    const dLong = this.rad(lng2 - lng1);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(this.rad(lat1)) *
+        Math.cos(this.rad(lat2)) *
+        Math.sin(dLong / 2) *
+        Math.sin(dLong / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const d = R * c;
+    return d;
+  }
+
   public async onSelectCard(card: Card): Promise<void> {
     this.showDialog = false;
 
@@ -434,12 +475,11 @@ export default class PgCartBottomSheet extends Vue {
   }
 
   public getTotal(): number {
-    return this.cart.products.reduce(
-      (acc: number, value: CreateItemProduct) => {
+    return (
+      this.cart.products.reduce((acc: number, value: CreateItemProduct) => {
         acc += value.product.price * value.quantity;
         return acc;
-      },
-      0
+      }, 0) + this.deliveryFee
     );
   }
 
@@ -457,7 +497,7 @@ export default class PgCartBottomSheet extends Vue {
             .upload(prescription.file, null)
             .catch(err => {
               this.snackbar = {
-                color: "error",
+                color: "feedbackErrorMedium",
                 icon: "pgi-add",
                 text: err.response?.data?.message || "Erro desconhecido",
                 visible: true
@@ -476,7 +516,7 @@ export default class PgCartBottomSheet extends Vue {
       } else {
         this.isLoading = false;
         this.snackbar = {
-          color: "error",
+          color: "feedbackErrorMedium",
           icon: "pgi-close",
           text: "É obrigatório receita médica em alguns produtos.",
           visible: true
@@ -486,16 +526,27 @@ export default class PgCartBottomSheet extends Vue {
       }
     }
 
+    if (!this.cart.establishment) {
+      this.snackbar = {
+        color: "feedbackErrorMedium",
+        icon: "pgi-close",
+        text: "Não é possível efetuar a compra sem um estabelecimento",
+        visible: true
+      };
+
+      this.isLoading = false;
+
+      return;
+    }
+
     const createInvoice: CreateInvoice = {
       discount: 0,
       itemProducts: this.cart.products,
-      buyer: this.user.id,
       paymentCard: this.cart.payment.id,
       paymentMethod: this.cart.payment.method,
-      // establishment: this.cart.establishment.id
+      establishment: this.cart.establishment.id,
+      deliveryFeeAmount: this.deliveryFee
     };
-
-    console.log(createInvoice);
 
     const invoice = await this.$api.invoices.save(createInvoice).catch(err => {
       let error = "Erro desconhecido";
@@ -516,11 +567,13 @@ export default class PgCartBottomSheet extends Vue {
       }
 
       this.snackbar = {
-        color: "error",
+        color: "feedbackErrorMedium",
         icon: "pgi-close",
         text: error,
         visible: true
       };
+
+      this.isLoading = false;
 
       return Promise.reject(err);
     });

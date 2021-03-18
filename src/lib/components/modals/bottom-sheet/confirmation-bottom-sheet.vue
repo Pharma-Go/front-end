@@ -5,7 +5,7 @@
         <div
           class="c-confirmation__icon text--center d-flex flex-col align-center"
         >
-          <i class="text--attention pgi pgi-clock mb-6"></i>
+          <i class="text--feedbackWarningMedium pgi pgi-clock mb-6"></i>
           <p class="text--center mb-0">
             Seu pedido está sendo processado pela operadora do cartão.
           </p>
@@ -20,7 +20,7 @@
         <div
           class="c-confirmation__icon text--center d-flex flex-col align-center"
         >
-          <i class="text--success pgi pgi-confirmed mb-6"></i>
+          <i class="text--feedbackSuccessMedium pgi pgi-confirmed mb-6"></i>
           <p class="text--center mb-0">Seu pedido foi confirmado!</p>
           <router-link
             :to="`/pedidos/${invoice.id}`"
@@ -35,7 +35,7 @@
         <div
           class="c-confirmation__icon text--center d-flex flex-col align-center"
         >
-          <i class="text--error pgi pgi-close mb-6"></i>
+          <i class="text--feedbackErrorMedium pgi pgi-close mb-6"></i>
           <p class="text--center mb-0">Seu pedido foi recusado!</p>
           <p class="text--center text--bold text--primary">
             Entrar em contato com a farmácia
@@ -44,7 +44,7 @@
       </div>
     </div>
     <div class="c-confirmation__icon text--center" v-else>
-      <i class="text--attention pgi pgi-clock mb-6"></i>
+      <i class="text--feedbackWarningMedium pgi pgi-clock mb-6"></i>
       <div class="text--center">
         <p class="mb-2">
           Seu pedido está <strong>pendente</strong> para a farmácia aceitar sua
@@ -70,7 +70,7 @@
   width: 100%;
 
   &__icon {
-    @include font-size($font-xl * 1.5);
+    @include font-size($font-size-xl * 1.5);
   }
 
   &__loading {

@@ -50,7 +50,7 @@
       class="pg-input__messages my-1"
     >
       <span
-        class="pg-input__messages--error"
+        class="pg-input__messages--feedbackErrorMedium"
         v-if="errors && errors.length > 0"
         >{{ errors[0] }}</span
       >

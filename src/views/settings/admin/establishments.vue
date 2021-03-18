@@ -42,7 +42,7 @@
     border-radius: var(--spacing-2);
 
     > i {
-      @include font-size($font-lg);
+      @include font-size($font-size-lg);
     }
 
     > p {

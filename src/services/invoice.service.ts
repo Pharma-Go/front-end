@@ -35,6 +35,13 @@ class InvoiceService extends Rest {
       data: data
     });
   }
+
+  public async refundInvoice(id: string): Promise<void> {
+    return this.request({
+      url: `/pagarme/${id}/refund`,
+      method: "POST"
+    });
+  }
 }
 
 export const invoices = Object.freeze(new InvoiceService());

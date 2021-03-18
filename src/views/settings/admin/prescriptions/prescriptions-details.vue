@@ -144,7 +144,7 @@
   }
 
   &__icon {
-    @include font-size($font-xl * 1.5);
+    @include font-size($font-size-xl * 1.5);
   }
 }
 </style>
@@ -160,7 +160,7 @@ export default class PgAdminPrescriptionsDetails extends Vue {
 
   public snackbar: any = {
     visible: false,
-    color: "error"
+    color: "feedbackErrorMedium"
   };
 
   public async created(): Promise<void> {

@@ -2,6 +2,10 @@
   cursor: pointer;
 }
 
+.radius--100 {
+  border-radius: 100% !important;
+}
+
 .rotate--90 {
   transform: rotate(90deg);
 }

@@ -1,9 +1,37 @@
 <template>
-  <div :class="['c-sidebar', { 'c-sidebar--opened': opened }]">
+  <div
+    @mouseenter="showExpand = !showExpand"
+    @mouseleave="showExpand = !showExpand"
+    :class="['c-sidebar', { 'c-sidebar--opened': opened }]"
+  >
+    <transition name="sidebar-transition">
+      <div
+        @click.prevent="opened = !opened"
+        v-if="showExpand"
+        :class="[
+          'c-sidebar__expand',
+          'bg--contrast',
+          'd-flex align-center',
+          'justify-center',
+          'radius--100',
+          { 'c-sidebar__expand--opened': opened }
+        ]"
+      >
+        <i
+          :class="[
+            'c-sidebar__expand-icon',
+            'pgi',
+            'pgi-chevron-left',
+            'text--primary',
+            { 'rotate--negative-180': !opened }
+          ]"
+        ></i>
+      </div>
+    </transition>
     <div :class="['c-sidebar__user', { 'c-sidebar__user--opened': opened }]">
       <img
         :src="user.imageUrl"
-        :class="['c-sidebar__user-image', { 'mr-1': opened }]"
+        :class="['c-sidebar__user-image', { 'mr-2': opened }]"
         v-if="user && user.imageUrl"
       />
       <i
@@ -11,22 +39,25 @@
         :class="[
           'c-sidebar__user-avatar',
           'text--contrast',
-          'text--large',
           'pgi',
           'pgi-user',
-          { 'mr-1': opened }
+          { 'mr-2': opened }
         ]"
       ></i>
 
       <transition name="sidebar-transition">
         <div class="c-sidebar__user-info" v-if="opened">
-          <h2 class="c-sidebar__user-info-name text--small text--contrast">
-            Vinícius Sousa dos Santos
+          <h2
+            v-if="user && user.name"
+            class="c-sidebar__user-info-name text--small text--contrast"
+          >
+            {{ user.name }}
           </h2>
           <p
+            v-if="user && user.phone"
             class="c-sidebar__user-info-cellphone text--small text--contrast mb-0"
           >
-            (11) 98024-8668
+            {{ user.phone | formatPhone }}
           </p>
         </div>
       </transition>
@@ -46,7 +77,7 @@
             'c-sidebar__navigation-home--icon',
             'pgi',
             'pgi-home',
-            { 'mr-1': opened }
+            { 'mr-2': opened }
           ]"
         ></i>
         <transition name="sidebar-transition">
@@ -67,7 +98,7 @@
             'c-sidebar__navigation-search--icon',
             'pgi',
             'pgi-search',
-            { 'mr-1': opened }
+            { 'mr-2': opened }
           ]"
         ></i>
         <transition name="sidebar-transition">
@@ -83,7 +114,7 @@
             'c-sidebar__navigation-cart--icon',
             'pgi',
             'pgi-cart',
-            { 'mr-1': opened }
+            { 'mr-2': opened }
           ]"
         ></i>
         <transition name="sidebar-transition">
@@ -104,7 +135,7 @@
             'c-sidebar__navigation-favorite--icon',
             'pgi',
             'pgi-favorite',
-            { 'mr-1': opened }
+            { 'mr-2': opened }
           ]"
         ></i>
         <transition name="sidebar-transition">
@@ -127,7 +158,7 @@
             'c-sidebar__navigation-settings--icon',
             'pgi',
             'pgi-settings',
-            { 'mr-1': opened }
+            { 'mr-2': opened }
           ]"
         ></i>
         <transition name="sidebar-transition">
@@ -138,12 +169,21 @@
       </router-link>
     </div>
 
-    <button @click.prevent="opened = !opened">aaaaaaaaa</button>
+    <div
+      class="c-sidebar__logout d-flex align-center cursor--pointer fill-w pa-2"
+      @click.prevent="logout"
+    >
+      <i class="pgi pgi-logout text--contrast mr-2"></i>
+      <transition name="sidebar-transition">
+        <p v-if="opened" class="mb-0 text--contrast">Sair</p>
+      </transition>
+    </div>
   </div>
 </template>
 
 <style lang="scss">
 @import "@/lib/styles/typography.scss";
+@import "@/lib/styles/depth.scss";
 
 .c-sidebar {
   width: calc(var(--spacing-10) + var(--spacing-5));
@@ -155,6 +195,30 @@
   justify-content: space-between;
   align-items: center;
   padding: var(--spacing-6) var(--spacing-4);
+  position: sticky;
+  top: 0;
+
+  &__expand {
+    @include z-depth($level: 1, $omni: true);
+
+    width: var(--spacing-6);
+    height: var(--spacing-6);
+    padding-left: 2px;
+    padding-right: 0;
+    position: absolute;
+    right: -15px;
+    top: 90px;
+    cursor: pointer;
+
+    &--opened {
+      padding-left: 0;
+      padding-right: 2px;
+    }
+
+    &-icon {
+      transition: all 0.3s ease-in-out;
+    }
+  }
 
   &--opened {
     width: calc(var(--spacing-1) * 45);
@@ -169,6 +233,16 @@
       background: #4d93fc80;
       border-radius: var(--spacing-1);
       padding: var(--spacing-2);
+    }
+
+    &-image {
+      width: var(--spacing-8);
+      height: var(--spacing-8);
+      border-radius: var(--spacing-1);
+    }
+
+    &-avatar {
+      @include font-size($font-size-sm);
     }
 
     &-info {
@@ -211,6 +285,17 @@
       }
     }
   }
+
+  &__logout {
+    > p {
+      margin: 0;
+      @include font-size($font-size-xs);
+    }
+
+    > i {
+      @include font-size($font-size-sm);
+    }
+  }
 }
 
 .sidebar-transition {
@@ -236,9 +321,16 @@ export default class PgSidebar extends Vue {
   @Prop() public activeItem!: string;
 
   public opened = false;
+  public showExpand = false;
 
   public isActive(routeName: string): boolean {
     return this.activeItem === routeName;
+  }
+
+  public async logout(): Promise<void> {
+    this.$api.oauth.options.storage.clear();
+    // await this.$store.
+    this.$router.replace("/");
   }
 }
 </script>

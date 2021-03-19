@@ -2,8 +2,10 @@
   <pg-app id="app">
     <div class="c-app__content">
       <pg-sidebar
+        v-if="isAuthenticated"
         class="c-app__content-sidebar"
         :activeItem="$route.name"
+        :user="user"
       ></pg-sidebar>
       <router-view class="c-app__content-router" />
     </div>
@@ -30,11 +32,22 @@
 
     &-router {
       width: 100%;
+      max-width: 100%;
+      overflow-x: scroll;
+    }
+
+    &-sidebar {
+      display: flex;
+
+      @include mq($until: tablet-landscape) {
+        display: none;
+      }
     }
   }
 
   &__bottom-bar {
-    display: block;
+    display: flex;
+
     @include mq($from: tablet-landscape) {
       display: none;
     }
@@ -63,8 +76,12 @@ export default class PgAppVue extends Vue {
     color: "feedbackErrorMedium"
   };
 
+  public isAuthenticated = false;
+
   public async created() {
     if (await oauth.isAuthenticated()) {
+      this.isAuthenticated = true;
+
       if (!this.user.id) {
         const user = await this.$api.users.getOne("me");
         this.$pharmago.theme.themes.isDark = user.isDark;

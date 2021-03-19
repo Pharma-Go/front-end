@@ -14,6 +14,7 @@ import { formatPaymentMethod } from "./lib/pipes/payment-method.pipe";
 import { cardDigits } from "./lib/pipes/card.pipe";
 import VueMask from "v-mask";
 import { VueMaskFilter } from "v-mask";
+import { formatPhone } from "./lib/pipes/phone.pipe";
 
 declare module "vue/types/vue" {
   export interface Vue {
@@ -35,6 +36,7 @@ Vue.use(VueMask);
 
 Vue.filter("VMask", VueMaskFilter);
 Vue.filter("formatPrice", formatPrice);
+Vue.filter("formatPhone", formatPhone);
 Vue.filter("formatPaymentMethod", formatPaymentMethod);
 Vue.filter("cardDigits", cardDigits);
 

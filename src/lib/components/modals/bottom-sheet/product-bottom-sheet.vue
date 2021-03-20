@@ -79,7 +79,7 @@
   }
 
   &__footer {
-    @include z-depth($level: 1, $omni: true);
+    box-shadow: var(--theme-shadowLevel1);
 
     position: fixed;
     padding: var(--spacing-2) var(--spacing-4);

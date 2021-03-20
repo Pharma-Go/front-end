@@ -20,67 +20,89 @@
       </div>
     </div>
 
-    <div class="mb-7" v-if="active.delivererAccepted">
-      <transition name="enter-transition">
-        <pg-lottie
-          v-if="showCheck"
-          :options="checkOption"
-          :height="200"
-          :width="200"
-          v-on:animCreated="handleAnimation"
-        />
-      </transition>
-      <transition name="enter-transition">
-        <div v-if="showMap">
-          <div class="c-invoice__map" ref="map" id="map"></div>
-          <p class="text--small text--foregroundTertiary mt-1">
-            *Localizações aproximadas
-          </p>
-        </div>
-      </transition>
-    </div>
-    <div class="mb-3 mt-4" v-if="!active.delivererAccept">
-      <div v-if="!showCancel">
+    <transition name="enter-transition">
+      <div v-if="!active.strictAccepted" class="mb-7">
         <div class="c-invoice__icon text--center d-flex flex-col align-center">
           <i class="text--feedbackWarningMedium pgi pgi-clock mb-4"></i>
           <p class="text--center mb-0">
-            A <strong>{{ getEstablishmentName() }}</strong> está processando seu
-            pedido!
+            A <strong>{{ getEstablishmentName() }}</strong> está verificando
+            sua(s) receita(s)!
           </p>
           <p class="text--center text--bold text--foreground">
-            Quando sair para entrega você será notificado ;)
+            Quando for aceito você será notificado ;)
           </p>
         </div>
       </div>
-      <div v-else>
-        <pg-lottie
-          :options="cancelOption"
-          :height="200"
-          :width="200"
-          v-on:animCreated="handleAnimation"
-        />
-      </div>
-    </div>
+    </transition>
 
-    <div
-      class="c-invoice__actions d-flex justify-center mb-7"
-      v-if="!showCancel && !active.delivered"
-    >
-      <div v-if="!isLoading" class="d-flex align-center justify-between">
-        <pg-button class="fill-w" @click.prevent="onCancel">
-          <span class="text--primary"> Cancelar </span>
-        </pg-button>
+    <transition name="enter-transition">
+      <div v-if="active.strictAccepted">
+        <div class="mb-7" v-if="active.delivererAccepted && !showCancel">
+          <transition name="enter-transition">
+            <pg-lottie
+              v-if="showCheck"
+              :options="checkOption"
+              :height="150"
+              :width="150"
+              v-on:animCreated="handleAnimation"
+            />
+          </transition>
+          <transition name="enter-transition">
+            <div v-if="showMap">
+              <div class="c-invoice__map" ref="map" id="map"></div>
+              <p class="text--small text--foregroundTertiary mt-1">
+                *Localizações aproximadas
+              </p>
+            </div>
+          </transition>
+        </div>
+        <div class="mb-3 mt-4">
+          <div v-if="!showCancel">
+            <div
+              class="c-invoice__icon text--center d-flex flex-col align-center"
+            >
+              <i class="text--feedbackWarningMedium pgi pgi-clock mb-4"></i>
+              <p class="text--center mb-0">
+                A <strong>{{ getEstablishmentName() }}</strong> está processando
+                seu pedido!
+              </p>
+              <p class="text--center text--bold text--foreground">
+                Quando sair para entrega você será notificado ;)
+              </p>
+            </div>
+          </div>
 
-        <pg-button
-          @click.prevent="onDelivered"
-          class="fill-w"
-          v-color="'primary'"
+          <div v-else>
+            <pg-lottie
+              :options="cancelOption"
+              :height="150"
+              :width="150"
+              v-on:animCreated="handleAnimation"
+            />
+          </div>
+        </div>
+
+        <div
+          class="c-invoice__actions d-flex justify-center mb-7"
+          v-if="!showCancel && !active.delivered"
         >
-          <span class="text--buttonContrast"> Entregue </span>
-        </pg-button>
+          <div v-if="!isLoading" class="d-flex align-center justify-between">
+            <pg-button class="fill-w" @click.prevent="onCancel">
+              <span class="text--primary"> Cancelar </span>
+            </pg-button>
+
+            <pg-button
+              @click.prevent="onDelivered"
+              class="fill-w"
+              v-color="'primary'"
+            >
+              <span class="text--buttonContrast"> Entregue </span>
+            </pg-button>
+          </div>
+          <pg-loading class="c-invoice__actions-loading" v-else></pg-loading>
+        </div>
       </div>
-      <pg-loading class="c-invoice__actions-loading" v-else></pg-loading>
-    </div>
+    </transition>
 
     <div class="c-invoice__details">
       <div class="c-invoice__details-item mb-4">
@@ -326,6 +348,7 @@
   transform: rotate(-45deg);
   width: 30px;
 }
+
 .marker-content::before {
   background: #ffffff;
   border-radius: 50%;
@@ -340,7 +363,7 @@
 <script lang="ts">
 import { Establishment, Invoice } from "@/lib/models";
 
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 import { mapState } from "vuex";
 import * as animationData from "../../assets/check-circle.json";
 import * as cancelAnimationData from "../../assets/cancel.json";
@@ -383,14 +406,6 @@ export default class PgInvoicePage extends Vue {
     const active = await this.$api.invoices.getOne(this.$route.params.id);
     await this.$store.dispatch("invoice/set", { active });
 
-    if (this.active.delivererAccepted && !this.active.delivered) {
-      this.showMap = true;
-    }
-
-    if (this.active.isFee && this.active.feeAmount) {
-      this.showCancel = true;
-    }
-
     const product = await this.$api.products.getOne(
       this.active.itemProducts[0].product.id
     );
@@ -400,6 +415,21 @@ export default class PgInvoicePage extends Vue {
     );
 
     this.establishment = establishment;
+
+    if (this.active.delivererAccepted && !this.active.delivered) {
+      this.showMap = true;
+    }
+
+    if (this.active.isFee && this.active.feeAmount) {
+      this.showCancel = true;
+    }
+
+    this.sockets.subscribe("strictAccept", async (invoice: Invoice) => {
+      if (this.active.id === invoice.id) {
+        const active: Invoice = await this.$api.invoices.getOne(invoice.id);
+        await this.$store.dispatch("invoice/set", { active });
+      }
+    });
 
     this.sockets.subscribe("delivererAccept", async invoiceId => {
       if (this.active.id === invoiceId) {
@@ -413,17 +443,14 @@ export default class PgInvoicePage extends Vue {
           visible: true
         };
 
-        setTimeout(() => {
-          this.showCheck = true;
+        await this.delay(300);
+        this.showCheck = true;
 
-          setTimeout(() => {
-            this.showCheck = false;
+        await this.delay(2500);
+        this.showCheck = false;
 
-            setTimeout(() => {
-              this.showMap = true;
-            }, 600);
-          }, 2500);
-        }, 300);
+        await this.delay(600);
+        this.showMap = true;
       }
     });
 
@@ -449,17 +476,26 @@ export default class PgInvoicePage extends Vue {
     });
   }
 
-  public updated(): void {
-    if (this.showMap && !this.mountedMap) {
-      this.mountMap();
-      this.mountedMap = true;
+  @Watch("showMap")
+  public onShowMapChange(): void {
+    if (this.showMap && !this.showCancel) {
+      this.$nextTick(() => {
+        this.mountMap();
+      });
     }
   }
 
   public beforeDestroyed(): void {
+    this.sockets.unsubscribe("strictAccept");
     this.sockets.unsubscribe("refundInvoice");
     this.sockets.unsubscribe("delivererAccept");
     this.sockets.unsubscribe("gpsToClient");
+  }
+
+  public async delay(time: number): Promise<void> {
+    return new Promise(resolve => {
+      setTimeout(resolve, time);
+    });
   }
 
   public toRad(value: number) {
@@ -494,6 +530,8 @@ export default class PgInvoicePage extends Vue {
   public mountMap(): void {
     //@ts-ignore
     const tt = window.tt;
+
+    console.log(this.active, this.establishment);
 
     const userPoint = [
       this.active.buyer.address.lat,

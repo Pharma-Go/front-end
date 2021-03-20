@@ -6,8 +6,8 @@ class EstablishmentService extends Rest {
     super("/establishment");
   }
 
-  public async mostRated(): Promise<Establishment[]> {
-    return this.getOne("mostRated");
+  public async suggestions(): Promise<Establishment[]> {
+    return this.getOne("suggestions");
   }
 
   public async search(term: string): Promise<Establishment[]> {

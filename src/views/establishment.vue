@@ -270,21 +270,19 @@ export default class PgEstablishment extends Vue {
       productsMostRateds: products
     });
 
-    this.categories = this.active.products.map(product => product.category);
+    // this.categories.sort((a: Category, b: Category) => {
+    //   return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+    // });
 
-    this.categories.sort((a: Category, b: Category) => {
-      return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-    });
+    // if (this.categories.length > 0) {
+    //   this.activeCategoryId = this.$route.params.category
+    //     ? this.$route.params.category
+    //     : this.categories[0].id;
 
-    if (this.categories.length > 0) {
-      this.activeCategoryId = this.$route.params.category
-        ? this.$route.params.category
-        : this.categories[0].id;
-
-      this.products = this.active.products.filter(
-        (product: Product) => product.category.id === this.activeCategoryId
-      );
-    }
+    //   this.products = this.active.products.filter(
+    //     (product: Product) => product.category.id === this.activeCategoryId
+    //   );
+    // }
 
     this.sockets.subscribe("updateInvoice", (invoice: Invoice) => {
       if (invoice.buyer.id === this.user.id) {

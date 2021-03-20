@@ -15,6 +15,7 @@ import { cardDigits } from "./lib/pipes/card.pipe";
 import VueMask from "v-mask";
 import { VueMaskFilter } from "v-mask";
 import { formatPhone } from "./lib/pipes/phone.pipe";
+import { baseUrl } from "./environment/environment";
 
 declare module "vue/types/vue" {
   export interface Vue {
@@ -28,8 +29,7 @@ Vue.use(PharmaGoUI);
 Vue.use(
   new VueSocketIO({
     debug: true,
-    connection: "https://pharmago-backend.herokuapp.com/"
-    //connection: "http://localhost:3000/"
+    connection: baseUrl
   })
 );
 Vue.use(VueMask);

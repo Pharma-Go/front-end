@@ -1,66 +1,41 @@
 <template>
-  <div
-    @mouseenter="showExpand = !showExpand"
-    @mouseleave="showExpand = !showExpand"
-    :class="['c-sidebar', { 'c-sidebar--opened': opened }]"
-  >
-    <transition name="sidebar-transition">
-      <div
-        @click.prevent="opened = !opened"
-        v-if="showExpand"
+  <div :class="['c-sidebar', { 'c-sidebar--opened': opened }]">
+    <div
+      @click.prevent="opened = !opened"
+      class="c-sidebar__expand bg--contrast d-flex align-center justify-center radius--100"
+    >
+      <i
         :class="[
-          'c-sidebar__expand',
-          'bg--contrast',
-          'd-flex align-center',
-          'justify-center',
-          'radius--100',
-          { 'c-sidebar__expand--opened': opened }
+          'c-sidebar__expand-icon',
+          'pgi',
+          'pgi-chevron-left',
+          'text--primary'
         ]"
-      >
-        <i
-          :class="[
-            'c-sidebar__expand-icon',
-            'pgi',
-            'pgi-chevron-left',
-            'text--primary',
-            { 'rotate--negative-180': !opened }
-          ]"
-        ></i>
-      </div>
-    </transition>
+      ></i>
+    </div>
+
     <div :class="['c-sidebar__user', { 'c-sidebar__user--opened': opened }]">
       <img
         :src="user.imageUrl"
-        :class="['c-sidebar__user-image', { 'mr-2': opened }]"
+        class="c-sidebar__user-image"
         v-if="user && user.imageUrl"
       />
-      <i
-        v-else
-        :class="[
-          'c-sidebar__user-avatar',
-          'text--contrast',
-          'pgi',
-          'pgi-user',
-          { 'mr-2': opened }
-        ]"
-      ></i>
+      <i v-else class="c-sidebar__user-avatar text--contrast pgi, pgi-user"></i>
 
-      <transition name="sidebar-transition">
-        <div class="c-sidebar__user-info" v-if="opened">
-          <h2
-            v-if="user && user.name"
-            class="c-sidebar__user-info-name text--small text--contrast"
-          >
-            {{ user.name }}
-          </h2>
-          <p
-            v-if="user && user.phone"
-            class="c-sidebar__user-info-cellphone text--small text--contrast mb-0"
-          >
-            {{ user.phone | formatPhone }}
-          </p>
-        </div>
-      </transition>
+      <div class="c-sidebar__user-info">
+        <h2
+          v-if="user && user.name"
+          class="c-sidebar__user-info-name text--small text--contrast"
+        >
+          {{ user.name }}
+        </h2>
+        <p
+          v-if="user && user.phone"
+          class="c-sidebar__user-info-cellphone text--small text--contrast mb-0"
+        >
+          {{ user.phone | formatPhone }}
+        </p>
+      </div>
     </div>
 
     <div class="c-sidebar__navigation">
@@ -73,16 +48,14 @@
         ]"
       >
         <i
-          :class="[
-            'c-sidebar__navigation-home--icon',
-            'pgi',
-            'pgi-home',
-            { 'mr-2': opened }
-          ]"
+          class="c-sidebar__navigation-item-icon c-sidebar__navigation-home--icon pgi pgi-home"
         ></i>
-        <transition name="sidebar-transition">
-          <p v-if="opened" class="c-sidebar__navigation-home--text">Início</p>
-        </transition>
+
+        <p
+          class="c-sidebar__navigation-item-text c-sidebar__navigation-home--text"
+        >
+          Início
+        </p>
       </router-link>
 
       <router-link
@@ -94,32 +67,26 @@
         ]"
       >
         <i
-          :class="[
-            'c-sidebar__navigation-search--icon',
-            'pgi',
-            'pgi-search',
-            { 'mr-2': opened }
-          ]"
+          class="c-sidebar__navigation-item-icon c-sidebar__navigation-search--icon pgi pgi-search"
         ></i>
-        <transition name="sidebar-transition">
-          <p v-if="opened" class="c-sidebar__navigation-search--text">Buscar</p>
-        </transition>
+        <p
+          class="c-sidebar__navigation-item-text c-sidebar__navigation-search--text"
+        >
+          Buscar
+        </p>
       </router-link>
 
       <div
         :class="['c-sidebar__navigation-cart', 'c-sidebar__navigation-item']"
       >
         <i
-          :class="[
-            'c-sidebar__navigation-cart--icon',
-            'pgi',
-            'pgi-cart',
-            { 'mr-2': opened }
-          ]"
+          class="c-sidebar__navigation-item-icon c-sidebar__navigation-cart--icon pgi pgi-cart"
         ></i>
-        <transition name="sidebar-transition">
-          <p v-if="opened" class="c-sidebar__navigation-cart--text">Carrinho</p>
-        </transition>
+        <p
+          class="c-sidebar__navigation-item-text c-sidebar__navigation-cart--text"
+        >
+          Carrinho
+        </p>
       </div>
 
       <router-link
@@ -131,18 +98,13 @@
         ]"
       >
         <i
-          :class="[
-            'c-sidebar__navigation-favorite--icon',
-            'pgi',
-            'pgi-favorite',
-            { 'mr-2': opened }
-          ]"
+          class="c-sidebar__navigation-item-icon c-sidebar__navigation-favorite--icon pgi pgi-favorite"
         ></i>
-        <transition name="sidebar-transition">
-          <p v-if="opened" class="c-sidebar__navigation-favorite--text">
-            Favoritos
-          </p>
-        </transition>
+        <p
+          class="c-sidebar__navigation-item-text c-sidebar__navigation-favorite--text"
+        >
+          Favoritos
+        </p>
       </router-link>
 
       <router-link
@@ -154,18 +116,13 @@
         ]"
       >
         <i
-          :class="[
-            'c-sidebar__navigation-settings--icon',
-            'pgi',
-            'pgi-settings',
-            { 'mr-2': opened }
-          ]"
+          class="c-sidebar__navigation-item-icon c-sidebar__navigation-settings--icon pgi pgi-settings"
         ></i>
-        <transition name="sidebar-transition">
-          <p v-if="opened" class="c-sidebar__navigation-settings--text">
-            Configurações
-          </p>
-        </transition>
+        <p
+          class="c-sidebar__navigation-item-text c-sidebar__navigation-settings--text"
+        >
+          Configurações
+        </p>
       </router-link>
     </div>
 
@@ -189,17 +146,63 @@
   width: calc(var(--spacing-10) + var(--spacing-5));
   height: 100vh;
   background-color: var(--theme-primary);
-  transition: width 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center;
-  padding: var(--spacing-6) var(--spacing-4);
+  padding: var(--spacing-2) var(--spacing-3);
   position: sticky;
   top: 0;
 
+  &:hover {
+    .c-sidebar__expand {
+      opacity: 1;
+    }
+  }
+
+  &--opened {
+    width: calc(var(--spacing-1) * 45);
+
+    .c-sidebar__expand {
+      padding-left: 0;
+      padding-right: 2px;
+    }
+
+    .c-sidebar__expand-icon {
+      transform: unset;
+    }
+
+    .c-sidebar__user {
+      background: #4d93fc80;
+      border-radius: var(--spacing-1);
+      padding-left: var(--spacing-2);
+    }
+
+    .c-sidebar__user-avatar,
+    .c-sidebar__user-image {
+      margin-right: var(--spacing-2);
+    }
+
+    .c-sidebar__user-image {
+      width: var(--spacing-9);
+      height: var(--spacing-9);
+    }
+
+    .c-sidebar__user-info {
+      opacity: 1;
+    }
+
+    .c-sidebar__navigation-item-text {
+      opacity: 1;
+    }
+
+    .c-sidebar__navigation-item-icon {
+      margin-right: var(--spacing-2);
+    }
+  }
+
   &__expand {
-    @include z-depth($level: 1, $omni: true);
+    box-shadow: var(--theme-shadowLevel1);
 
     width: var(--spacing-6);
     height: var(--spacing-6);
@@ -209,35 +212,31 @@
     right: -15px;
     top: 90px;
     cursor: pointer;
-
-    &--opened {
-      padding-left: 0;
-      padding-right: 2px;
-    }
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
 
     &-icon {
       transition: all 0.3s ease-in-out;
+      transform: rotate(-180deg);
     }
-  }
-
-  &--opened {
-    width: calc(var(--spacing-1) * 45);
   }
 
   &__user {
     display: flex;
     align-items: center;
     transition: all 0.3s ease-in-out;
+    padding: var(--spacing-2);
+    padding-left: 0;
 
-    &--opened {
-      background: #4d93fc80;
-      border-radius: var(--spacing-1);
-      padding: var(--spacing-2);
+    &-avatar,
+    &-image {
+      transition: all 0.3s ease-in-out;
+      margin-right: 0;
     }
 
     &-image {
-      width: var(--spacing-8);
-      height: var(--spacing-8);
+      width: var(--spacing-9);
+      height: var(--spacing-9);
       border-radius: var(--spacing-1);
     }
 
@@ -246,6 +245,9 @@
     }
 
     &-info {
+      transition: all 0.3s ease-in-out;
+      opacity: 0;
+
       &-name {
         width: 100%;
         white-space: nowrap;
@@ -264,15 +266,25 @@
       margin: var(--spacing-3) 0;
       color: var(--theme-contrast);
       padding: var(--spacing-2);
-      width: 100%;
       transition: all 0.3s ease-in-out;
       background: unset;
+      height: var(--spacing-9);
+
+      &-icon {
+        transition: margin-right 0.3s ease-in-out;
+        margin-right: 0;
+      }
 
       &--active,
       &:hover {
         background: #4d93fc80;
         border-radius: var(--spacing-1);
         padding: var(--spacing-2);
+      }
+
+      &-text {
+        transition: opacity 0.3s ease-in-out;
+        opacity: 0;
       }
 
       > p {
@@ -321,7 +333,6 @@ export default class PgSidebar extends Vue {
   @Prop() public activeItem!: string;
 
   public opened = false;
-  public showExpand = false;
 
   public isActive(routeName: string): boolean {
     return this.activeItem === routeName;

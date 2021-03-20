@@ -9,7 +9,7 @@ import { Review } from "../review";
 export enum Role {
   ADMIN = "admin",
   EMPLOYEE = "employee",
-  DEFAULT = "employee"
+  DEFAULT = "default"
 }
 
 export interface User extends Base {

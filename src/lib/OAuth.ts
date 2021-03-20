@@ -1,6 +1,7 @@
 import { stringify } from "qs";
 import axios, { AxiosRequestConfig } from "axios";
 import JwtDecode from "jwt-decode";
+import { baseUrl } from "@/environment/environment";
 
 /** Representa um par de tokens */
 export interface Token {
@@ -217,7 +218,6 @@ export const oauth = Object.freeze(
   new OAuthClient({
     clientId: "30fcc8d3-7cb4-4442-949e-294c26f21e14",
     clientSecret: "pharmago",
-    tokenUrl: "https://pharmago-backend.herokuapp.com/oauth/token"
-    // tokenUrl: "http://localhost:3000/oauth/token"
+    tokenUrl: `${baseUrl}/oauth/token`
   })
 );

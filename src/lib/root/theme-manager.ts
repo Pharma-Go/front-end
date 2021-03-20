@@ -50,7 +50,9 @@ export class ThemeManager {
       overlay: "rgba(101, 101, 101, .35)",
       loadingBackground: "#FFFFFF38",
       loadingBackgroundActive: "#FFFFFF",
-      buttonContrast: "#FFFFFF"
+      buttonContrast: "#FFFFFF",
+      shadowLevel1:
+        "0px 16px 16px rgba(60, 60, 60, 0.05), 0px 8px 8px rgba(60, 60, 60, 0.05), 0px 4px 4px rgba(60, 60, 60, 0.05), 0px 0px 10px rgba(60, 60, 60, 0.05);"
     };
 
     const lightTheme = {
@@ -75,7 +77,9 @@ export class ThemeManager {
       overlay: "rgba(0, 0, 0, .35)",
       loadingBackground: primaryColors.primary + "38",
       loadingBackgroundActive: primaryColors.primary,
-      buttonContrast: "#FFFFFF"
+      buttonContrast: "#FFFFFF",
+      shadowLevel1:
+        "0px 16px 16px rgba(60, 60, 60, 0.05), 0px 8px 8px rgba(60, 60, 60, 0.05), 0px 4px 4px rgba(60, 60, 60, 0.05), 0px 0px 10px rgba(60, 60, 60, 0.05);"
     };
 
     this.themes = Object.assign({}, { isDark: false }, this.themes ?? {});

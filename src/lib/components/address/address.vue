@@ -1,5 +1,5 @@
 <template>
-  <div class="c-address__header">
+  <div class="c-address__header" v-if="address">
     <img
       class="c-address__header-image"
       :src="

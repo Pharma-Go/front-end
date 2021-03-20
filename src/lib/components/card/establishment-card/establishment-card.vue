@@ -54,10 +54,11 @@
 </template>
 
 <style lang="scss">
-@import "../../../styles/depth.scss";
+@import "@/lib/styles/depth.scss";
+@import "@/lib/styles/typography.scss";
 
 .c-establishment-card {
-  @include z-depth($level: 2, $omni: true);
+  box-shadow: var(--theme-shadowLevel1);
 
   display: flex;
   justify-content: space-between;
@@ -77,7 +78,6 @@
   &__container {
     display: flex;
     align-items: center;
-    flex: 9;
   }
 
   &__content {
@@ -104,14 +104,15 @@
   }
 
   &__go {
-    height: var(--spacing-5);
+    width: var(--spacing-7);
+    height: var(--spacing-7);
     border-radius: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex: 1;
 
     &-icon {
+      @include font-size($font-size-xs);
       transform: rotate(180deg);
     }
   }

@@ -2,9 +2,9 @@
   <div class="c-home bg--background" v-if="user">
     <pg-container>
       <div class="c-home__header">
-        <h1 class="c-home__header-title text--foreground mr-2">
+        <h3 class="c-home__header-title text--foreground mr-2">
           {{ user.name }}
-        </h1>
+        </h3>
         <img
           v-if="user.imageUrl"
           class="c-home__header-avatar"
@@ -14,72 +14,74 @@
         <i v-else class="pgi pgi-user c-home__header-avatar--icon"></i>
       </div>
 
-      <div class="c-home__invoices mt-6">
-        <div class="c-home__invoices-header">
-          <h2 class="text--foreground">Meus pedidos</h2>
-          <router-link to="" class="text--link text--bold"
-            >Ver tudo</router-link
-          >
-        </div>
+      <div class="c-home__content">
+        <div class="c-home__invoices mt-6 c-content">
+          <div class="c-home__invoices-header">
+            <h4 class="text--foreground">Meus pedidos</h4>
+            <router-link to="" class="text--link text--bold"
+              >Ver tudo</router-link
+            >
+          </div>
 
-        <div
-          v-if="recents && recents.length > 0"
-          class="c-home__invoices-content mt-4 pb-4"
-        >
           <div
-            class="c-home__invoices-content-card"
-            v-for="invoice in recents"
-            :key="invoice.id"
-            @click.prevent="onClickInvoice(invoice)"
+            v-if="recents && recents.length > 0"
+            class="c-home__invoices-content mt-4 pb-4"
           >
-            <pg-invoice-card
-              v-color="getColorOfInvoice(invoice)"
-              :invoice="invoice"
-            ></pg-invoice-card>
+            <div
+              class="c-home__invoices-content-card"
+              v-for="invoice in recents"
+              :key="invoice.id"
+              @click.prevent="onClickInvoice(invoice)"
+            >
+              <pg-invoice-card
+                v-color="getColorOfInvoice(invoice)"
+                :invoice="invoice"
+              ></pg-invoice-card>
+            </div>
+          </div>
+
+          <div v-else class="mt-3 text--center">
+            <p>
+              Ops! Não foi feito nenhum pedido ainda!
+              <router-link to="" class="text--primary text--bold"
+                >Buscar farmácias</router-link
+              >
+            </p>
           </div>
         </div>
 
-        <div v-else class="mt-3 text--center">
-          <p>
-            Ops! Não foi feito nenhum pedido ainda!
-            <router-link to="" class="text--primary text--bold"
-              >Buscar farmácias</router-link
+        <div class="c-home__establishments mt-4 mb-14 c-content">
+          <div class="c-home__establishments-header">
+            <h4 class="text--foreground">Sugestões</h4>
+            <router-link to="" class="text--link text--bold"
+              >Ver tudo</router-link
             >
-          </p>
-        </div>
-      </div>
-
-      <div class="c-home__establishments mt-4">
-        <div class="c-home__establishments-header">
-          <h2 class="text--foreground">Melhores avaliadas</h2>
-          <router-link to="" class="text--link text--bold"
-            >Ver tudo</router-link
-          >
-        </div>
-
-        <div
-          class="c-home__establishments-content mt-4"
-          v-if="mostRateds && mostRateds.length > 0"
-        >
-          <div
-            v-for="establishment in mostRateds"
-            :key="establishment.id"
-            class="c-home__establishments-content-card"
-          >
-            <pg-establishment-card
-              :establishment="establishment"
-              @clickCard="onClickEstablishment(establishment)"
-            ></pg-establishment-card>
           </div>
-        </div>
 
-        <div v-else class="mt-3 text--center">
-          <p>
-            Ops! Não foi feito nenhum pedido ainda!
-            <router-link to="" class="text--primary text--bold"
-              >Buscar farmácias</router-link
+          <div
+            class="c-home__establishments-content mt-4"
+            v-if="mostRateds && mostRateds.length > 0"
+          >
+            <div
+              v-for="establishment in mostRateds"
+              :key="establishment.id"
+              class="c-home__establishments-content-card"
             >
-          </p>
+              <pg-establishment-card
+                :establishment="establishment"
+                @clickCard="onClickEstablishment(establishment)"
+              ></pg-establishment-card>
+            </div>
+          </div>
+
+          <div v-else class="mt-3 text--center">
+            <p>
+              Ops! Não foi feito nenhum pedido ainda!
+              <router-link to="" class="text--primary text--bold"
+                >Buscar farmácias</router-link
+              >
+            </p>
+          </div>
         </div>
       </div>
     </pg-container>
@@ -126,6 +128,15 @@
     }
   }
 
+  &__content {
+    display: flex;
+    flex-direction: column;
+
+    @include mq($from: tablet-landscape) {
+      flex-direction: row-reverse;
+    }
+  }
+
   &__establishments,
   &__invoices {
     &-header {
@@ -137,10 +148,24 @@
       > p {
         margin: 0;
       }
+
+      > a {
+        display: block;
+
+        @include mq($from: tablet-landscape) {
+          display: none;
+        }
+      }
     }
   }
 
   &__invoices {
+    width: 100%;
+
+    @include mq($from: tablet-landscape) {
+      width: 40%;
+    }
+
     &-content {
       display: flex;
       overflow-x: scroll;
@@ -176,6 +201,14 @@
   }
 
   &__establishments {
+    width: 100%;
+    margin-right: 0;
+
+    @include mq($from: tablet-landscape) {
+      width: 60%;
+      margin-right: var(--spacing-10);
+    }
+
     &-content {
       display: flex;
       flex-direction: column;
@@ -192,7 +225,6 @@
 </style>
 
 <script lang="ts">
-import { invoices } from "@/services";
 import { Component, Vue } from "vue-property-decorator";
 import { Route } from "vue-router";
 import { mapState } from "vuex";
@@ -217,7 +249,7 @@ export default class PgHome extends Vue {
     }
 
     if (!this.mostRateds || this.mostRateds?.length === 0) {
-      const mostRateds = await this.$api.establishments.mostRated();
+      const mostRateds = await this.$api.establishments.suggestions();
       this.$store.dispatch("establishment/set", { mostRateds });
     }
   }

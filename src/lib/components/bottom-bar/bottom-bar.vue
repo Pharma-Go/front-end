@@ -73,7 +73,7 @@
 @import "../../styles/typography.scss";
 
 .c-bottom-bar {
-  @include z-depth($level: 2, $omni: true);
+  box-shadow: var(--theme-shadowLevel1);
   transition: all 0.3s ease-in-out;
   position: absolute;
 

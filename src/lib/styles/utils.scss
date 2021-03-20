@@ -25,3 +25,15 @@
 .line--through {
   text-decoration: line-through;
 }
+
+.c-content {
+  padding: 0;
+  box-shadow: none;
+  border-radius: 0;
+
+  @include mq($from: tablet-landscape) {
+    padding: var(--spacing-4) var(--spacing-5);
+    box-shadow: var(--theme-shadowLevel1);
+    border-radius: var(--spacing-4);
+  }
+}

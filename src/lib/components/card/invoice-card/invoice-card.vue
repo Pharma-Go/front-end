@@ -34,7 +34,7 @@
 @import "../../../styles/depth.scss";
 
 .c-invoice-card {
-  @include z-depth($level: 2, $omni: true);
+  box-shadow: var(--theme-shadowLevel1);
 
   display: flex;
   border-radius: var(--spacing-2);

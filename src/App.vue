@@ -2,7 +2,7 @@
   <pg-app id="app">
     <div class="c-app__content">
       <pg-sidebar
-        v-if="isAuthenticated"
+        v-if="user && user.id"
         class="c-app__content-sidebar"
         :activeItem="$route.name"
         :user="user"
@@ -76,12 +76,8 @@ export default class PgAppVue extends Vue {
     color: "feedbackErrorMedium"
   };
 
-  public isAuthenticated = false;
-
   public async created() {
     if (await oauth.isAuthenticated()) {
-      this.isAuthenticated = true;
-
       if (!this.user.id) {
         const user = await this.$api.users.getOne("me");
         this.$pharmago.theme.themes.isDark = user.isDark;
@@ -89,26 +85,28 @@ export default class PgAppVue extends Vue {
     }
 
     this.sockets.subscribe("strictAccept", (invoice: Invoice) => {
-      if (invoice.strictAccepted) {
-        this.snackbar = {
-          color: "feedbackSuccessMedium",
-          icon: "pgi-added",
-          text: `Sua(s) receita(s) foi(foram) aceita(s) do pedido #${invoice.id.substring(
-            0,
-            5
-          )} `,
-          visible: true
-        };
-      } else {
-        this.snackbar = {
-          color: "feedbackErrorMedium",
-          icon: "pgi-close",
-          text: `Sua(s) receita(s) foi(foram) recusada(s) do pedido #${invoice.id.substring(
-            0,
-            5
-          )} `,
-          visible: true
-        };
+      if (this.$route.name !== "Invoice") {
+        if (invoice.strictAccepted) {
+          this.snackbar = {
+            color: "feedbackSuccessMedium",
+            icon: "pgi-added",
+            text: `Sua(s) receita(s) foi(foram) aceita(s) do pedido #${invoice.id.substring(
+              0,
+              5
+            )} `,
+            visible: true
+          };
+        } else {
+          this.snackbar = {
+            color: "feedbackErrorMedium",
+            icon: "pgi-close",
+            text: `Sua(s) receita(s) foi(foram) recusada(s) do pedido #${invoice.id.substring(
+              0,
+              5
+            )} `,
+            visible: true
+          };
+        }
       }
     });
 

@@ -54,7 +54,7 @@
 
     &-icon {
       transition: all 0.3s ease-in-out;
-      @include font-size($font-size-xl);
+      font-size: $font-size-xl;
     }
 
     &-text {

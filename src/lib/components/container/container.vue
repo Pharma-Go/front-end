@@ -3,7 +3,7 @@
     :class="[
       themeClass,
       'pg-container',
-      'py-5',
+      { 'py-5': hasVerticalPadding },
       { 'pg-container--fluid': fluid },
       { 'px-4': hasHorizontalPadding }
     ]"
@@ -35,5 +35,6 @@ import { Component, Mixins, Prop } from "vue-property-decorator";
 export default class PgContainer extends Mixins(Themeable) {
   @Prop(Boolean) public fluid!: boolean;
   @Prop({ type: Boolean, default: true }) public hasHorizontalPadding!: boolean;
+  @Prop({ type: Boolean, default: true }) public hasVerticalPadding!: boolean;
 }
 </script>

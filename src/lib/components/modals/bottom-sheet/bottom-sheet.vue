@@ -23,7 +23,7 @@
     position: absolute;
     width: 100%;
     bottom: 0;
-    background: var(--theme-background);
+    background: var(--theme-backgroundMedium);
     border-top-left-radius: var(--spacing-4);
     border-top-right-radius: var(--spacing-4);
     overflow: auto;

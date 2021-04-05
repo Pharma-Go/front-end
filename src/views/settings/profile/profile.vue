@@ -1,7 +1,7 @@
 <template>
   <pg-settings
     title="Perfil"
-    class="c-profile"
+    class="c-profile pt-5"
     :canBack="true"
     backUrl="/configuracoes/"
   >

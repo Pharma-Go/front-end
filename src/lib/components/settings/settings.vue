@@ -2,6 +2,7 @@
   <pg-container
     class="bg--backgroundSettings c-settings"
     :hasHorizontalPadding="false"
+    :hasVerticalPadding="false"
   >
     <div class="c-settings__header">
       <div class="c-settings__header-content">
@@ -54,7 +55,7 @@
       align-items: center;
 
       &-icon {
-        @include font-size($font-size-xs);
+        font-size: $font-size-xs;
 
         &-container {
           margin-right: var(--spacing-1);
@@ -81,7 +82,7 @@
       }
 
       &-icon {
-        @include font-size($font-size-sm);
+        font-size: $font-size-sm;
       }
     }
 

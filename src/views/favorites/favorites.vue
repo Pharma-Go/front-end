@@ -67,7 +67,16 @@
 </template>
 
 <style lang="scss">
+@import "@/lib/styles/mq.scss";
+
 .c-favorites {
+  height: 100vh;
+
+  @include mq($until: tablet-landscape) {
+    height: auto;
+    min-height: 100vh;
+  }
+
   &__content {
     &-no-favorites {
       margin-top: var(--spacing-16);
@@ -87,7 +96,7 @@
 </style>
 
 <script lang="ts">
-import { Establishment, User } from "@/lib/models";
+import { User } from "@/lib/models";
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import { mapState } from "vuex";

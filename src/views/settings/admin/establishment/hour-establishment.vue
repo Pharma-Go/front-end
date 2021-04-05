@@ -3,6 +3,7 @@
     title="Horários"
     :canBack="true"
     :backUrl="`/configuracoes/admin/estabelecimentos/${$route.params.id}`"
+    class="pt-5"
   >
     <form @submit.prevent="onSubmit">
       <div class="c-establishment__field">

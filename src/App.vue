@@ -2,7 +2,7 @@
   <pg-app id="app">
     <div class="c-app__content">
       <pg-sidebar
-        v-if="user && user.id"
+        v-if="showSidebar"
         class="c-app__content-sidebar"
         :activeItem="$route.name"
         :user="user"
@@ -56,7 +56,7 @@
 </style>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 
 import { oauth } from "./services";
 import { mapState } from "vuex";
@@ -70,11 +70,18 @@ import { Invoice, Role, User } from "./lib/models";
 export default class PgAppVue extends Vue {
   public $refs!: { myBottomSheet: any };
   public user: User;
+  public showSidebar = false;
 
   public snackbar: any = {
     visible: false,
     color: "feedbackErrorMedium"
   };
+
+  @Watch("user", { immediate: true })
+  public watchUser(): void {
+    console.log(this.user, "user");
+    this.showSidebar = !!(this.user && this.user.id);
+  }
 
   public async created() {
     if (await oauth.isAuthenticated()) {

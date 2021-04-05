@@ -1,8 +1,13 @@
 <template>
   <div class="c-recover-password pa-4">
-    <div class="c-recover-password__image"></div>
+    <img
+      class="c-recover-password__image"
+      src="../../assets/forgot-password.svg"
+    />
 
-    <form class="mt-5" @submit.prevent="onSubmit">
+    <form class="c-recover-password__form mt-5" @submit.prevent="onSubmit">
+      <h1 class="text--md mb-4 text--center">Recuperar senha</h1>
+
       <pg-input
         label="Código"
         prependIcon="user"
@@ -22,9 +27,17 @@
         type="password"
       ></pg-input>
 
-      <div class="d-flex flex-col align-center fill-w">
-        <pg-button class="mt-4 fill-w" v-color="'primary'" type="submit">
-          <span class="text--buttonContrast"> Alterar senha </span>
+      <div
+        class="c-recover-password__action d-flex flex-col align-center fill-w"
+      >
+        <pg-button
+          class="c-recover-password__action-button mt-4 fill-w"
+          v-color="'primary500'"
+          type="submit"
+        >
+          <span class="c-recover-password__action-button-text">
+            Alterar senha
+          </span>
         </pg-button>
       </div>
     </form>
@@ -32,12 +45,42 @@
 </template>
 
 <style lang="scss">
+@import "@/lib/styles/mq.scss";
+
 .c-recover-password {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 100vh;
+  background: var(--theme-backgroundMedium);
+
+  @include mq($until: tablet-landscape) {
+    height: auto;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+
   &__image {
     width: 100%;
     height: 380px;
     background: var(--theme-primary);
     border-radius: var(--spacing-1);
+    flex: 1;
+    margin-right: var(--spacing-10);
+  }
+
+  &__form {
+    flex: 1;
+  }
+
+  &__action {
+    &-button {
+      &-text {
+        color: #fff;
+      }
+    }
   }
 }
 </style>

@@ -11,9 +11,7 @@
         ]"
         @click.prevent="changeCategory('pharmacies')"
       >
-        <p class="c-tab-result__header-pharmacy-title text--normal">
-          Farmácias
-        </p>
+        <p class="c-tab-result__header-pharmacy-title">Farmácias</p>
       </div>
       <div
         :class="[
@@ -25,7 +23,7 @@
         ]"
         @click.prevent="changeCategory('products')"
       >
-        <p class="c-tab-result__header-products-title text--normal">Produtos</p>
+        <p class="c-tab-result__header-products-title">Produtos</p>
       </div>
     </div>
     <div class="c-tab-result__content">
@@ -35,6 +33,8 @@
 </template>
 
 <style lang="scss">
+@import "@/lib/styles/typography.scss";
+
 .c-tab-result {
   &__header {
     display: flex;
@@ -42,28 +42,29 @@
 
     &-pharmacy,
     &-products {
+      cursor: pointer;
+
       display: flex;
       justify-content: center;
       align-items: center;
-      color: var(--theme-foreground);
+      color: var(--theme-neutralDarkest);
       width: 100%;
       transition: all 0.3s ease-in-out;
+      border-bottom: 1px solid var(--theme-neutralDarkest);
+      margin-bottom: 2px;
 
       &-title {
         margin-bottom: 0;
-        cursor: pointer;
         padding: var(--spacing-1);
+        font-size: $font-size-xs;
       }
 
       &--active {
-        color: var(--theme-primary);
-        border-bottom: 2px solid var(--theme-primary);
+        color: var(--theme-primary500);
+        border-bottom: 4px solid var(--theme-primary500);
         font-weight: bold;
+        margin-bottom: 0;
       }
-    }
-
-    &-products {
-      margin-left: var(--spacing-6);
     }
   }
 }

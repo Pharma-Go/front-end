@@ -3,6 +3,7 @@
     :title="active.name"
     :canBack="true"
     backUrl="/configuracoes/admin/estabelecimentos"
+    class="pt-5"
   >
     <div class="c-edit-establishment__upload">
       <pg-upload

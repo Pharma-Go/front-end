@@ -149,7 +149,7 @@
   }
 
   &__title {
-    @include font-size($font-size-lg);
+    font-size: $font-size-lg;
 
     @include mq($until: tablet-landscape) {
       @include font-size($font-size-md);

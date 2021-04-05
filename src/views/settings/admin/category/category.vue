@@ -3,11 +3,16 @@
     :canBack="true"
     backUrl="/configuracoes/admin/estabelecimentos"
     title="Categoria"
+    class="pt-5"
   >
     <form @submit.prevent="onSubmit">
       <pg-input label="Nome" prependIcon="user" v-model="form.name"></pg-input>
 
-      <pg-button class="my-4 fill-w" v-color="'backgroundSecondaryButton'" type="submit">
+      <pg-button
+        class="my-4 fill-w"
+        v-color="'backgroundSecondaryButton'"
+        type="submit"
+      >
         <span class="text--buttonContrast"> Salvar </span>
       </pg-button>
     </form>

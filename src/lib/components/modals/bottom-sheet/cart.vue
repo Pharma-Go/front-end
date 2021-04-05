@@ -275,7 +275,7 @@
         cursor: pointer;
 
         &-icon {
-          @include font-size($font-size-xs);
+          font-size: $font-size-xs;
 
           color: var(--theme-primary);
         }

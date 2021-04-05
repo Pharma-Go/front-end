@@ -1,5 +1,5 @@
 <template>
-  <pg-settings title="Configurações">
+  <pg-settings title="Configurações" class="pt-5">
     <div class="c-settings__content-header">
       <pg-upload
         @uploaded="onUploadedImage"

@@ -1,7 +1,7 @@
 <template>
   <pg-settings
     title="Trocar senha"
-    class="c-profile"
+    class="c-profile pt-5"
     :canBack="true"
     backUrl="/configuracoes/"
   >
@@ -30,7 +30,11 @@
           v-model="form.repeatedNewPassword"
         ></pg-input>
       </div>
-      <pg-button class="mt-4 fill-w" v-color="'backgroundSecondaryButton'" type="submit">
+      <pg-button
+        class="mt-4 fill-w"
+        v-color="'backgroundSecondaryButton'"
+        type="submit"
+      >
         <span class="text--buttonContrast"> Salvar </span>
       </pg-button>
     </form>

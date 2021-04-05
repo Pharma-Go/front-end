@@ -1,6 +1,6 @@
 <template>
   <pg-settings
-    class="c-establishments"
+    class="c-establishments pt-5"
     title="Estabelecimentos"
     :canBack="true"
     backUrl="/configuracoes/"
@@ -42,7 +42,7 @@
     border-radius: var(--spacing-2);
 
     > i {
-      @include font-size($font-size-lg);
+      font-size: $font-size-lg;
     }
 
     > p {

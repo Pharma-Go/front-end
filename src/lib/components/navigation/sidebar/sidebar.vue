@@ -2,14 +2,14 @@
   <div :class="['c-sidebar', { 'c-sidebar--opened': opened }]">
     <div
       @click.prevent="opened = !opened"
-      class="c-sidebar__expand bg--contrast d-flex align-center justify-center radius--100"
+      class="c-sidebar__expand d-flex align-center justify-center radius--100"
     >
       <i
         :class="[
           'c-sidebar__expand-icon',
           'pgi',
           'pgi-chevron-left',
-          'text--primary'
+          'text--primary500'
         ]"
       ></i>
     </div>
@@ -20,18 +20,18 @@
         class="c-sidebar__user-image"
         v-if="user && user.imageUrl"
       />
-      <i v-else class="c-sidebar__user-avatar text--contrast pgi, pgi-user"></i>
+      <i v-else class="c-sidebar__user-avatar pgi, pgi-user"></i>
 
       <div class="c-sidebar__user-info">
         <h2
           v-if="user && user.name"
-          class="c-sidebar__user-info-name text--small text--contrast"
+          class="c-sidebar__user-info-name text--small"
         >
           {{ user.name }}
         </h2>
         <p
           v-if="user && user.phone"
-          class="c-sidebar__user-info-cellphone text--small text--contrast mb-0"
+          class="c-sidebar__user-info-cellphone text--small mb-0"
         >
           {{ user.phone | formatPhone }}
         </p>
@@ -76,8 +76,13 @@
         </p>
       </router-link>
 
-      <div
-        :class="['c-sidebar__navigation-cart', 'c-sidebar__navigation-item']"
+      <router-link
+        to="/carrinho"
+        :class="[
+          'c-sidebar__navigation-cart',
+          'c-sidebar__navigation-item',
+          { 'c-sidebar__navigation-item--active': isActive('Cart') }
+        ]"
       >
         <i
           class="c-sidebar__navigation-item-icon c-sidebar__navigation-cart--icon pgi pgi-cart"
@@ -87,7 +92,7 @@
         >
           Carrinho
         </p>
-      </div>
+      </router-link>
 
       <router-link
         to="/favoritos"
@@ -127,12 +132,12 @@
     </div>
 
     <div
-      class="c-sidebar__logout d-flex align-center cursor--pointer fill-w pa-2"
+      class="c-sidebar__logout d-flex align-center cursor--pointer fill-w"
       @click.prevent="logout"
     >
-      <i class="pgi pgi-logout text--contrast mr-2"></i>
+      <i class="pgi pgi-logout mr-2"></i>
       <transition name="sidebar-transition">
-        <p v-if="opened" class="mb-0 text--contrast">Sair</p>
+        <p v-if="opened" class="mb-0">Sair</p>
       </transition>
     </div>
   </div>
@@ -145,7 +150,7 @@
 .c-sidebar {
   width: calc(var(--spacing-10) + var(--spacing-5));
   height: 100vh;
-  background-color: var(--theme-primary);
+  background-color: var(--theme-navigationBarBackground);
   transition: all 0.3s ease-in-out;
   display: flex;
   flex-direction: column;
@@ -173,7 +178,7 @@
     }
 
     .c-sidebar__user {
-      background: #4d93fc80;
+      background: var(--theme-navigationBarItem);
       border-radius: var(--spacing-1);
       padding-left: var(--spacing-2);
     }
@@ -214,6 +219,7 @@
     cursor: pointer;
     opacity: 0;
     transition: all 0.3s ease-in-out;
+    background: var(--theme-backgroundMedium);
 
     &-icon {
       transition: all 0.3s ease-in-out;
@@ -227,6 +233,8 @@
     transition: all 0.3s ease-in-out;
     padding: var(--spacing-2);
     padding-left: 0;
+    overflow: hidden;
+    color: #ffffff;
 
     &-avatar,
     &-image {
@@ -241,7 +249,7 @@
     }
 
     &-avatar {
-      @include font-size($font-size-sm);
+      font-size: $font-size-sm;
     }
 
     &-info {
@@ -260,12 +268,14 @@
   }
 
   &__navigation {
+    overflow: hidden;
+
     &-item {
       display: flex;
       align-items: center;
       margin: var(--spacing-3) 0;
-      color: var(--theme-contrast);
-      padding: var(--spacing-2);
+      color: #ffffff;
+      padding: var(--spacing-2) var(--spacing-2) var(--spacing-2) 14px;
       transition: all 0.3s ease-in-out;
       background: unset;
       height: var(--spacing-9);
@@ -277,9 +287,8 @@
 
       &--active,
       &:hover {
-        background: #4d93fc80;
+        background: var(--theme-navigationBarItem);
         border-radius: var(--spacing-1);
-        padding: var(--spacing-2);
       }
 
       &-text {
@@ -289,23 +298,33 @@
 
       > p {
         margin: 0;
-        @include font-size($font-size-xs);
+        font-size: $font-size-xs;
       }
 
       > i {
-        @include font-size($font-size-sm);
+        font-size: $font-size-sm;
       }
     }
   }
 
   &__logout {
+    overflow: hidden;
+    padding: var(--spacing-2) var(--spacing-2) var(--spacing-2) 14px;
+    color: #ffffff;
+    border-radius: var(--spacing-1);
+    transition: background 0.3s ease-in-out;
+
+    &:hover {
+      background: var(--theme-navigationBarItem);
+    }
+
     > p {
       margin: 0;
-      @include font-size($font-size-xs);
+      font-size: $font-size-xs;
     }
 
     > i {
-      @include font-size($font-size-sm);
+      font-size: $font-size-sm;
     }
   }
 }
@@ -340,6 +359,7 @@ export default class PgSidebar extends Vue {
 
   public async logout(): Promise<void> {
     this.$api.oauth.options.storage.clear();
+    await this.$store.dispatch("user/clean");
     // await this.$store.
     this.$router.replace("/");
   }

@@ -3,7 +3,7 @@
     :title="title"
     :canBack="true"
     :backUrl="`/configuracoes/admin/estabelecimentos/${$route.params.id}/produtos`"
-    class="c-establishment-product"
+    class="c-establishment-product pt-5"
   >
     <form @submit.prevent="onSubmit" class="c-establishment-product__form">
       <div
@@ -93,7 +93,7 @@
   &__form {
     &-field {
       &-textarea {
-        @include font-size($font-size-xxxs);
+        font-size: $font-size-xxxs;
         font-family: unquote($global-body-font);
 
         width: 100%;
@@ -106,7 +106,7 @@
         resize: none;
 
         &::placeholder {
-          @include font-size($font-size-xxxs);
+          font-size: $font-size-xxxs;
 
           font-family: unquote($global-body-font);
         }

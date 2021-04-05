@@ -4,7 +4,7 @@
     :title="establishment.name"
     :canBack="true"
     backUrl="/configuracoes/admin/receitas"
-    class="c-invoice bg--background"
+    class="c-invoice bg--background pt-5"
   >
     <div class="c-invoice__details">
       <div class="c-invoice__details-item mb-4">

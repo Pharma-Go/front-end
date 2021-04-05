@@ -3,7 +3,7 @@
     title="Pedidos"
     :canBack="true"
     backUrl="/configuracoes/"
-    class="c-admin-invoices"
+    class="c-admin-invoices pt-5"
   >
     <div class="c-admin-invoices__content" v-if="orders && orders.length > 0">
       <div

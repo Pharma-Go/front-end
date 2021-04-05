@@ -4,6 +4,7 @@
     @submit="onSubmit"
     :hasAddress="hasAddress"
     :backUrl="`/configuracoes/admin/estabelecimentos/${$route.params.id}`"
+    class="pt-5"
   ></pg-address-settings>
 </template>
 

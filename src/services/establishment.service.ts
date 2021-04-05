@@ -10,6 +10,10 @@ class EstablishmentService extends Rest {
     return this.getOne("suggestions");
   }
 
+  public async mostRateds(): Promise<Establishment[]> {
+    return this.getOne("mostRateds");
+  }
+
   public async search(term: string): Promise<Establishment[]> {
     return this.get({
       url: `/search/${term}`

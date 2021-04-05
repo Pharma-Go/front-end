@@ -39,7 +39,7 @@
     cursor: pointer;
 
     &-icon {
-      @include font-size($font-size-sm);
+      font-size: $font-size-sm;
     }
   }
 

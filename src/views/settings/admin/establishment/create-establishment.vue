@@ -1,7 +1,7 @@
 <template>
   <pg-settings
     :title="form.name ? form.name : 'Estabelecimento'"
-    class="c-establishment"
+    class="c-establishment pt-5"
   >
     <form @submit.prevent="save">
       <div class="c-establishment__field mb-2">

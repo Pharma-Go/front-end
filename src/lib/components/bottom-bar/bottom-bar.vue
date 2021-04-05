@@ -1,5 +1,5 @@
 <template>
-  <div :class="[themeClass, 'bg--backgroundBottomBar', 'c-bottom-bar']">
+  <div :class="[themeClass, 'c-bottom-bar']">
     <router-link
       to="/home"
       :class="[
@@ -7,9 +7,7 @@
         { 'c-bottom-bar__item-active': isActive('Home') }
       ]"
     >
-      <i
-        :class="[{ 'text--primary': isActive('Home') }, 'pgi', 'pgi-home']"
-      ></i>
+      <i :class="['pgi', 'pgi-home']"></i>
     </router-link>
     <router-link
       to="/buscar"
@@ -18,9 +16,7 @@
         { 'c-bottom-bar__item-active': isActive('Search') }
       ]"
     >
-      <i
-        :class="[{ 'text--primary': isActive('Search') }, 'pgi', 'pgi-search']"
-      ></i>
+      <i :class="['pgi', 'pgi-search']"></i>
     </router-link>
     <div
       :class="['c-bottom-bar__item']"
@@ -28,28 +24,10 @@
     >
       <i :class="['pgi', 'pgi-cart']"></i>
     </div>
-    <router-link
-      to="/favoritos"
-      :class="[
-        'c-bottom-bar__item',
-        { 'c-bottom-bar__item-active': isActive('Favorites') }
-      ]"
-    >
-      <i
-        :class="[
-          { 'text--primary': isActive('Favorites') },
-          'pgi',
-          'pgi-favorite'
-        ]"
-      ></i>
+    <router-link to="/favoritos" :class="['c-bottom-bar__item']">
+      <i :class="['pgi', 'pgi-favorite']"></i>
     </router-link>
-    <router-link
-      to="/configuracoes"
-      :class="[
-        'c-bottom-bar__item',
-        { 'c-bottom-bar__item-active': isActive('Settings') }
-      ]"
-    >
+    <router-link to="/configuracoes" :class="['c-bottom-bar__item']">
       <i
         :class="[
           { 'text--primary': isActive('Settings') },
@@ -73,6 +51,8 @@
 @import "../../styles/typography.scss";
 
 .c-bottom-bar {
+  background-color: var(--theme-navigationBarBackground);
+
   box-shadow: var(--theme-shadowLevel1);
   transition: all 0.3s ease-in-out;
   position: absolute;
@@ -94,21 +74,23 @@
   &__item {
     cursor: pointer;
     transition: all 0.3s ease-in-out;
+    width: var(--spacing-6);
+    height: var(--spacing-6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--spacing-1);
 
     > i {
-      @include font-size($font-size-sm);
+      font-size: $font-size-sm;
 
       transition: all 0.3s ease-in-out;
       color: #fff;
     }
 
     &-active {
-      transition: all 0.3s ease-in-out;
+      background: var(--theme-navigationBarItem);
 
-      background: var(--theme-background);
-      border-radius: 100%;
-      width: var(--spacing-6);
-      height: var(--spacing-6);
       display: flex;
       justify-content: center;
       align-items: center;

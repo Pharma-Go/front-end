@@ -1,7 +1,7 @@
 <template>
   <div class="c-login">
     <form @submit.prevent="onSubmit" class="c-login__content text--center">
-      <h1 class="c-login__title text--center">Acesse sua conta</h1>
+      <h1 class="text--md c-login__title text--center">Acesse sua conta</h1>
 
       <div class="d-flex flex-col align-end">
         <div class="mt-4 fill-w">
@@ -79,9 +79,11 @@
   align-items: center;
   justify-content: center;
   padding: var(--spacing-4);
-  height: 100%;
+  height: 100vh;
 
   @include mq($until: tablet-landscape) {
+    height: auto;
+    min-height: 100vh;
     flex-direction: column;
   }
 
@@ -102,7 +104,7 @@
   }
 
   &__title {
-    @include font-size($font-size-lg);
+    font-size: $font-size-lg;
 
     @include mq($until: tablet-landscape) {
       @include font-size($font-size-md);

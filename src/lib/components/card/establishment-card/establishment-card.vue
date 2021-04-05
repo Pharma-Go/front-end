@@ -14,11 +14,11 @@
 
       <div class="c-establishment-card__content">
         <div class="c-establishment-card__content-header">
-          <h2 class="c-establishment-card__content-title text--foreground">
+          <h3 class="c-establishment-card__content-title">
             {{ establishment.name }}
-          </h2>
+          </h3>
           <p
-            class="c-establishment-card__content-address text--small text--foregroundTertiary"
+            class="c-establishment-card__content-address"
             v-if="
               establishment.address &&
               establishment.address.street &&
@@ -32,7 +32,7 @@
           </p>
         </div>
 
-        <p class="c-establishment-card__content-hour text--primary text--small">
+        <p class="c-establishment-card__content-hour text--small">
           <i
             class="c-establishment-card__content-hour-icon pgi pgi-clock mr-1"
           ></i>
@@ -45,10 +45,8 @@
       </div>
     </div>
 
-    <div class="c-establishment-card__go bg--secondaryBackground">
-      <i
-        class="c-establishment-card__go-icon pgi pgi-chevron-left text--primary"
-      ></i>
+    <div class="c-establishment-card__go">
+      <i class="c-establishment-card__go-icon pgi pgi-chevron-left"></i>
     </div>
   </div>
 </template>
@@ -56,6 +54,7 @@
 <style lang="scss">
 @import "@/lib/styles/depth.scss";
 @import "@/lib/styles/typography.scss";
+@import "@/lib/styles/mq.scss";
 
 .c-establishment-card {
   box-shadow: var(--theme-shadowLevel1);
@@ -66,6 +65,7 @@
   border-radius: var(--spacing-2);
   padding: var(--spacing-2) var(--spacing-3);
   cursor: pointer;
+  background: var(--theme-backgroundMedium);
 
   &__image {
     width: var(--spacing-10);
@@ -73,6 +73,11 @@
     margin-right: var(--spacing-4);
     object-fit: cover;
     border-radius: var(--spacing-1);
+
+    @include mq($from: tablet-landscape) {
+      width: var(--spacing-12);
+      height: var(--spacing-12);
+    }
   }
 
   &__container {
@@ -94,25 +99,49 @@
     &-address,
     &-hour {
       margin: 0;
+      color: var(--theme-neutralDarkest);
+    }
+
+    &-title {
+      font-size: $font-size-xs;
+
+      @include mq($from: tablet-landscape) {
+        font-size: $font-size-sm;
+      }
+    }
+
+    &-address {
+      font-size: $font-size-xxxs;
+      color: var(--theme-neutralMedium);
+
+      @include mq($from: tablet-landscape) {
+        font-size: $font-size-xxs;
+      }
     }
 
     &-hour {
       margin-top: var(--spacing-1);
       display: flex;
       align-items: center;
+      color: var(--theme-linkMedium);
     }
   }
 
   &__go {
-    width: var(--spacing-7);
-    height: var(--spacing-7);
+    flex: 0 0 var(--spacing-5);
+    height: var(--spacing-5);
     border-radius: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 
+    @include mq($from: tablet-landscape) {
+      flex: 0 0 var(--spacing-7);
+      height: var(--spacing-7);
+    }
+
     &-icon {
-      @include font-size($font-size-xs);
+      font-size: $font-size-xs;
       transform: rotate(180deg);
     }
   }
@@ -129,8 +158,8 @@ export default class PgEstablishmentCard extends Mixins(Themeable) {
   @Prop() public establishment!: Establishment;
 
   public formatHour(time: string) {
-    const hour = time.substring(0, 2);
-    const minute = time.substring(2, 4);
+    const hour = time?.substring(0, 2);
+    const minute = time?.substring(2, 4);
 
     return `${hour}:${minute}`;
   }

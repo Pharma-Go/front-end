@@ -1,98 +1,108 @@
 <template>
   <pg-container
-    class="c-establishment bg--background"
+    class="c-establishment bg--backgroundMedium"
     v-if="active && active.id"
+    :hasHorizontalPadding="activePaddings"
+    :hasVerticalPadding="activePaddings"
   >
-    <div class="c-establishment__header mb-4">
-      <div
-        @click.prevent="$router.back"
-        class="c-establishment__header-back bg--secondaryBackground"
-      >
-        <i
-          class="c-establishment__header-back-icon pgi pgi-chevron-left text--primary"
-        ></i>
-      </div>
-      <div @click.prevent="onFavorite" class="c-establishment__header-favorite">
-        <i
-          :class="[
-            'c-establishment__header-favorite-icon',
-            'pgi',
-            { 'pgi-favorite': !hasFavorited },
-            { 'pgi-favorited': hasFavorited },
-            'text--feedbackErrorMedium'
-          ]"
-        ></i>
-      </div>
-    </div>
-
-    <img
-      class="c-establishment__image"
-      v-if="active.imageUrl"
-      :src="active.imageUrl"
-      :alt="active.name"
-    />
-
-    <div class="c-establishment__content mt-5">
-      <div class="c-establishment__content-title">
-        <h1
-          :class="[
-            'c-establishment__content-title-text',
-            { 'fill-w': !hasReviews() },
-            { 'text--center': !hasReviews() }
-          ]"
+    <div class="c-content pa-0 pb-6">
+      <div class="c-establishment__header">
+        <div
+          class="c-establishment__header-action c-establishment__header-action-back"
         >
-          {{ active.name }}
-        </h1>
+          <i class="pgi pgi-chevron-left"></i>
+        </div>
+        <div
+          class="c-establishment__header-action c-establishment__header-action-favorite"
+        >
+          <i class="pgi pgi-favorite"></i>
+        </div>
+        <img
+          class="c-establishment__header-image"
+          src="https://images.unsplash.com/photo-1617191979724-f755c6d83e01?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1651&q=80"
+          alt=""
+        />
+      </div>
 
-        <div class="c-establishment__content-title-stars" v-if="hasReviews()">
-          <i
-            class="c-establishment__content-title-stars-icon pgi pgi-star text--primary mr-1"
-          ></i>
-          <p
-            class="c-establishment__content-title-stars-text text--primary text--bold text--large"
+      <pg-loading
+        class="c-establishment__loading"
+        v-if="isLoading"
+      ></pg-loading>
+
+      <div v-else>
+        <div class="c-establishment__title">
+          <div class="d-flex align-center">
+            <img
+              class="c-establishment__title-image"
+              :src="active.imageUrl"
+              :alt="active.name"
+            />
+            <h1 class="c-establishment__title-text">{{ active.name }}</h1>
+          </div>
+
+          <div class="c-establishment__title-feedback d-flex align-center">
+            <i
+              class="c-establishment__title-feedback-icon text--feedbackWarningMedium pgi pgi-star"
+            ></i>
+            <p
+              class="c-establishment__title-feedback-text text--feedbackWarningMedium mb-0"
+            >
+              {{ countStarsReviews() }}
+            </p>
+          </div>
+        </div>
+
+        <div class="c-establishment__content mt-6">
+          <div class="c-content c-establishment__content-highlights">
+            <p class="c-establishment__content-highlights-title mb-0">
+              Destaques
+            </p>
+
+            <div
+              class="c-establishment__content-highlights-products d-flex px-1 py-4"
+            >
+              <div
+                class="c-establishment__content-highlights-products-card"
+                v-for="product in productsMostRateds"
+                :key="product.id"
+              >
+                <pg-product-card
+                  :product="product"
+                  @clickCard="onClickProduct"
+                ></pg-product-card>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="c-establishment__content-category"
+            v-for="productCategory of Object.entries(products)"
+            :key="productCategory[0]"
           >
-            {{ countStarsReviews() }}
-          </p>
-        </div>
-      </div>
+            <p
+              class="c-establishment__content-category-title text--neutralDarkest mb-0"
+            >
+              {{ productCategory[0] }}
+            </p>
 
-      <h2 class="mt-6">Destaques</h2>
-      <div
-        class="c-establishment__content-highlights mt-3"
-        v-if="productsMostRateds && productsMostRateds.length > 0"
-      >
-        <div
-          class="c-establishment__content-product mr-4"
-          v-for="product in productsMostRateds"
-          :key="product.id"
-        >
-          <pg-establishment-product-card
-            :product="product"
-          ></pg-establishment-product-card>
-        </div>
-      </div>
+            <div
+              class="c-establishment__content-category-products d-flex px-1 py-4"
+            >
+              <div
+                class="c-establishment__content-category-products-card"
+                v-for="product in productCategory[1]"
+                :key="product.id"
+              >
+                <pg-product-card
+                  :product="product"
+                  class="bg--backgroundMedium"
+                  @clickCard="onClickProduct"
+                ></pg-product-card>
+              </div>
+            </div>
+          </div>
 
-      <pg-tab
-        :categories="categories"
-        :activeCategoryId="activeCategoryId"
-        @clickCategory="onClickCategory"
-        class="mt-6"
-      ></pg-tab>
-
-      <div
-        class="c-establishment__products mt-2"
-        v-if="products && products.length > 0"
-      >
-        <div
-          v-for="product in products"
-          :key="product.id"
-          @click.prevent="onClickProduct(product)"
-        >
-          <pg-product-card
-            :product="product"
-            icon="add"
-            :rotateIcon="false"
-          ></pg-product-card>
+          <!-- div.c-establishment__content -->
         </div>
       </div>
     </div>
@@ -129,10 +139,6 @@
 @import "../lib/styles/mq.scss";
 
 .c-establishment {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
   height: 100vh;
 
   @include mq($until: tablet-landscape) {
@@ -140,72 +146,155 @@
     min-height: 100vh;
   }
 
+  &__loading {
+    width: var(--spacing-6);
+    height: var(--spacing-6);
+    margin: var(--spacing-4) auto;
+  }
+
   &__header {
     width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    position: relative;
 
-    &-back,
-    &-favorite {
-      width: var(--spacing-7);
-      height: var(--spacing-7);
-      border-radius: 100%;
+    &-action {
+      position: absolute;
+      top: 50%;
+
+      width: var(--spacing-9);
+      height: var(--spacing-9);
+
       display: flex;
       justify-content: center;
       align-items: center;
 
+      border-radius: 100%;
+      background: var(--theme-backgroundLight);
+      transform: translateY(-50%);
+      box-shadow: var(--theme-shadowLevel1);
+      color: var(--theme-neutralDarkest);
+      font-size: $font-size-md;
       cursor: pointer;
 
-      &-icon {
-        @include font-size($font-size-sm);
+      @include mq($until: tablet-landscape) {
+        width: var(--spacing-7);
+        height: var(--spacing-7);
+        font-size: $font-size-sm;
+      }
+
+      &-back {
+        display: none;
+        left: var(--spacing-12);
+        padding-right: 3px;
+
+        @include mq($until: tablet-landscape) {
+          display: flex;
+          left: var(--spacing-4);
+        }
+      }
+
+      &-favorite {
+        right: var(--spacing-12);
+        color: var(--theme-feedbackErrorMedium);
+
+        @include mq($until: tablet-landscape) {
+          right: var(--spacing-4);
+        }
       }
     }
 
-    &-back {
-      padding-right: 3px;
+    &-image {
+      width: 100%;
+      height: 170px;
+
+      background: var(--theme-primary500);
+      object-fit: cover;
+      border-radius: var(--spacing-4) var(--spacing-4) 0 0;
+
+      @include mq($until: tablet-landscape) {
+        height: 126px;
+        border-radius: 0;
+      }
     }
   }
 
-  &__image {
-    width: calc(var(--spacing-base) * 31);
-    height: calc(var(--spacing-base) * 31);
-    object-fit: cover;
-    border-radius: var(--spacing-1);
+  &__title {
+    width: 100%;
+    margin-top: var(--spacing-4);
+    padding: 0 var(--spacing-12);
+    display: flex;
+    justify-content: space-between;
+
+    @include mq($until: tablet-landscape) {
+      padding: 0 var(--spacing-4);
+    }
+
+    &-image {
+      margin-right: var(--spacing-6);
+      border-radius: var(--spacing-1);
+      width: 85px;
+      height: 85px;
+
+      @include mq($until: tablet-landscape) {
+        margin-right: var(--spacing-3);
+      }
+    }
+
+    &-text {
+      font-size: $font-size-lg;
+      color: var(--theme-neutralDarkest);
+
+      @include mq($until: tablet-landscape) {
+        font-size: $font-size-md;
+      }
+    }
+
+    &-feedback {
+      cursor: pointer;
+
+      &-icon,
+      &-text {
+        font-size: $font-size-sm;
+        font-weight: 700;
+      }
+
+      &-icon {
+        margin-right: var(--spacing-1);
+      }
+    }
   }
 
   &__content {
-    width: 100%;
+    margin: 0 var(--spacing-12);
 
-    &-title {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
+    @include mq($until: tablet-landscape) {
+      margin: 0 var(--spacing-4);
+    }
 
-      &-text {
-        margin-bottom: 0;
+    &-highlights {
+      background: var(--theme-backgroundMedium) !important;
+
+      &-title {
+        font-size: $font-size-sm;
+        font-weight: 700;
+        color: var(--theme-neutralDarkest);
+
+        @include mq($until: tablet-landscape) {
+          font-size: $font-size-xs;
+        }
       }
 
-      &-stars {
+      &-products {
         display: flex;
-        align-items: center;
-        justify-content: flex-end;
+        overflow-x: scroll;
 
-        &-icon {
-          @include font-size($font-size-sm);
-        }
-
-        &-text {
-          margin-bottom: 0;
+        &-card {
+          margin-right: var(--spacing-4);
         }
       }
     }
 
-    &-highlights {
-      display: flex;
-      overflow-x: scroll;
-      padding: var(--spacing-1);
+    &-category {
+      margin-top: var(--spacing-6);
     }
   }
 }
@@ -237,7 +326,7 @@ export default class PgEstablishment extends Vue {
   public activeCategoryId = "";
   public categories: Category[] = [];
   public user!: User;
-  public products: Product[] = [];
+  public products: Record<string, Product[]> = {};
   public hasFavorited = false;
   public showProductBottomSheet = true;
   public showBottomSheet = false;
@@ -246,12 +335,18 @@ export default class PgEstablishment extends Vue {
   public activeProduct: Product = {} as Product;
   public generatedInvoice: Invoice = {} as Invoice;
 
+  public activePaddings = false;
+  public isLoading = false;
+
   public snackbar: any = {
     visible: false,
     color: "feedbackErrorMedium"
   };
 
   public async created() {
+    this.activePaddings = window.screen.width >= 480;
+    this.isLoading = true;
+
     if (!this.active.id) {
       const establishment = await this.$api.establishments.getOne(
         this.$route.params.id
@@ -266,23 +361,21 @@ export default class PgEstablishment extends Vue {
 
     const products = await this.$api.products.featuredProducts(this.active.id);
 
-    this.$store.dispatch("establishment/set", {
+    await this.$store.dispatch("establishment/set", {
       productsMostRateds: products
     });
 
-    // this.categories.sort((a: Category, b: Category) => {
-    //   return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-    // });
+    this.products = this.active.products.reduce((acc, element) => {
+      if (!acc[element.category.name]) {
+        acc[element.category.name] = [element];
+      } else {
+        acc[element.category.name].push(element);
+      }
 
-    // if (this.categories.length > 0) {
-    //   this.activeCategoryId = this.$route.params.category
-    //     ? this.$route.params.category
-    //     : this.categories[0].id;
+      return acc;
+    }, {});
 
-    //   this.products = this.active.products.filter(
-    //     (product: Product) => product.category.id === this.activeCategoryId
-    //   );
-    // }
+    this.isLoading = false;
 
     this.sockets.subscribe("updateInvoice", (invoice: Invoice) => {
       if (invoice.buyer.id === this.user.id) {

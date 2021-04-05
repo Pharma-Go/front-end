@@ -3,7 +3,7 @@
     :title="title"
     :canBack="true"
     backUrl="/configuracoes/cartoes"
-    class="c-profile-card"
+    class="c-profile-card pt-5"
   >
     <div v-if="!isLoading">
       <div v-if="card && card.id" class="c-profile-card__card text--bold">

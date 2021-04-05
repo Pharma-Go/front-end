@@ -3,7 +3,7 @@
     title="Receitas"
     :canBack="true"
     backUrl="/configuracoes/"
-    class="c-prescriptions"
+    class="c-prescriptions pt-5"
   >
     <div
       class="c-prescriptions__content"

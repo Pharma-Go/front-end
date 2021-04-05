@@ -1,5 +1,10 @@
 <template>
-  <pg-settings title="Cartões" :canBack="true" backUrl="/configuracoes/">
+  <pg-settings
+    title="Cartões"
+    :canBack="true"
+    backUrl="/configuracoes/"
+    class="pt-5"
+  >
     <div v-for="card in cards" :key="card.id">
       <pg-card
         :card="card"
@@ -32,7 +37,7 @@
     cursor: pointer;
 
     &-icon {
-      @include font-size($font-size-sm);
+      font-size: $font-size-sm;
       color: var(--theme-primary);
     }
 

@@ -1,75 +1,140 @@
 <template>
-  <pg-container class="bg--background c-search">
-    <h1 class="mb-4">Descobrir</h1>
+  <pg-container class="bg--backgroundMedium c-search">
+    <div class="c-content">
+      <div class="c-search__search">
+        <h1 class="mb-4 text--neutralDarkest">Descobrir</h1>
 
-    <pg-input
-      :hideMessages="true"
-      prependIcon="search"
-      type="text"
-      label="Buscar"
-      v-model="term"
-      @input="searchValue"
-    />
+        <pg-input
+          class="c-search__search-field"
+          :hideMessages="true"
+          prependIcon="search"
+          type="text"
+          label="Buscar"
+          v-model="term"
+          @input="searchValue"
+        />
+      </div>
 
-    <pg-tab-result
-      @changeCategory="onChangeCategory($event)"
-      :activeCategory="activeCategory"
-    >
-      <template v-slot:content>
-        <div class="c-search__content">
-          <div v-if="activeCategory === 'pharmacies'">
-            <div
-              v-if="search.establishments && search.establishments.length > 0"
-            >
+      <pg-tab-result
+        @changeCategory="onChangeCategory($event)"
+        :activeCategory="activeCategory"
+        class="mt-5"
+      >
+        <template v-slot:content>
+          <div class="c-search__content">
+            <div v-if="activeCategory === 'pharmacies'">
               <div
-                class="mt-4"
-                v-for="establishment in search.establishments"
-                :key="establishment.id"
+                v-if="search.establishments && search.establishments.length > 0"
+                class="o-grid"
               >
-                <pg-establishment-card
-                  :establishment="establishment"
-                  @clickCard="onClickEstablishment(establishment)"
-                ></pg-establishment-card>
-              </div>
-            </div>
-            <div class="c-search__content-no-search" v-else>
-              <i class="pgi pgi-search-big"></i>
-              <p class="text--foreground">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              </p>
-            </div>
-          </div>
-          <div v-else>
-            <div v-if="search.products && search.products.length > 0">
-              <div
-                class="mt-4"
-                v-for="product in search.products"
-                :key="product.id"
-              >
-                <div @click.prevent="onClickProduct(product)">
-                  <pg-establishment-product-card
-                    :product="product"
-                    :hasAddIcon="true"
-                  ></pg-establishment-product-card>
+                <div
+                  class="o-grid__cell u-8/16@tablet-landscape"
+                  v-for="establishment in search.establishments"
+                  :key="establishment.id"
+                >
+                  <pg-establishment-card
+                    class="mt-4"
+                    :establishment="establishment"
+                    @clickCard="onClickEstablishment(establishment)"
+                  ></pg-establishment-card>
                 </div>
               </div>
+              <div class="c-search__content-no-search" v-else>
+                <i class="text--neutralDarkest pgi pgi-search-big"></i>
+                <p class="text--neutralDarkest">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                </p>
+              </div>
             </div>
-            <div class="c-search__content-no-search" v-else>
-              <i class="pgi pgi-search-big"></i>
-              <p class="text--foreground">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              </p>
+            <div v-else>
+              <div v-if="search.products && search.products.length > 0">
+                <div
+                  class="mt-4"
+                  v-for="product in search.products"
+                  :key="product.id"
+                >
+                  <div @click.prevent="onClickProduct(product)">
+                    <pg-establishment-product-card
+                      :product="product"
+                      :hasAddIcon="true"
+                    ></pg-establishment-product-card>
+                  </div>
+                </div>
+              </div>
+              <div class="c-search__content-no-search" v-else>
+                <i class="text--neutralDarkest pgi pgi-search-big"></i>
+                <p class="text--neutralDarkest">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      </template>
-    </pg-tab-result>
+        </template>
+      </pg-tab-result>
+    </div>
   </pg-container>
 </template>
 
 <style lang="scss">
+@import "@/lib/styles/mq.scss";
+
 .c-search {
+  height: 100vh;
+
+  @include mq($until: tablet-landscape) {
+    height: auto;
+    min-height: 100vh;
+  }
+
+  &__search {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    @include mq($until: tablet-landscape) {
+      flex-direction: column;
+      align-items: flex-start;
+
+      > h1 {
+        margin-bottom: var(--spacing-4);
+      }
+    }
+
+    &-field {
+      width: 40%;
+
+      > .pg-input__wrapper {
+        border-radius: var(--spacing-6);
+      }
+
+      .pg-input__label--top {
+        background: var(--theme-backgroundLight) !important;
+      }
+
+      @include mq($until: tablet-landscape) {
+        width: 100%;
+      }
+    }
+  }
+
   &__content {
+    &-cards {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      &-item {
+        width: 45%;
+
+        @include mq($until: tablet-landscape) {
+          width: 100%;
+        }
+        // &-card {
+        // }
+      }
+    }
+
     &-no-search {
       margin-top: var(--spacing-16);
       display: flex;
@@ -88,12 +153,11 @@
 </style>
 
 <script lang="ts">
-import { Establishment, Product, SearchResponse } from "@/lib/models";
+import { Establishment, SearchResponse } from "@/lib/models";
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import { mapState } from "vuex";
 import { debounce } from "@/lib/utils/debounce";
-import { establishments } from "@/services";
 
 @Component({
   computed: {

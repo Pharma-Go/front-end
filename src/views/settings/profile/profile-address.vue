@@ -1,5 +1,6 @@
 <template>
   <pg-address-settings
+    class="pt-5"
     :form="form"
     @submit="onSubmit"
     :hasAddress="hasAddress"

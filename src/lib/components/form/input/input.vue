@@ -26,7 +26,7 @@
         >{{ label }}</span
       >
       <input
-        class="pg-input__control pl-2 text--foreground"
+        class="pg-input__control pl-2 text--neutralDarkest"
         :disabled="disabled"
         v-model="lazyValue"
         :type="type"
@@ -43,9 +43,9 @@
     <div
       v-if="
         !hideMessages &&
-          !(hideEmptyErrors
-            ? hideEmptyErrors && (!errors || errors.length === 0)
-            : true)
+        !(hideEmptyErrors
+          ? hideEmptyErrors && (!errors || errors.length === 0)
+          : true)
       "
       class="pg-input__messages my-1"
     >
@@ -71,6 +71,7 @@
   &__prepend {
     .pg-icon {
       font-size: 19px;
+      color: var(--theme-neutralDarkest);
     }
   }
 
@@ -93,8 +94,7 @@
     border-radius: var(--spacing-1);
     min-height: 52px;
 
-    // TODO: adicionar no tema a cor do input
-    box-shadow: 0 0 0 1px #7c7c7c;
+    box-shadow: 0 0 0 1px var(--theme-neutralDarkest);
   }
 
   &__label {
@@ -106,10 +106,12 @@
     transform-origin: 50% 100%;
     top: 50%;
     transform: translate(0, -50%);
+    color: var(--theme-neutralDarkest);
 
     &--top {
       top: -12px;
-      background: var(--theme-background);
+      background: var(--theme-backgroundMedium);
+      color: var(--theme-neutralDarkest);
       padding: 0 6px;
       transform: scale(0.809);
     }
@@ -121,18 +123,18 @@
 
     &--error {
       // TODO: adicionar no tema a cor de erro
-      color: red;
+      color: var(--theme-feedbackErrorMedium);
     }
   }
 
   &--focused {
     .pg-input__wrapper {
-      box-shadow: 0 0 0 2px var(--current-color);
+      box-shadow: 0 0 0 2px var(--theme-primary500);
     }
 
     .pg-input__prepend {
       .pg-icon {
-        color: var(--current-color);
+        color: var(--theme-primary500);
       }
     }
   }

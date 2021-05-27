@@ -12,18 +12,20 @@
           class="c-settings__header-content-icon-container bg--secondaryBackground"
         >
           <i
-            class="c-settings__header-content-icon pgi pgi-chevron-left text--primary"
+            class="c-settings__header-content-icon pgi pgi-chevron-left text--primary500"
           ></i>
         </div>
-        <h1 class="c-settings__header-title text--foreground">{{ title }}</h1>
+        <h1 class="c-settings__header-title text--neutralDarkest text--md">
+          {{ title }}
+        </h1>
       </div>
 
       <div class="c-settings__header-logout" @click.prevent="logout">
-        <p class="c-settings__header-logout-text text--small text--primary">
+        <p class="c-settings__header-logout-text text--xxxs text--primary500">
           Sair
         </p>
         <i
-          class="c-settings__header-logout-icon pgi pgi-logout text--primary"
+          class="c-settings__header-logout-icon pgi pgi-logout text--primary500"
         ></i>
       </div>
     </div>
@@ -40,6 +42,13 @@
 
 .c-settings {
   width: 100%;
+  height: 100vh;
+  background: var(--theme-backgroundMedium);
+
+  @include mq($until: tablet-landscape) {
+    height: auto;
+    min-height: 100vh;
+  }
 
   &__header {
     width: 100%;

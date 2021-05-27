@@ -1,10 +1,10 @@
 <template>
   <component :is="tag" :to="to" class="c-item-list">
-    <p class="c-item-list__text text--foreground">{{ title }}</p>
+    <p class="c-item-list__text text--neutralDarkest">{{ title }}</p>
     <pg-icon
       :class="[
         'c-item-list__icon',
-        'text--primary',
+        'text--primary500',
         'ml-2',
         { 'c-item-list__icon--rotate': shouldRotate }
       ]"

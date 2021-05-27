@@ -41,7 +41,7 @@
     width: var(--spacing-4);
     border-radius: var(--spacing-1);
     background-color: var(--theme-contrast);
-    border: 1px solid var(--theme-primary);
+    border: 1px solid var(--theme-primary500);
     transition: all 0.3s ease-in-out;
 
     &::after {
@@ -52,7 +52,7 @@
   }
 
   &__input--checked ~ &__mark {
-    background-color: var(--theme-primary);
+    background-color: var(--theme-primary500);
   }
 
   &__input--checked ~ &__mark:after {

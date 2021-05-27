@@ -12,17 +12,19 @@
       <div class="c-upload__image">
         <img :src="blobUrl || url" class="c-upload__image-photo fill-w" />
 
-        <div class="c-upload__image-icon bg--secondaryBackground">
+        <div class="c-upload__image-icon bg--backgroundLight">
           <i
-            class="c-upload__image-icon-content pgi pgi-upload text--primary"
+            class="c-upload__image-icon-content pgi pgi-upload text--primary500500"
           ></i>
         </div>
       </div>
     </slot>
     <slot name="placeholder" v-else>
-      <div class="c-upload__placeholder bg--secondaryBackground">
-        <i class="c-upload__placeholder-icon pgi pgi-upload text--primary"></i>
-        <p class="c-upload__placeholder-text text--small text--primary">
+      <div class="c-upload__placeholder bg--backgroundLight">
+        <i
+          class="c-upload__placeholder-icon pgi pgi-upload text--primary500500"
+        ></i>
+        <p class="c-upload__placeholder-text text--xxxs text--primary500500">
           Clique ou arraste aqui para subir uma imagem
         </p>
       </div>
@@ -86,9 +88,10 @@
       position: absolute;
       bottom: calc(var(--spacing-5) / 2 * -1);
       right: calc(var(--spacing-7) / 2 * -1);
+      box-shadow: var(--theme-shadowLevel1);
 
       &-content {
-        @include font-size($font-size-md);
+        font-size: $font-size-md;
       }
     }
   }

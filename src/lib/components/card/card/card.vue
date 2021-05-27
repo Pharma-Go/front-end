@@ -1,14 +1,14 @@
 <template>
   <div v-if="card" class="c-card">
     <div v-if="canDelete" class="c-card__delete" @click.prevent="onDelete">
-      <i class="c-card__delete-icon pgi pgi-trash text--primary"></i>
+      <i class="c-card__delete-icon pgi pgi-trash text--primary500"></i>
     </div>
 
     <div
       :class="['c-card__content', { 'ml-3': canDelete }]"
       @click.prevent="onCard"
     >
-      <p class="c-card__content-text text--foreground">
+      <p class="c-card__content-text text--neutralDarkest">
         {{
           `${(card.first_digits || card.firstDigits).substring(0, 4)} ${(
             card.first_digits || card.firstDigits
@@ -17,7 +17,7 @@
       </p>
       <i
         v-if="goToCard"
-        class="c-card__content-icon pgi pgi-chevron-left text--primary"
+        class="c-card__content-icon pgi pgi-chevron-left text--primary500"
       ></i>
       <div v-else>
         <slot></slot>

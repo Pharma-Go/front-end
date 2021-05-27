@@ -18,13 +18,12 @@
         class="c-establishment-products__items mt-2"
         v-if="products && products.length > 0"
       >
-        <router-link
-          v-for="product in products"
-          :key="product.id"
-          :to="`/configuracoes/admin/estabelecimentos/${$route.params.id}/produtos/${product.id}`"
-        >
-          <pg-product-card :product="product"></pg-product-card>
-        </router-link>
+        <div v-for="product in products" :key="product.id">
+          <pg-product-card
+            :product="product"
+            @clickCard="onClickProduct(product.id)"
+          ></pg-product-card>
+        </div>
       </div>
 
       <p v-else class="text--center mt-2">
@@ -37,17 +36,13 @@
         class="c-establishment-products__action mt-4"
       >
         <i class="c-establishment-products__action-icon pgi pgi-add mr-2"></i>
-        <p
-          class="c-establishment-products__action-text text--medium text--bold"
-        >
+        <p class="c-establishment-products__action-text text--xs text--bold">
           Adicionar produto
         </p>
       </router-link>
       <div class="c-establishment-products__action" v-else>
         <i class="c-establishment-products__action-icon pgi pgi-add mr-2"></i>
-        <p
-          class="c-establishment-products__action-text text--medium text--bold"
-        >
+        <p class="c-establishment-products__action-text text--xs text--bold">
           Adicionar categoria
         </p>
       </div>
@@ -57,6 +52,11 @@
 
 <style lang="scss">
 @import "@/lib/styles/typography.scss";
+
+.c-product-card {
+  display: inline-flex;
+  flex-direction: column;
+}
 
 .c-establishment-products {
   display: flex;
@@ -140,6 +140,12 @@ export default class PgAdminEstablishmentProducts extends Vue {
       `/configuracoes/admin/estabelecimentos/${this.active.id}/produtos/categoria/${id}`
     );
     window.location.reload();
+  }
+
+  public onClickProduct(id: string) {
+    this.$router.push(
+      `/configuracoes/admin/estabelecimentos/${this.$route.params.id}/produtos/${id}`
+    );
   }
 }
 </script>

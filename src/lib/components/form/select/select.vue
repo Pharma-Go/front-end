@@ -5,10 +5,10 @@
         :class="[
           'c-select__label-text',
           'mb-0',
-          'text--small',
+          'text--xxxs',
           activeItem && activeItem.name
-            ? 'text--foreground'
-            : 'text--foregroundTertiary'
+            ? 'text--neutralDarkest'
+            : 'text--neutralDarkestTertiary'
         ]"
       >
         {{ activeItem && activeItem.name ? activeItem.name : label }}
@@ -18,7 +18,7 @@
           'c-select__label-icon',
           'pgi',
           'pgi-chevron-left',
-          'text--small',
+          'text--xxxs',
           { 'c-select__label-icon--opened': show }
         ]"
       ></i>

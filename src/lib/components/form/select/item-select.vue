@@ -4,9 +4,9 @@
       :class="[
         'c-item-select__name',
         'mb-0',
-        'text--small',
+        'text--xxxs',
         { 'text--bold': active },
-        { 'text--primary': active }
+        { 'text--primary500': active }
       ]"
     >
       {{ item.name }}

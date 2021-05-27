@@ -2,27 +2,24 @@
   <div class="c-product">
     <img
       class="c-product__image mt-4"
-      :src="
-        product.imageUrl ||
-        require(`@/assets/pill-${
-          $pharmago.theme.themes.isDark ? 'dark' : 'light'
-        }.svg`)
-      "
+      :src="product.imageUrl || require(`@/assets/pill-${themeMode}.svg`)"
     />
 
-    <h1 class="c-product__title text--center mt-4 fill-w">
+    <h1
+      class="c-product__title text--center mt-4 fill-w text--md text--neutralDarkest"
+    >
       {{ product.name }}
     </h1>
 
     <p
-      class="c-product__description text--normal text--foregroundSecondary mt-2 fill-w"
+      class="c-product__description text--xxs text--neutralDarkestSecondary mt-2 fill-w"
     >
       {{ product.description }}
     </p>
 
     <div class="fill-w c-product__footer d-flex justify-between">
       <div class="c-product__footer-quantity">
-        <p class="text--normal text--foreground">Quantidade</p>
+        <p class="text--xxs text--neutralDarkest mb-1">Quantidade</p>
         <div class="c-product__footer-quantity-form d-flex align-center">
           <div
             class="c-product__footer-quantity-form-subtract"
@@ -46,9 +43,9 @@
 
       <button
         @click.prevent="onContinue"
-        class="fill-w c-product__footer-button bg--backgroundButton"
+        class="fill-w c-product__footer-button bg--backgroundButtonMedium"
       >
-        <span class="text--buttonContrast text--normal text--bold">
+        <span class="text--textButtonMedium text--xxs text--bold">
           Continuar
         </span>
       </button>
@@ -100,8 +97,8 @@
       &-form {
         &-subtract,
         &-add {
-          background: var(--theme-primary);
-          color: var(--theme-contrast);
+          background: var(--theme-navigationBarBackground);
+          color: #fff;
           width: var(--spacing-4);
           height: var(--spacing-4);
 
@@ -128,6 +125,10 @@
           border: none;
           text-align: center;
           outline: none;
+          background: var(--theme-backgroundMedium);
+          border-top: 1px solid var(--theme-navigationBarBackground);
+          border-bottom: 1px solid var(--theme-navigationBarBackground);
+          color: var(--theme-neutralDarkest);
 
           &::-webkit-inner-spin-button {
             -webkit-appearance: none;
@@ -153,6 +154,10 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class PgProductBottomSheet extends Vue {
+  get themeMode() {
+    return this.$pharmago.theme.themes.isDark ? "dark" : "light";
+  }
+
   @Prop() public product: Product;
 
   public quantity = 1;

@@ -9,7 +9,9 @@
     </div>
 
     <div class="c-settings__content-personal">
-      <h1 class="c-settings__content-personal-title text--foreground">
+      <h1
+        class="c-settings__content-personal-title text--neutralDarkest text--md"
+      >
         Pessoal
       </h1>
 
@@ -44,7 +46,7 @@
     </div>
 
     <div class="c-settings__content-admin" v-if="user.role === 'admin'">
-      <h1 class="c-settings__content-admin-title">Administrativo</h1>
+      <h1 class="c-settings__content-admin-title text--md">Administrativo</h1>
 
       <pg-item-list
         to="/configuracoes/admin/estabelecimentos"

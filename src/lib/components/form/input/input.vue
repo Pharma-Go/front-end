@@ -122,7 +122,6 @@
     font-size: 0.809em;
 
     &--error {
-      // TODO: adicionar no tema a cor de erro
       color: var(--theme-feedbackErrorMedium);
     }
   }

@@ -1,7 +1,9 @@
 <template>
   <div class="c-login">
     <form @submit.prevent="onSubmit" class="c-login__content text--center">
-      <h1 class="text--md c-login__title text--center">Acesse sua conta</h1>
+      <h1 class="text--md c-login__title text--center text--neutralDarkest">
+        Acesse sua conta
+      </h1>
 
       <div class="d-flex flex-col align-end">
         <div class="mt-4 fill-w">
@@ -42,22 +44,22 @@
         </div>
 
         <p
-          class="c-login__forgot-password text--normal text--foregroundTertiary"
+          class="c-login__forgot-password text--xxs text--neutralDarkest"
           @click.prevent="forgotPassword"
         >
           Esqueceu a senha?
         </p>
 
         <div class="d-flex flex-col align-center fill-w">
-          <pg-button class="mt-4 fill-w" v-color="'primary'" type="submit">
-            <span class="text--buttonContrast"> Login </span>
+          <pg-button class="mt-4 fill-w" v-color="'primary500'" type="submit">
+            <span class="c-login__action-text"> Login </span>
           </pg-button>
         </div>
       </div>
       <p class="mt-3">
-        <span>Novo na Pharma.GO?</span>
+        <span class="text--neutralDarkest">Novo na Pharma.GO?</span>
         <router-link to="/cadastro">
-          <span class="text--primary text--bold ml-1">Registrar-se</span>
+          <span class="text--linkMedium text--bold ml-1">Registrar-se</span>
         </router-link>
       </p>
     </form>
@@ -109,6 +111,12 @@
     @include mq($until: tablet-landscape) {
       @include font-size($font-size-md);
       padding-top: var(--spacing-5);
+    }
+  }
+
+  &__action {
+    &-text {
+      color: #fff;
     }
   }
 

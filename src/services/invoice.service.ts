@@ -42,6 +42,13 @@ class InvoiceService extends Rest {
       method: "POST"
     });
   }
+
+  public async deliveredInvoice(id: string): Promise<Invoice> {
+    return this.request({
+      url: `/${id}/delivered`,
+      method: "PUT"
+    });
+  }
 }
 
 export const invoices = Object.freeze(new InvoiceService());

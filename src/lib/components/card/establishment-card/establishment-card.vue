@@ -27,12 +27,12 @@
             "
           >
             {{
-              `${establishment.address.street} ${establishment.address.streetNumber}, ${establishment.address.district}`
+              `${establishment.address.street}, ${establishment.address.streetNumber}, ${establishment.address.district}`
             }}
           </p>
         </div>
 
-        <p class="c-establishment-card__content-hour text--small">
+        <p class="c-establishment-card__content-hour text--xxxs">
           <i
             class="c-establishment-card__content-hour-icon pgi pgi-clock mr-1"
           ></i>

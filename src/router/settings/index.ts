@@ -6,7 +6,7 @@ import { profileSettings } from "./profile";
 export const settingsRoutes = [
   {
     path: "/configuracoes",
-    name: "Settings",
+    name: "Configuracoes",
     component: PgSettings,
     beforeEnter: ensureLogged,
     meta: {

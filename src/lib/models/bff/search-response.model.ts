@@ -3,5 +3,5 @@ import { Product } from "../product";
 
 export interface SearchResponse {
   establishments: Establishment[];
-  products: Product[];
+  products: Record<string, Product[]>;
 }

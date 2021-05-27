@@ -8,14 +8,18 @@
     <div class="c-content pa-0 pb-6">
       <div class="c-establishment__header">
         <div
+          @click.prevent="onBack"
           class="c-establishment__header-action c-establishment__header-action-back"
         >
           <i class="pgi pgi-chevron-left"></i>
         </div>
         <div
+          @click.prevent="onFavorite"
           class="c-establishment__header-action c-establishment__header-action-favorite"
         >
-          <i class="pgi pgi-favorite"></i>
+          <i
+            :class="['pgi', hasFavorited ? 'pgi-favorited' : 'pgi-favorite']"
+          ></i>
         </div>
         <img
           class="c-establishment__header-image"
@@ -53,7 +57,7 @@
         </div>
 
         <div class="c-establishment__content mt-6">
-          <div class="c-content c-establishment__content-highlights">
+          <div class="c-establishment__content-highlights">
             <p class="c-establishment__content-highlights-title mb-0">
               Destaques
             </p>
@@ -206,7 +210,7 @@
       width: 100%;
       height: 170px;
 
-      background: var(--theme-primary500);
+      background: var(--theme-backgroundLight);
       object-fit: cover;
       border-radius: var(--spacing-4) var(--spacing-4) 0 0;
 
@@ -271,7 +275,10 @@
     }
 
     &-highlights {
-      background: var(--theme-backgroundMedium) !important;
+      background: var(--theme-backgroundMedium);
+      padding: var(--spacing-4) var(--spacing-5);
+      box-shadow: var(--theme-shadowLevel1);
+      border-radius: var(--spacing-4);
 
       &-title {
         font-size: $font-size-sm;
@@ -344,7 +351,7 @@ export default class PgEstablishment extends Vue {
   };
 
   public async created() {
-    this.activePaddings = window.screen.width >= 480;
+    this.activePaddings = window.innerWidth >= 780;
     this.isLoading = true;
 
     if (!this.active.id) {
@@ -484,6 +491,10 @@ export default class PgEstablishment extends Vue {
       this.showConfirmationBottomSheet = true;
       this.showBottomSheet = true;
     }, 500);
+  }
+
+  public onBack(): void {
+    this.$router.back();
   }
 
   public beforeDestroy(): void {

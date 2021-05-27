@@ -45,6 +45,7 @@
   background: var(--theme-backgroundLight);
   border-radius: var(--spacing-4);
   cursor: pointer;
+  margin-right: var(--spacing-4);
 
   &__image {
     width: 78px;

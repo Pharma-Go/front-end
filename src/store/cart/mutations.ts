@@ -21,15 +21,27 @@ export const mutations = {
         }
       }
 
-      const index = state.cart.products.findIndex(
-        (createProduct: CreateItemProduct) =>
-          createProduct.product.id === item.createProduct.product.id
+      const hasProductInCart = !!state.cart.products.find(
+        (stateProduct: CreateItemProduct) => {
+          return stateProduct.product.id === item.createProduct.product.id;
+        }
       );
 
-      if (index !== -1) {
+      if (hasProductInCart) {
+        const index = state.cart.products.findIndex(
+          (createProduct: CreateItemProduct) =>
+            createProduct.product.id === item.createProduct.product.id
+        );
+
+        const quantityOfProduct = Number(item.createProduct.quantity);
+        const quantityOfProductInState = Number(
+          state.cart.products[index].quantity
+        );
+
         state.cart.products[index].quantity =
-          Number(state.cart.products[index].quantity) +
-          Number(item.createProduct.quantity || 1);
+          quantityOfProduct + quantityOfProductInState;
+      } else {
+        state.cart.products.push(item.createProduct);
       }
     } else {
       state.cart.products = [item.createProduct];

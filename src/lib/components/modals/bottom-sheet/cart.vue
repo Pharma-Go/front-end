@@ -4,14 +4,14 @@
       <div class="c-cart__header">
         <i
           @click.prevent="onClose"
-          class="c-cart__header-icon c-cart__header-icon--rotate pgi pgi-chevron-left text--primary"
+          class="c-cart__header-icon c-cart__header-icon--rotate pgi pgi-chevron-left text--primary500"
         ></i>
-        <p class="c-cart__header-text text--normal text--bold text--primary">
+        <p class="c-cart__header-text text--xxs text--bold text--primary500">
           Carrinho
         </p>
         <i
           @click.prevent="onCleanupCart"
-          class="c-cart__header-icon text--medium pgi pgi-trash text--primary"
+          class="c-cart__header-icon text--xs pgi pgi-trash text--primary500"
         ></i>
       </div>
 
@@ -20,7 +20,7 @@
         v-if="cart && cart.products && cart.products.length > 0"
       >
         <p
-          class="c-cart__content-text text--primary text--bold text--normal mb-3"
+          class="c-cart__content-text text--primary500 text--bold text--xxs mb-3"
         >
           Entregar em
         </p>
@@ -35,13 +35,13 @@
         <!-- Produtos -->
         <div class="c-cart__content-products mt-4">
           <div class="c-cart__content-products-header mb-3">
-            <p class="text--foregroundTertiary text--bold text--small">
+            <p class="text--neutralDarkestTertiary text--bold text--xxxs">
               Produtos
             </p>
 
             <p
               @click.prevent="onClose"
-              class="c-cart__content-products-header-action text--primary text--bold text--small"
+              class="c-cart__content-products-header-action text--primary500 text--bold text--xxxs"
             >
               Adicionar mais itens
             </p>
@@ -68,8 +68,8 @@
               >
                 <template v-slot:placeholder>
                   <div class="d-flex justify-start align-center fill-w">
-                    <i class="pgi pgi-add text--primary text--large mr-2"></i>
-                    <p class="text--normal text--foreground mb-0">
+                    <i class="pgi pgi-add text--primary500 text--sm mr-2"></i>
+                    <p class="text--xxs text--neutralDarkest mb-0">
                       Clique para subir a receita médica
                     </p>
                   </div>
@@ -82,7 +82,7 @@
         <!-- Forma de pagamento -->
         <div class="c-cart__content-payment mt-4">
           <div class="c-cart__content-payment-header">
-            <p class="text--foregroundTertiary text--bold text--small">
+            <p class="text--neutralDarkestTertiary text--bold text--xxxs">
               Forma de pagamento
             </p>
           </div>
@@ -94,7 +94,7 @@
                 :goToCard="false"
               >
                 <p
-                  class="c-cart__content-payment-card-change text--primary text--bold"
+                  class="c-cart__content-payment-card-change text--primary500 text--bold"
                 >
                   Trocar
                 </p>
@@ -111,7 +111,7 @@
                 class="c-cart__content-payment-action-icon pgi pgi-add mr-2"
               ></i>
               <p
-                class="c-cart__content-payment-action-text text--small text--bold"
+                class="c-cart__content-payment-action-text text--xxxs text--bold"
               >
                 Adicionar cartão
               </p>
@@ -124,8 +124,8 @@
           class="bg--background fill-w c-cart__content-footer d-flex justify-between"
         >
           <div class="c-cart__content-footer-total">
-            <p class="text--normal text--foreground">Total</p>
-            <p class="text--normal text--bold text--foreground">
+            <p class="text--xxs text--neutralDarkest mb-1">Total</p>
+            <p class="text--xxs text--bold text--neutralDarkest">
               R$ {{ getTotal() | formatPrice }}
             </p>
           </div>
@@ -134,9 +134,9 @@
             <button
               @click.prevent="onSubmit"
               v-if="!isLoading"
-              class="fill-w c-cart__content-footer-button bg--backgroundButton"
+              class="fill-w c-cart__content-footer-button bg--backgroundButtonMedium"
             >
-              <span class="text--buttonContrast text--normal text--bold">
+              <span class="text--textButtonMedium text--xxs text--bold">
                 Continuar
               </span>
             </button>
@@ -153,12 +153,12 @@
     </template>
 
     <div class="c-cart__no-address" v-else>
-      <p class="text--foreground c-cart__no-address-text">
+      <p class="text--neutralDarkest c-cart__no-address-text">
         Você não possuí um endereço de entrega.
       </p>
       <router-link
         to="/configuracoes/endereco"
-        class="text--primary text--bold c-cart__no-address-action"
+        class="text--primary500 text--bold c-cart__no-address-action"
       >
         Adicionar endereço
       </router-link>
@@ -171,7 +171,7 @@
 
     <pg-dialog :show="showDialog" @close="onCloseDialog">
       <div class="c-cart__cards" v-if="user.cards">
-        <h1 class="text--foreground text--normal mb-2">
+        <h1 class="text--neutralDarkest text--xxs mb-2">
           Escolha a forma de pagamento:
         </h1>
         <div class="c-cart__cards-content">
@@ -240,8 +240,10 @@
       }
 
       &-product {
+        display: inline-flex;
         padding-bottom: var(--spacing-2);
         border-bottom: 1px solid var(--dark-foregroundSecondary);
+        flex-direction: column;
 
         .c-product-card__items-product {
           border: none;

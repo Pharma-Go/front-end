@@ -11,6 +11,14 @@ export const lightTheme = {
   primary800: "#0048F8",
   primary900: "#0036F6",
 
+  // Background Button
+  backgroundButtonMedium: "#0064FA",
+  backgroundButtonDark: "#0064FA",
+
+  // Button Text,
+  textButtonMedium: "#FFFFFF",
+  textButtonDark: "#FFFFFF",
+
   // Overlay
   overlayMedium: "rgba(60, 60, 60, .5)",
 

@@ -2,7 +2,7 @@
   <pg-container class="bg--backgroundMedium c-search">
     <div class="c-content">
       <div class="c-search__search">
-        <h1 class="mb-4 text--neutralDarkest">Descobrir</h1>
+        <h1 class="mb-4 text--neutralDarkest text--md">Descobrir</h1>
 
         <pg-input
           class="c-search__search-field"
@@ -47,17 +47,26 @@
               </div>
             </div>
             <div v-else>
-              <div v-if="search.products && search.products.length > 0">
+              <div v-if="search.products" class="o-grid mb-16">
                 <div
-                  class="mt-4"
-                  v-for="product in search.products"
-                  :key="product.id"
+                  class="mt-5 o-grid__cell"
+                  v-for="entry of Object.entries(search.products)"
+                  :key="entry[0]"
                 >
-                  <div @click.prevent="onClickProduct(product)">
-                    <pg-establishment-product-card
-                      :product="product"
-                      :hasAddIcon="true"
-                    ></pg-establishment-product-card>
+                  <h2 class="text--neutralDarkest mb-3">{{ entry[0] }}</h2>
+
+                  <div
+                    class="d-inline-flex overflow-x max-fill-w"
+                    v-for="product in entry[1]"
+                    :key="product.id"
+                  >
+                    <div class="mr-4" @click.prevent="onClickProduct(product)">
+                      <pg-product-card
+                        class="c-search__content-products-item"
+                        :product="product"
+                        :hasAddIcon="true"
+                      ></pg-product-card>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -132,6 +141,14 @@
         }
         // &-card {
         // }
+      }
+    }
+
+    &-products-item {
+      background: var(--theme-backgroundMedium);
+
+      @include mq($until: tablet-landscape) {
+        background: var(--theme-backgroundLight);
       }
     }
 

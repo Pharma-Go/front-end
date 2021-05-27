@@ -14,6 +14,7 @@
         <pg-invoice-card
           class="c-admin-invoices__content-order-item"
           :invoice="order"
+          v-color="getColorOfInvoice(order)"
           @clickInvoice="onAcceptInvoice"
         >
           <div
@@ -21,14 +22,14 @@
             class="bg--secondaryBackground d-flex align-center justify-center c-admin-invoices__content-order-item-content mr-2"
           >
             <i
-              class="text--primary text--large pgi pgi-added c-admin-invoices__content-order-item-content-icon"
+              class="text--primary500 text--sm pgi pgi-added c-admin-invoices__content-order-item-content-icon"
             ></i>
           </div>
         </pg-invoice-card>
       </div>
     </div>
 
-    <p class="text--center">Oops! Não há nenhum pedido para entrega</p>
+    <p class="text--center" v-else>Oops! Não há nenhum pedido para entrega</p>
   </pg-settings>
 </template>
 
@@ -49,7 +50,7 @@
 </style>
 
 <script lang="ts">
-import { Invoice } from "@/lib/models";
+import { Invoice, PaymentStatus } from "@/lib/models";
 import { Component, Vue } from "vue-property-decorator";
 import { mapState } from "vuex";
 
@@ -73,6 +74,22 @@ export default class PgAdminInvoices extends Vue {
 
     const orders = await this.$api.invoices.availableOrders();
     await this.$store.dispatch("invoice/set", { orders });
+  }
+
+  public getColorOfInvoice(invoice: Invoice): string {
+    if (invoice.paymentStatus === PaymentStatus.refused || invoice.isFee) {
+      return "feedbackErrorMedium";
+    }
+
+    if (invoice.strictAccepted) {
+      if (invoice.delivered) {
+        return "feedbackSuccessMedium";
+      } else {
+        return "feedbackWarningMedium";
+      }
+    }
+
+    return "feedbackWarningMedium";
   }
 }
 </script>

@@ -9,12 +9,12 @@
       "
     />
     <div class="c-address__header-address">
-      <p class="c-address__header-address-street text--small text--foreground">
+      <p class="c-address__header-address-street text--xxxs text--neutralDarkest">
         {{ address.street }}, {{ address.streetNumber }},
         {{ address.district }}, {{ address.city }} - {{ address.state }}
       </p>
       <span
-        class="c-address__header-address-complement text--small text--foregroundTertiary"
+        class="c-address__header-address-complement text--xxxs text--neutralDarkestTertiary"
       >
         {{ address.complement }}
         <ul

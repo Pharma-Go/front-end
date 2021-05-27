@@ -104,7 +104,7 @@
       <p class="mt-3">
         <span>Já tem uma conta?</span>
         <router-link to="/">
-          <span class="text--primary text--bold ml-1">Login</span>
+          <span class="text--primary500 text--bold ml-1">Login</span>
         </router-link>
       </p>
     </div>

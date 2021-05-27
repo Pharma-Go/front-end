@@ -1,5 +1,5 @@
 .pg-app {
-  color: var(--theme-foreground);
+  color: var(--theme-neutralDarkest);
 }
 
 html {
@@ -12,6 +12,7 @@ html {
 a {
   text-decoration: none;
   cursor: pointer;
+  color: var(--theme-linkMedium);
 }
 
 p {
@@ -119,7 +120,7 @@ h5,
   }
   h3,
   .gamma {
-    @include font-size($font-size-md);
+    font-size: $font-size-md;
   }
   h4,
   .delta {

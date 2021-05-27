@@ -4,6 +4,8 @@ import { ThemeList, ThemeManager } from "./root/theme-manager";
 import * as components from "./components/index";
 import * as directives from "./directives/index";
 import dayjs from "dayjs";
+import "dayjs/locale/pt-br";
+dayjs.locale("pt-br");
 
 export interface PluginOptions {
   themes: ThemeList;

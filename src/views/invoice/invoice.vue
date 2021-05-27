@@ -1,7 +1,7 @@
 <template>
   <div
     class="c-invoice pa-4 bg--background"
-    v-if="active && active.id && establishment && establishment.id"
+    v-if="hasInvoice && establishment && establishment.id"
   >
     <div class="c-invoice__header mb-4">
       <div
@@ -9,10 +9,12 @@
         class="c-invoice__header-back bg--secondaryBackground"
       >
         <i
-          class="c-invoice__header-back-icon pgi pgi-chevron-left text--primary"
+          class="c-invoice__header-back-icon pgi pgi-chevron-left text--neutralDarkest"
         ></i>
       </div>
-      <h1>{{ getEstablishmentName() }}</h1>
+      <h1 class="text--md text--neutralDarkest">
+        {{ getEstablishmentName() }}
+      </h1>
       <div class="c-invoice__header-feedback">
         <i
           class="c-invoice__header-feedback-icon pgi pgi-star text--feedbackWarningMedium"
@@ -20,102 +22,132 @@
       </div>
     </div>
 
-    <transition name="enter-transition">
-      <div v-if="!active.strictAccepted" class="mb-7">
-        <div class="c-invoice__icon text--center d-flex flex-col align-center">
-          <i class="text--feedbackWarningMedium pgi pgi-clock mb-4"></i>
-          <p class="text--center mb-0">
-            A <strong>{{ getEstablishmentName() }}</strong> está verificando
-            sua(s) receita(s)!
-          </p>
-          <p class="text--center text--bold text--foreground">
-            Quando for aceito você será notificado ;)
-          </p>
-        </div>
-      </div>
-    </transition>
-
-    <transition name="enter-transition">
-      <div v-if="active.strictAccepted">
-        <div class="mb-7" v-if="active.delivererAccepted && !showCancel">
-          <transition name="enter-transition">
-            <pg-lottie
-              v-if="showCheck"
-              :options="checkOption"
-              :height="150"
-              :width="150"
-              v-on:animCreated="handleAnimation"
-            />
-          </transition>
-          <transition name="enter-transition">
-            <div v-if="showMap">
-              <div class="c-invoice__map" ref="map" id="map"></div>
-              <p class="text--small text--foregroundTertiary mt-1">
-                *Localizações aproximadas
-              </p>
-            </div>
-          </transition>
-        </div>
-        <div class="mb-3 mt-4">
-          <div v-if="!showCancel">
-            <div
-              class="c-invoice__icon text--center d-flex flex-col align-center"
+    <div v-if="active.delivered" class="mb-7">
+      <transition name="enter-transition">
+        <div v-if="showDelivered">
+          <pg-lottie
+            :options="checkOption"
+            :height="150"
+            :width="150"
+            v-on:animCreated="handleAnimation"
+          />
+          <div
+            class="c-invoice__icon text--center d-flex flex-col align-center"
+          >
+            <p
+              class="text--center mb-0 mt-2 text--neutralDarkest text--bold text--xs"
             >
-              <i class="text--feedbackWarningMedium pgi pgi-clock mb-4"></i>
-              <p class="text--center mb-0">
-                A <strong>{{ getEstablishmentName() }}</strong> está processando
-                seu pedido!
-              </p>
-              <p class="text--center text--bold text--foreground">
-                Quando sair para entrega você será notificado ;)
-              </p>
+              Seu pedido foi entregue ;)
+            </p>
+          </div>
+        </div>
+      </transition>
+    </div>
+
+    <div v-else>
+      <transition name="enter-transition">
+        <div v-if="!active.strictAccepted" class="mb-7">
+          <div
+            class="c-invoice__icon text--center d-flex flex-col align-center"
+          >
+            <i class="text--feedbackWarningMedium pgi pgi-clock mb-4"></i>
+            <p class="text--center text--neutralDarkest text--xs mb-0">
+              A <strong>{{ getEstablishmentName() }}</strong> está verificando
+              sua(s) receita(s)!
+            </p>
+            <p class="text--center text--bold text--neutralDarkest text--xs">
+              Quando for aceito você será notificado ;)
+            </p>
+          </div>
+        </div>
+      </transition>
+
+      <transition name="enter-transition">
+        <div v-if="active.strictAccepted">
+          <div class="mb-7" v-if="active.delivererAccepted && !showCancel">
+            <transition name="enter-transition">
+              <pg-lottie
+                v-if="showCheck"
+                :options="checkOption"
+                :height="150"
+                :width="150"
+                v-on:animCreated="handleAnimation"
+              />
+            </transition>
+            <transition name="enter-transition">
+              <div v-if="showMap">
+                <div class="c-invoice__map" ref="map" id="map"></div>
+                <p class="text--xxxs text--neutralDarkestTertiary mt-1">
+                  *Localizações aproximadas
+                </p>
+              </div>
+            </transition>
+          </div>
+          <div class="mb-3 mt-4">
+            <div v-if="!showCancel">
+              <div v-if="!showMap && !showCheck">
+                <div
+                  class="c-invoice__icon text--center d-flex flex-col align-center"
+                >
+                  <i class="text--feedbackWarningMedium pgi pgi-clock mb-4"></i>
+                  <p class="text--center mb-0 text--neutralDarkest text--xs">
+                    A <strong>{{ getEstablishmentName() }}</strong> está
+                    processando seu pedido!
+                  </p>
+                  <p
+                    class="text--center text--bold text--neutralDarkest text--xs"
+                  >
+                    Quando sair para entrega você será notificado ;)
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div v-else>
+              <pg-lottie
+                :options="cancelOption"
+                :height="150"
+                :width="150"
+                v-on:animCreated="handleAnimation"
+              />
             </div>
           </div>
 
-          <div v-else>
-            <pg-lottie
-              :options="cancelOption"
-              :height="150"
-              :width="150"
-              v-on:animCreated="handleAnimation"
-            />
+          <div
+            class="c-invoice__actions d-flex justify-center mb-7"
+            v-if="!showCancel && !active.delivered"
+          >
+            <div v-if="!isLoading" class="d-flex align-center justify-between">
+              <pg-button class="fill-w" @click.prevent="onCancel">
+                <span class="text--neutralDarkest"> Cancelar </span>
+              </pg-button>
+
+              <pg-button
+                @click.prevent="onDelivered"
+                class="fill-w ml-2"
+                v-color="'primary500'"
+              >
+                <span class="text--textButtonMedium"> Entregue </span>
+              </pg-button>
+            </div>
+            <pg-loading class="c-invoice__actions-loading" v-else></pg-loading>
           </div>
         </div>
-
-        <div
-          class="c-invoice__actions d-flex justify-center mb-7"
-          v-if="!showCancel && !active.delivered"
-        >
-          <div v-if="!isLoading" class="d-flex align-center justify-between">
-            <pg-button class="fill-w" @click.prevent="onCancel">
-              <span class="text--primary"> Cancelar </span>
-            </pg-button>
-
-            <pg-button
-              @click.prevent="onDelivered"
-              class="fill-w"
-              v-color="'primary'"
-            >
-              <span class="text--buttonContrast"> Entregue </span>
-            </pg-button>
-          </div>
-          <pg-loading class="c-invoice__actions-loading" v-else></pg-loading>
-        </div>
-      </div>
-    </transition>
+      </transition>
+    </div>
 
     <div class="c-invoice__details">
       <div class="c-invoice__details-item mb-4">
-        <p class="mb-0 text--bold text--foreground text--normal">
+        <p class="mb-0 text--bold text--neutralDarkest text--xxs">
           Pedido: #{{ active.id.substring(0, 5) }}
         </p>
         <p
-          class="mb-0 text--foregroundTertiary text--small"
+          class="mb-0 text--neutralDarkestTertiary text--xxxs"
           v-if="!showCancel && active.paymentStatus === 'paid'"
         >
           Pago em: {{ $dayjs(active.paymentDate).format("DD/MM/YYYY") }}
         </p>
-        <p class="mb-0 text--foregroundTertiary text--small" v-else>
+        <p class="mb-0 text--neutralDarkestTertiary text--xxxs" v-else>
           Cancelado em: {{ $dayjs(active.refunded).format("DD/MM/YYYY") }}
         </p>
       </div>
@@ -124,32 +156,20 @@
         v-for="product in active.itemProducts"
         :key="product.product.id"
       >
-        <pg-product-card
-          :product="product.product"
-          :isQuantity="true"
-          :price="product.price"
-        >
-          <template v-slot:quantity>
-            <p
-              class="c-invoice__details-product-quantity bg--primary text--contrast text--bold"
-            >
-              {{ product.quantity || 0 }}
-            </p>
-          </template>
-        </pg-product-card>
+        <!-- <pg-product-card :product="product"></pg-product-card>
         <div
           v-if="product.prescriptionUrl"
           class="d-flex align-center justify-center"
         >
-          <i class="pgi pgi-add text--primary text--small mr-1"></i>
+          <i class="pgi pgi-add text--primary500 text--xxxs mr-1"></i>
           <a
             :href="product.prescriptionUrl"
             target="_blank"
-            class="text--small text--foregroundTertiary"
+            class="text--xxxs text--neutralDarkestTertiary"
           >
             Ver receita médica
           </a>
-        </div>
+        </div> -->
       </div>
       <div
         :class="[
@@ -158,8 +178,8 @@
           { 'line--through': showCancel }
         ]"
       >
-        <p class="mb-0 text--foreground text--normal">Subtotal</p>
-        <p class="mb-0 text--foregroundTertiary text--normal">
+        <p class="mb-0 text--neutralDarkest text--xxs">Subtotal</p>
+        <p class="mb-0 text--neutralDarkestTertiary text--xxs">
           R$ {{ active.total | formatPrice }}
         </p>
       </div>
@@ -170,8 +190,8 @@
           { 'line--through': showCancel }
         ]"
       >
-        <p class="mb-0 text--foreground text--normal">Taxa de entrega</p>
-        <p class="mb-0 text--foregroundTertiary text--normal">
+        <p class="mb-0 text--neutralDarkest text--xxs">Taxa de entrega</p>
+        <p class="mb-0 text--neutralDarkestTertiary text--xxs">
           R$ {{ active.deliveryFeeAmount || 0 | formatPrice }}
         </p>
       </div>
@@ -182,8 +202,8 @@
           { 'line--through': showCancel }
         ]"
       >
-        <p class="mb-0 text--foreground text--bold text--medium">Total</p>
-        <p class="mb-0 text--foreground text--bold text--medium">
+        <p class="mb-0 text--neutralDarkest text--bold text--xs">Total</p>
+        <p class="mb-0 text--neutralDarkest text--bold text--xs">
           R$
           {{ (active.total + (active.deliveryFeeAmount || 0)) | formatPrice }}
         </p>
@@ -192,18 +212,18 @@
         class="c-invoice__details-item mt-1"
         v-if="showCancel && active.feeAmount"
       >
-        <p class="mb-0 text--foreground text--bold text--medium">
+        <p class="mb-0 text--neutralDarkest text--bold text--xs">
           Taxa de cancelamento
         </p>
-        <p class="mb-0 text--foreground text--bold text--medium">
+        <p class="mb-0 text--neutralDarkest text--bold text--xs">
           R$ {{ active.feeAmount | formatPrice }}
         </p>
       </div>
       <div class="c-invoice__details-payment my-2 py-2">
-        <p class="mb-0 text--foreground text--normal">
+        <p class="mb-0 text--neutralDarkest text--xxs">
           {{ active.paymentCard.method | formatPaymentMethod }}
         </p>
-        <p class="mb-0 text--foreground text--normal">
+        <p class="mb-0 text--neutralDarkest text--xxs">
           {{ active.paymentCard | cardDigits }}
         </p>
       </div>
@@ -221,8 +241,17 @@
 
 <style lang="scss">
 @import "@/lib/styles/typography.scss";
+@import "@/lib/styles/mq.scss";
 
 .c-invoice {
+  background: var(--theme-backgroundMedium);
+  height: 100vh;
+
+  @include mq($until: tablet-landscape) {
+    height: auto;
+    min-height: 100vh;
+  }
+
   &__header {
     width: 100%;
     display: flex;
@@ -259,7 +288,7 @@
 
     &-product {
       padding-bottom: var(--spacing-2);
-      border-bottom: 1px solid var(--dark-foregroundSecondary);
+      border-bottom: 1px solid var(--dark-neutralDark);
 
       .c-product-card__items-product {
         border: none;
@@ -281,8 +310,8 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-top: 1px solid var(--dark-foregroundSecondary);
-      border-bottom: 1px solid var(--dark-foregroundSecondary);
+      border-top: 1px solid var(--dark-neutralDark);
+      border-bottom: 1px solid var(--dark-neutralDark);
     }
   }
 
@@ -294,7 +323,7 @@
     width: 100%;
     height: calc(var(--spacing-1) * 34);
     border-radius: var(--spacing-4);
-    background: var(--theme-foregroundTertiary);
+    background: var(--theme-neutralMedium);
 
     .mapboxgl-canvas {
       border-radius: var(--spacing-4);
@@ -374,12 +403,17 @@ import * as cancelAnimationData from "../../assets/cancel.json";
   }
 })
 export default class PgInvoicePage extends Vue {
+  get hasInvoice() {
+    return this.active && this.active.id;
+  }
+
   public active!: Invoice;
   public establishment: Establishment = {} as Establishment;
 
   public isLoading = false;
   public showCheck = false;
   public showCancel = false;
+  public showDelivered = false;
   public showMap = false;
   public mountedMap = false;
   public anim!: any;
@@ -403,25 +437,38 @@ export default class PgInvoicePage extends Vue {
   public delivererMarker!: any;
 
   public async created(): Promise<void> {
-    const active = await this.$api.invoices.getOne(this.$route.params.id);
-    await this.$store.dispatch("invoice/set", { active });
-
-    const product = await this.$api.products.getOne(
-      this.active.itemProducts[0].product.id
-    );
-
-    const establishment = await this.$api.establishments.getOne(
-      product.establishment.id
-    );
-
-    this.establishment = establishment;
-
-    if (this.active.delivererAccepted && !this.active.delivered) {
-      this.showMap = true;
+    if (
+      !this.active ||
+      !this.active?.id ||
+      this.active?.id !== this.$route.params.id
+    ) {
+      const active = await this.$api.invoices.getOne(this.$route.params.id);
+      await this.$store.dispatch("invoice/set", { active });
     }
 
-    if (this.active.isFee && this.active.feeAmount) {
-      this.showCancel = true;
+    if (this.active && this.active.id) {
+      const product = await this.$api.products.getOne(
+        this.active.itemProducts[0].product.id
+      );
+
+      const establishment = await this.$api.establishments.getOne(
+        product.establishment.id
+      );
+
+      this.establishment = establishment;
+
+      if (this.active.delivererAccepted && !this.active.delivered) {
+        this.showMap = true;
+      }
+
+      if (this.active.delivered) {
+        await this.delay(500);
+        this.showDelivered = true;
+      }
+
+      if (this.active.isFee && this.active.feeAmount) {
+        this.showCancel = true;
+      }
     }
 
     this.sockets.subscribe("strictAccept", async (invoice: Invoice) => {
@@ -531,8 +578,6 @@ export default class PgInvoicePage extends Vue {
     //@ts-ignore
     const tt = window.tt;
 
-    console.log(this.active, this.establishment);
-
     const userPoint = [
       this.active.buyer.address.lat,
       this.active.buyer.address.lon
@@ -573,13 +618,14 @@ export default class PgInvoicePage extends Vue {
 
     const markerContentElement = document.createElement("div");
     markerContentElement.className = "marker-content";
-    markerContentElement.style.backgroundColor = "#4736B9";
+    markerContentElement.style.backgroundColor = "#0064FA";
     markerElement.appendChild(markerContentElement);
 
     const iconElement = document.createElement("div");
     iconElement.className = "marker-icon";
     iconElement.style.backgroundImage = "url(" + icon + ")";
     markerContentElement.appendChild(iconElement);
+
     new tt.Marker({ element: markerElement, anchor: "bottom" })
       .setLngLat(lngLat)
       .addTo(this.map);
@@ -593,8 +639,16 @@ export default class PgInvoicePage extends Vue {
     return this.establishment.name;
   }
 
-  public onDelivered(): void {
-    console.log("a");
+  public async onDelivered(): Promise<void> {
+    this.isLoading = true;
+
+    const invoice = await this.$api.invoices.deliveredInvoice(this.active.id);
+    await this.$store.dispatch("invoice/set", { active: invoice });
+
+    this.isLoading = false;
+
+    await this.delay(500);
+    this.showDelivered = true;
   }
 
   public async onCancel(): Promise<void> {

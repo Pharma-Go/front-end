@@ -71,7 +71,7 @@
       </pg-button>
 
       <p
-        class="mb-0 text--center text--primary cursor--pointer"
+        class="mb-0 text--center text--primary500 cursor--pointer"
         v-if="form.id"
         @click.prevent="onDelete"
       >

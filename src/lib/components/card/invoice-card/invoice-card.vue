@@ -1,28 +1,30 @@
 <template>
   <div
     :class="[themeClass, 'c-invoice-card']"
-    v-if="invoice"
+    v-if="invoice && invoice.id"
     @click.prevent="onClick"
   >
     <div class="c-invoice-card__content">
       <div class="c-invoice-card__content-date">
-        <p class="c-invoice-card__content-date-day text--medium text--bold">
-          20
+        <p class="c-invoice-card__content-date-day text--xs text--bold">
+          {{ $dayjs(invoice.paymentDate).format("DD") }}
         </p>
         <p
-          class="c-invoice-card__content-date-month text--normal text--foreground"
+          class="c-invoice-card__content-date-month text--xxs text--neutralDarkest"
         >
-          Mar
+          {{ $dayjs(invoice.paymentDate).format("MMM") }}
         </p>
       </div>
 
       <div class="c-invoice-card__content-label">
-        <p class="c-invoice-card__content-label-caption mb-0">#35b1e</p>
+        <p class="c-invoice-card__content-label-caption mb-0">
+          #{{ invoice.id.substring(0, 5) }}
+        </p>
         <p class="c-invoice-card__content-label-title text--bold mb-0">
-          Drogasil
+          {{ invoice.establishment.name }}
         </p>
         <p class="c-invoice-card__content-label-price text--bold mt-1 mb-0">
-          R$ 15,00
+          R$ {{ invoice.total | formatPrice }}
         </p>
       </div>
     </div>

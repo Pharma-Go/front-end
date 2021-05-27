@@ -9,7 +9,7 @@
           'c-sidebar__expand-icon',
           'pgi',
           'pgi-chevron-left',
-          'text--primary500'
+          'text--primary500500'
         ]"
       ></i>
     </div>
@@ -25,13 +25,13 @@
       <div class="c-sidebar__user-info">
         <h2
           v-if="user && user.name"
-          class="c-sidebar__user-info-name text--small"
+          class="c-sidebar__user-info-name text--xxxs"
         >
           {{ user.name }}
         </h2>
         <p
           v-if="user && user.phone"
-          class="c-sidebar__user-info-cellphone text--small mb-0"
+          class="c-sidebar__user-info-cellphone text--xxxs mb-0"
         >
           {{ user.phone | formatPhone }}
         </p>
@@ -76,9 +76,10 @@
         </p>
       </router-link>
 
-      <router-link
-        to="/carrinho"
+      <div
+        @click.prevent="showBottomSheet = true"
         :class="[
+          'cursor--pointer',
           'c-sidebar__navigation-cart',
           'c-sidebar__navigation-item',
           { 'c-sidebar__navigation-item--active': isActive('Cart') }
@@ -92,7 +93,7 @@
         >
           Carrinho
         </p>
-      </router-link>
+      </div>
 
       <router-link
         to="/favoritos"
@@ -140,6 +141,20 @@
         <p v-if="opened" class="mb-0">Sair</p>
       </transition>
     </div>
+
+    <pg-bottom-sheet :show="showBottomSheet" @close="onCloseBottomSheet">
+      <pg-cart-bottom-sheet
+        v-if="showCartBottomSheet"
+        @close="onCloseBottomSheet"
+        @cleanupCart="onCleanupCart"
+        @generateInvoice="onGenerateInvoice"
+      ></pg-cart-bottom-sheet>
+      <pg-confirmation-bottom-sheet
+        v-if="showConfirmationBottomSheet && generatedInvoice"
+        :invoice="generatedInvoice"
+        :user="user"
+      ></pg-confirmation-bottom-sheet>
+    </pg-bottom-sheet>
   </div>
 </template>
 
@@ -351,6 +366,9 @@ export default class PgSidebar extends Vue {
   @Prop() public user!: User;
   @Prop() public activeItem!: string;
 
+  public showBottomSheet = false;
+  public showCartBottomSheet = false;
+  public showConfirmationBottomSheet = false;
   public opened = false;
 
   public isActive(routeName: string): boolean {
@@ -362,6 +380,14 @@ export default class PgSidebar extends Vue {
     await this.$store.dispatch("user/clean");
     // await this.$store.
     this.$router.replace("/");
+  }
+
+  public onCloseBottomSheet(): void {
+    this.showBottomSheet = false;
+  }
+
+  public async onCleanupCart(): Promise<void> {
+    await this.$store.dispatch("cart/clean");
   }
 }
 </script>

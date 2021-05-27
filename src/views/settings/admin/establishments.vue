@@ -19,8 +19,8 @@
     </div>
 
     <router-link to="estabelecimentos/criar" class="c-establishments__add">
-      <i class="pgi pgi-add text--primary mb-1"></i>
-      <p class="text--primary">Adicionar estabelecimento</p>
+      <i class="pgi pgi-add text--primary500 mb-1"></i>
+      <p class="text--primary500">Adicionar estabelecimento</p>
     </router-link>
   </pg-settings>
 </template>

@@ -5,7 +5,7 @@
     :is="tag"
     :class="[themeClass, 'pg-btn', 'px-5', 'py-2']"
   >
-    <span class="text--normal text--bold"><slot> </slot></span>
+    <span class="text--xxs text--bold"><slot> </slot></span>
   </component>
 </template>
 

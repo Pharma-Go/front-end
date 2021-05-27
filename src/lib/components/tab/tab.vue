@@ -10,7 +10,7 @@
         @click.prevent="onClickCategory(category.id)"
         :class="[
           'c-tabs__tabs-tab',
-          { 'text--bold text--primary': category.id === activeCategoryId }
+          { 'text--bold text--primary500': category.id === activeCategoryId }
         ]"
       >
         {{ category.name }}
@@ -23,7 +23,7 @@
       v-if="canCreateCategory"
       @click.prevent="onCreateCategory"
     >
-      <i class="c-tabs__icon-content pgi pgi-add text--primary"></i>
+      <i class="c-tabs__icon-content pgi pgi-add text--primary500"></i>
     </div>
   </div>
 </template>

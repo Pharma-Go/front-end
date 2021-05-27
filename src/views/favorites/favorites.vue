@@ -1,6 +1,6 @@
 <template>
   <pg-container class="bg--background c-favorites">
-    <h1 class="mb-4">Favoritos</h1>
+    <h1 class="mb-4 text--md text--neutralDarkest">Favoritos</h1>
 
     <pg-tab-result
       @changeCategory="onChangeCategory($event)"
@@ -14,9 +14,10 @@
                 user.favoriteEstablishments &&
                 user.favoriteEstablishments.length > 0
               "
+              class="o-grid"
             >
               <div
-                class="mt-4"
+                class="o-grid__cell u-8/16@tablet-landscape mt-4"
                 v-for="establishment in user.favoriteEstablishments"
                 :key="establishment.id"
               >
@@ -28,7 +29,7 @@
             </div>
             <div class="c-favorites__content-no-favorites" v-else>
               <i class="pgi pgi-favorites-big"></i>
-              <p class="text--foreground">
+              <p class="text--neutralDarkest">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
               </p>
             </div>
@@ -39,9 +40,10 @@
                 user.favoriteProducts.products &&
                 user.favoriteProducts.products.length > 0
               "
+              class="o-grid"
             >
               <div
-                class="mt-4"
+                class="o-grid__cell u-8/16@tablet-landscape mt-4"
                 v-for="product in user.favoriteProducts.products"
                 :key="product.id"
               >
@@ -55,8 +57,12 @@
             </div>
             <div class="c-favorites__content-no-favorites" v-else>
               <i class="pgi pgi-favorites-big"></i>
-              <p class="text--foreground">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              <p class="text--neutralDarkest">
+                Não há nenhum produto favoritado :(
+                <br />
+                <router-link to="/search" class="text--bold">
+                  Venha descobrir produtos do seu interesse!</router-link
+                >
               </p>
             </div>
           </div>
@@ -70,7 +76,9 @@
 @import "@/lib/styles/mq.scss";
 
 .c-favorites {
+  width: 100%;
   height: 100vh;
+  background: var(--theme-backgroundMedium);
 
   @include mq($until: tablet-landscape) {
     height: auto;

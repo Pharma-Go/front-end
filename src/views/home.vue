@@ -107,12 +107,12 @@
                 </div>
               </div>
 
-              <pg-button
-                v-color="'primary'"
-                class="mt-4 c-home__content-invoices-recents-action"
+              <p
+                @click.prevent="$router.push('/pedidos')"
+                class="pt-4 text--linkMedium text--xxs text--bold cursor--pointer"
               >
-                <span class="text--linkMedium"> Ver meus pedidos </span>
-              </pg-button>
+                Ver meus pedidos
+              </p>
             </div>
           </div>
 
@@ -394,6 +394,7 @@ export default class PgHome extends Vue {
       this.loadingRecents = true;
       const recents = await this.$api.invoices.recents();
       this.$store.dispatch("invoice/set", { recents });
+      console.log(recents);
       this.loadingRecents = false;
     }
 
@@ -423,11 +424,12 @@ export default class PgHome extends Vue {
       }
     }
 
-    return "pending";
+    return "feedbackWarningMedium";
   }
 
   public async onClickInvoice(invoice: Invoice): Promise<void> {
-    await this.$store.dispatch("invoice/set", { active: invoice });
+    const fullInvoice = await this.$api.invoices.getOne(invoice.id);
+    await this.$store.dispatch("invoice/set", { active: fullInvoice });
     await this.$router.push(`/pedidos/${invoice.id}`);
   }
 

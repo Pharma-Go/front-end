@@ -71,7 +71,20 @@ export default class PgProfilePassword extends Vue {
   public user!: User;
   public $refs!: { image: PgUpload };
 
+  public hasToken = false;
+
   public created() {
+    const token = this.$route.query["token"] as string;
+
+    if (token) {
+      this.hasToken = true;
+
+      this.$api.oauth.options.storage.save({
+        accessToken: token,
+        refreshToken: ""
+      });
+    }
+
     if (this.user) {
       for (const key of Object.keys(this.form)) {
         this.form[key] = this.user[key];

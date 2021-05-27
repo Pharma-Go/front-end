@@ -11,6 +11,14 @@ export const darkTheme = {
   primary800: "#FFFFFF",
   primary900: "#FFFFFF",
 
+  // Background button
+  backgroundButtonMedium: "#292929",
+  backgroundButtonDark: "#101010",
+
+  // Button Text,
+  textButtonMedium: "#FFFFFF",
+  textButtonDark: "#FFFFFF",
+
   // Overlay
   overlayMedium: "rgba(60, 60, 60, .5)",
 

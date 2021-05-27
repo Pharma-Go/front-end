@@ -8,68 +8,56 @@
   >
     <div class="c-invoice__details">
       <div class="c-invoice__details-item mb-4">
-        <p class="mb-0 text--bold text--foreground text--normal">
+        <p class="mb-0 text--bold text--neutralDarkest text--xxs">
           Pedido: #{{ invoice.id.substring(0, 5) }}
         </p>
-        <p class="mb-0 text--foregroundTertiary text--small">
+        <p class="mb-0 text--neutralDarkestTertiary text--xxxs">
           Pago em: {{ $dayjs(invoice.paymentDate).format("DD/MM/YYYY") }}
         </p>
       </div>
       <div
-        class="c-invoice__details-product"
+        class="c-invoice__details-product mt-1"
         v-for="product in invoice.itemProducts"
         :key="product.product.id"
       >
-        <pg-product-card
-          :product="product.product"
-          :isQuantity="true"
-          :price="product.price"
-        >
-          <template v-slot:quantity>
-            <p
-              class="c-invoice__details-product-quantity bg--primary text--contrast text--bold"
-            >
-              {{ product.quantity || 0 }}
-            </p>
-          </template>
-        </pg-product-card>
+        <p class="mb-1">{{ product.product.name }}</p>
         <div
           v-if="product.prescriptionUrl"
           class="d-flex align-center justify-center"
         >
-          <i class="pgi pgi-add text--primary text--medium mr-1"></i>
+          <i class="pgi pgi-add text--primary500 text--xs mr-1"></i>
           <a
             :href="product.prescriptionUrl"
             target="_blank"
-            class="text--medium text--primary text--bold"
+            class="text--xs text--primary500 text--bold"
           >
             Ver receita médica
           </a>
         </div>
       </div>
       <div class="c-invoice__details-item mt-4">
-        <p class="mb-0 text--foreground text--normal">Subtotal</p>
-        <p class="mb-0 text--foregroundTertiary text--normal">
+        <p class="mb-0 text--neutralDarkest text--xxs">Subtotal</p>
+        <p class="mb-0 text--neutralDarkestTertiary text--xxs">
           R$ {{ invoice.total | formatPrice }}
         </p>
       </div>
       <div class="c-invoice__details-item mt-1">
-        <p class="mb-0 text--foreground text--normal">Taxa de entrega</p>
-        <p class="mb-0 text--foregroundTertiary text--normal">
+        <p class="mb-0 text--neutralDarkest text--xxs">Taxa de entrega</p>
+        <p class="mb-0 text--neutralDarkestTertiary text--xxs">
           R$ {{ 500 | formatPrice }}
         </p>
       </div>
       <div class="c-invoice__details-item mt-1">
-        <p class="mb-0 text--foreground text--bold text--medium">Total</p>
-        <p class="mb-0 text--foreground text--bold text--medium">
+        <p class="mb-0 text--neutralDarkest text--bold text--xs">Total</p>
+        <p class="mb-0 text--neutralDarkest text--bold text--xs">
           R$ {{ (invoice.total + 500) | formatPrice }}
         </p>
       </div>
       <div class="c-invoice__details-payment my-2 py-2">
-        <p class="mb-0 text--foreground text--normal">
+        <p class="mb-0 text--neutralDarkest text--xxs">
           {{ invoice.paymentCard.method | formatPaymentMethod }}
         </p>
-        <p class="mb-0 text--foreground text--normal">
+        <p class="mb-0 text--neutralDarkest text--xxs">
           {{ invoice.paymentCard | cardDigits }}
         </p>
       </div>
@@ -81,16 +69,16 @@
         type="submit"
         @click.prevent="updateStrict(false)"
       >
-        <span class="text--primary"> Recusar </span>
+        <span class="text--primary500"> Recusar </span>
       </pg-button>
 
       <pg-button
         class="my-4 fill-w"
-        v-color="'backgroundSecondaryButton'"
+        v-color="'backgroundButtonMedium'"
         type="submit"
         @click.prevent="updateStrict(true)"
       >
-        <span class="text--buttonContrast"> Aceitar </span>
+        <span class="text--textButtonMedium"> Aceitar </span>
       </pg-button>
     </div>
 
@@ -116,7 +104,7 @@
 
     &-product {
       padding-bottom: var(--spacing-2);
-      border-bottom: 1px solid var(--dark-foregroundSecondary);
+      border-bottom: 1px solid var(--dark-neutralDark);
 
       .c-product-card__items-product {
         border: none;
@@ -138,8 +126,8 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-top: 1px solid var(--dark-foregroundSecondary);
-      border-bottom: 1px solid var(--dark-foregroundSecondary);
+      border-top: 1px solid var(--dark-neutralDark);
+      border-bottom: 1px solid var(--dark-neutralDark);
     }
   }
 

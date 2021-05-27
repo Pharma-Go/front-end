@@ -4,5 +4,6 @@ export const state = () => ({
   recents: [] as Invoice[],
   active: {} as Invoice,
   orders: [] as Invoice[],
-  invoicesStricteds: [] as Invoice[]
+  invoicesStricteds: [] as Invoice[],
+  invoices: [] as Invoice[]
 });

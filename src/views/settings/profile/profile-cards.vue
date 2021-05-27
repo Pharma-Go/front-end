@@ -18,7 +18,7 @@
       class="c-profile-cards__action mt-4"
     >
       <i class="c-profile-cards__action-icon pgi pgi-add mr-2"></i>
-      <p class="c-profile-cards__action-text text--medium text--bold">
+      <p class="c-profile-cards__action-text text--xs text--bold">
         Adicionar cartão
       </p>
     </router-link>

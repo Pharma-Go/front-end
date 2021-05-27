@@ -17,6 +17,7 @@
         <pg-invoice-card
           class="c-prescriptions__content-invoice-item"
           :invoice="invoice"
+          v-color="getColorOfInvoice(invoice)"
           @clickInvoice="onClickInvoice"
         >
           <div
@@ -24,7 +25,7 @@
             class="bg--secondaryBackground d-flex align-center justify-center c-prescriptions__content-invoice-item-content mr-2"
           >
             <i
-              class="text--primary text--large pgi pgi-chevron-left rotate--negative-180 c-prescriptions__content-invoice-item-content-icon"
+              class="text--primary500 text--sm pgi pgi-chevron-left rotate--negative-180 c-prescriptions__content-invoice-item-content-icon"
             ></i>
           </div>
         </pg-invoice-card>
@@ -49,7 +50,7 @@
 }
 </style>
 <script lang="ts">
-import { Invoice } from "@/lib/models";
+import { Invoice, PaymentStatus } from "@/lib/models";
 import { Component, Vue } from "vue-property-decorator";
 import { mapState } from "vuex";
 
@@ -64,12 +65,29 @@ export default class PgAdminPrescriptions extends Vue {
   public async created(): Promise<void> {
     if (!this.invoicesStricteds || this.invoicesStricteds?.length === 0) {
       const invoicesStricteds = await this.$api.invoices.getInvoicesStricteds();
+      console.log(invoicesStricteds);
       this.$store.dispatch("invoice/set", { invoicesStricteds });
     }
   }
 
   public onClickInvoice(invoice: Invoice) {
     this.$router.push(`/configuracoes/admin/receitas/${invoice.id}`);
+  }
+
+  public getColorOfInvoice(invoice: Invoice): string {
+    if (invoice.paymentStatus === PaymentStatus.refused || invoice.isFee) {
+      return "feedbackErrorMedium";
+    }
+
+    if (invoice.strictAccepted) {
+      if (invoice.delivered) {
+        return "feedbackSuccessMedium";
+      } else {
+        return "feedbackWarningMedium";
+      }
+    }
+
+    return "feedbackWarningMedium";
   }
 }
 </script>

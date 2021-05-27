@@ -10,6 +10,7 @@ import PgLogin from "../views/login/login.vue";
 import PgRegister from "../views/login/register.vue";
 import PgRecoverPassword from "../views/recover-password/recover-password.vue";
 import PgInvoicePage from "../views/invoice/invoice.vue";
+import PgInvoices from "../views/invoice/invoices.vue";
 import { settingsRoutes } from "./settings";
 import store from "@/store";
 
@@ -75,13 +76,19 @@ const routes: Array<RouteConfig> = [
     }
   },
   {
+    path: "/pedidos",
+    name: "Pedidos",
+    component: PgInvoices,
+    beforeEnter: ensureLogged
+  },
+  {
     path: "/recuperar-senha",
     name: "RecoverPassword",
     component: PgRecoverPassword
   },
   {
     path: "/buscar",
-    name: "Search",
+    name: "Buscar",
     component: PgSearch,
     beforeEnter: ensureLogged,
     meta: {
@@ -90,7 +97,7 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: "/favoritos",
-    name: "Favorites",
+    name: "Favoritos",
     component: PgFavorites,
     beforeEnter: ensureLogged,
     meta: {
